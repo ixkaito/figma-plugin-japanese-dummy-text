@@ -16,7 +16,7 @@ figma.ui.onmessage = msg => {
   // your HTML page is to use an object with a "type" property like this.
 
 
-  // if (msg.type === 'generate-texts') {
+  if (msg.type === 'generate-texts') {
     const nodes: SceneNode[] = [];
 
     for (let i = 0; i < msg.count; i++) {
@@ -28,11 +28,19 @@ figma.ui.onmessage = msg => {
         text.x = i * 50;
         return text.characters = `test x ${i}`;
       })
-      // figma.currentPage.selection = nodes;
-      // figma.viewport.scrollAndZoomIntoView(nodes);
+      figma.currentPage.selection = nodes;
+      figma.viewport.scrollAndZoomIntoView(nodes);
       figma.currentPage.appendChild(text);
       nodes.push(text);
       console.log(`${i}times`);
     }
-  // }
+  }
+
+  if (msg.type === 'word-selected') {
+    console.log(`Word is selected = ${msg.word}`);
+  } else if (msg.type === 'sentence-selected') {
+    console.log(`Sentence is selected = ${msg.sentence}`);
+  } else if (msg.type === 'para-selected') {
+    console.log(`Paragraph is selected = ${msg.para}`);
+  }
 };

@@ -1,9 +1,9 @@
 
 <input id="count" value="3">
-<select>
-  <option>語</option>
-  <option>文</option>
-  <option>段落</option>
+<select id="text-unit">
+  <option value="word">語</option>
+  <option value="sentence">文</option>
+  <option value="para">段落</option>
 </select>
 <button id="generate">Generate</button>
 
@@ -13,9 +13,24 @@
 <script>
 
 document.getElementById('generate').onclick = () => {
+
   const textbox = document.getElementById('count');
   const count = parseInt(textbox.value, 10);
   parent.postMessage({ pluginMessage: { type: 'generate-texts', count } }, '*')
+
+  const getUnit = document.getElementById('text-unit');
+  const word = getUnit.options[0].selected;
+  const sentence = getUnit.options[1].selected;
+  const para = getUnit.options[2].selected;
+
+  if (word) {
+    parent.postMessage({ pluginMessage: { type: 'word-selected', word } }, '*')
+  } else if (sentence) {
+    parent.postMessage({ pluginMessage: { type: 'sentence-selected', sentence } }, '*')
+  } else {
+    parent.postMessage({ pluginMessage: { type: 'para-selected', para } }, '*')
+  }
 }
+
 
 </script>
