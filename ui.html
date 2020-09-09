@@ -16,7 +16,7 @@ document.getElementById('generate').onclick = () => {
 
   const textbox = document.getElementById('count');
   const count = parseInt(textbox.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'generate-texts', count } }, '*')
+  // parent.postMessage({ pluginMessage: { type: 'generate-texts', count } }, '*')
 
   const getUnit = document.getElementById('text-unit');
   const word = getUnit.options[0].selected;
@@ -24,11 +24,11 @@ document.getElementById('generate').onclick = () => {
   const para = getUnit.options[2].selected;
 
   if (word) {
-    parent.postMessage({ pluginMessage: { type: 'word-selected', word } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'word-selected', word, count } }, '*')
   } else if (sentence) {
-    parent.postMessage({ pluginMessage: { type: 'sentence-selected', sentence } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'sentence-selected', sentence, count } }, '*')
   } else {
-    parent.postMessage({ pluginMessage: { type: 'para-selected', para } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'para-selected', para, count } }, '*')
   }
 }
 

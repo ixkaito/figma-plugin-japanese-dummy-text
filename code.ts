@@ -16,8 +16,9 @@ figma.ui.onmessage = msg => {
   // your HTML page is to use an object with a "type" property like this.
 
 
-  if (msg.type === 'generate-texts') {
-    const nodes: SceneNode[] = [];
+  const nodes: SceneNode[] = [];
+
+  if (msg.type === 'word-selected') {
 
     for (let i = 0; i < msg.count; i++) {
       const text: TextNode = figma.createText();
@@ -34,13 +35,42 @@ figma.ui.onmessage = msg => {
       nodes.push(text);
       console.log(`${i}times`);
     }
-  }
-
-  if (msg.type === 'word-selected') {
     console.log(`Word is selected = ${msg.word}`);
   } else if (msg.type === 'sentence-selected') {
+
+    for (let i = 0; i < msg.count; i++) {
+      const text: TextNode = figma.createText();
+
+      figma.loadFontAsync({
+        family: "Roboto", style: "Regular"
+      }).then(() => {
+        text.x = i * 50;
+        return text.characters = `test x ${i}`;
+      })
+      figma.currentPage.selection = nodes;
+      figma.viewport.scrollAndZoomIntoView(nodes);
+      figma.currentPage.appendChild(text);
+      nodes.push(text);
+      console.log(`${i}times`);
+    }
     console.log(`Sentence is selected = ${msg.sentence}`);
   } else if (msg.type === 'para-selected') {
+
+    for (let i = 0; i < msg.count; i++) {
+      const text: TextNode = figma.createText();
+
+      figma.loadFontAsync({
+        family: "Roboto", style: "Regular"
+      }).then(() => {
+        text.x = i * 50;
+        return text.characters = `test x ${i}`;
+      })
+      figma.currentPage.selection = nodes;
+      figma.viewport.scrollAndZoomIntoView(nodes);
+      figma.currentPage.appendChild(text);
+      nodes.push(text);
+      console.log(`${i}times`);
+    }
     console.log(`Paragraph is selected = ${msg.para}`);
   }
 };
