@@ -1,25 +1,21 @@
 
-<input id="count" value="5">
+<input id="count" value="3">
 <select>
   <option>語</option>
   <option>文</option>
   <option>段落</option>
 </select>
-<button>Generate</button>
+<button id="generate">Generate</button>
 
 <p>テキストボックスの大きさに合わせてダミーテキストを流し込む</p>
 <button>Auto-generate</button>
 
 <script>
 
-document.getElementById('create').onclick = () => {
+document.getElementById('generate').onclick = () => {
   const textbox = document.getElementById('count');
   const count = parseInt(textbox.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'create-rectangles', count } }, '*')
-}
-
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  parent.postMessage({ pluginMessage: { type: 'generate-texts', count } }, '*')
 }
 
 </script>
