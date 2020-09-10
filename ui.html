@@ -25,13 +25,7 @@ document.getElementById('manual').onclick = () => {
   const sentence = getUnit.options[1].selected;
   const paragraph = getUnit.options[2].selected;
 
-  if (word) {
-    parent.postMessage({ pluginMessage: { type: 'word', word, count } }, '*')
-  } else if (sentence) {
-    parent.postMessage({ pluginMessage: { type: 'sentence', sentence, count } }, '*')
-  } else {
-    parent.postMessage({ pluginMessage: { type: 'paragraph', paragraph, count } }, '*')
-  }
+  parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count } }, '*')
 }
 
 document.getElementById('auto').onclick = () => {

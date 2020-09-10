@@ -27,19 +27,23 @@ figma.ui.onmessage = msg => {
     }).then(() => {
       let text = selection.characters;
 
-      for (let i = 0; i < msg.count; i++) {
-        if (msg.type === 'word') {
-          text = `${text}${i + 1}word `;
-          console.log(selection);
-        } else if (msg.type === 'sentence') {
-          text = `${text}${i + 1}sentence `;
-          console.log(selection);
-        } else if (msg.type === 'paragraph') {
-          text = `${text}${i + 1}paragraph `;
-          console.log(selection);
-        }
-      }
+      if (msg.type = 'manual') {
 
+        for (let i = 0; i < msg.count; i++) {
+          if (msg.word) {
+            text = `${text}${i + 1}word `;
+            console.log(selection);
+          } else if (msg.sentence) {
+            text = `${text}${i + 1}sentence `;
+            console.log(selection);
+          } else if (msg.paragraph) {
+            text = `${text}${i + 1}paragraph `;
+            console.log(selection);
+          }
+        }
+      } else if (msg.type = 'auto') {
+        text = `${text} till this box ends `;
+      }
       selection.characters = text;
     })
   }
