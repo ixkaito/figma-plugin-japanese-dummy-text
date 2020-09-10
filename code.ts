@@ -16,11 +16,11 @@ figma.ui.onmessage = msg => {
   // your HTML page is to use an object with a "type" property like this.
 
 
-  const nodes: SceneNode[] = [];
-
   // 選択レイヤーが単一のテキストの時のみ発動する
   if (figma.currentPage.selection[0] && figma.currentPage.selection[0].type === "TEXT") {
     if (msg.type === 'word-selected') {
+
+      const nodes: SceneNode[] = [];
 
       for (let i = 0; i < msg.count; i++) {
         const text: TextNode = figma.createText();
@@ -29,7 +29,7 @@ figma.ui.onmessage = msg => {
           family: "Roboto", style: "Regular"
         }).then(() => {
           text.x = i * 50;
-          text.characters = `test x ${i}`;
+          text.characters = `１語 x ${i}`;
         })
         figma.currentPage.selection = nodes;
         figma.viewport.scrollAndZoomIntoView(nodes);
@@ -40,6 +40,8 @@ figma.ui.onmessage = msg => {
       console.log(`Word is selected = ${msg.word}`);
     } else if (msg.type === 'sentence-selected') {
 
+      const nodes: SceneNode[] = [];
+
       for (let i = 0; i < msg.count; i++) {
         const text: TextNode = figma.createText();
 
@@ -47,7 +49,7 @@ figma.ui.onmessage = msg => {
           family: "Roboto", style: "Regular"
         }).then(() => {
           text.x = i * 50;
-          text.characters = `test x ${i}`;
+          text.characters = `これは１文です。 x ${i}`;
         })
         figma.currentPage.selection = nodes;
         figma.viewport.scrollAndZoomIntoView(nodes);
@@ -58,6 +60,8 @@ figma.ui.onmessage = msg => {
       console.log(`Sentence is selected = ${msg.sentence}`);
     } else if (msg.type === 'para-selected') {
 
+      const nodes: SceneNode[] = [];
+
       for (let i = 0; i < msg.count; i++) {
         const text: TextNode = figma.createText();
 
@@ -65,7 +69,7 @@ figma.ui.onmessage = msg => {
           family: "Roboto", style: "Regular"
         }).then(() => {
           text.x = i * 50;
-          text.characters = `test x ${i}`;
+          text.characters = `これはテストです。段落のテストです。 x ${i}`;
         })
         figma.currentPage.selection = nodes;
         figma.viewport.scrollAndZoomIntoView(nodes);
