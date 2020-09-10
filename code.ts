@@ -19,57 +19,28 @@ figma.ui.onmessage = msg => {
   // 選択レイヤーが単一のテキストの時のみ発動する
   if (figma.currentPage.selection[0] && figma.currentPage.selection[0].type === "TEXT") {
 
-    if (msg.type === 'word-selected') {
-      const nodes: SceneNode[] = [];
-      const text: TextNode = figma.createText();
+    const nodes: SceneNode[] = [];
+    const text: TextNode = figma.createText();
 
-      figma.loadFontAsync({
-        family: "Roboto",
-        style: "Regular"
-      }).then(() => {
-        for (let i = 0; i < msg.count; i++) {
+    figma.loadFontAsync({
+      family: "Roboto",
+      style: "Regular"
+    }).then(() => {
+      for (let i = 0; i < msg.count; i++) {
+        if (msg.type === 'word-selected') {
           text.characters = text.characters + `${i + 1}語目`;
-        }
-        nodes.push(text);
-        figma.currentPage.selection = nodes;
-      })
-
-      figma.viewport.scrollAndZoomIntoView(nodes);
-      console.log(`Word is selected = ${msg.word}`);
-    } else if (msg.type === 'sentence-selected') {
-      const nodes: SceneNode[] = [];
-      const text: TextNode = figma.createText();
-
-      figma.loadFontAsync({
-        family: "Roboto",
-        style: "Regular"
-      }).then(() => {
-        for (let i = 0; i < msg.count; i++) {
+          console.log(`Word is selected = ${msg.word}`);
+        } else if (msg.type === 'sentence-selected') {
           text.characters = text.characters + `これは${i + 1}つ目の文です。`;
-        }
-        nodes.push(text);
-        figma.currentPage.selection = nodes;
-      })
-
-      figma.viewport.scrollAndZoomIntoView(nodes);
-      console.log(`Sentence is selected = ${msg.sentence}`);
-    } else if (msg.type === 'para-selected') {
-      const nodes: SceneNode[] = [];
-      const text: TextNode = figma.createText();
-
-      figma.loadFontAsync({
-        family: "Roboto",
-        style: "Regular"
-      }).then(() => {
-        for (let i = 0; i < msg.count; i++) {
+          console.log(`Sentence is selected = ${msg.sentence}`);
+        } else if (msg.type === 'para-selected') {
           text.characters = text.characters + `これはテストです。${i + 1}段落目です。 / `;
+          console.log(`Paragraph is selected = ${msg.para}`);
         }
-        nodes.push(text);
-        figma.currentPage.selection = nodes;
-      })
-
+      }
+      nodes.push(text);
       figma.viewport.scrollAndZoomIntoView(nodes);
-      console.log(`Paragraph is selected = ${msg.para}`);
-    }
+      figma.currentPage.selection = nodes;
+    })
   }
 };
