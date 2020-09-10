@@ -1,40 +1,46 @@
 
-<input id="count" value="3">
-<select id="text-unit">
-  <option value="word">語</option>
-  <option value="sentence">文</option>
-  <option value="para">段落</option>
-</select>
-<button id="generate">Generate</button>
+<div class="wrap">
+  <input type="number" id="count" value="1">
+  <select id="text-unit">
+    <option value="word">語</option>
+    <option value="sentence">文</option>
+    <option value="paragraph">段落</option>
+  </select>
+  <button id="manual">Generate</button>
 
-<p>テキストボックスの大きさに合わせてダミーテキストを流し込む</p>
-<button>Auto-generate</button>
+  <p>テキストボックスの大きさに合わせてダミーテキストを流し込む</p>
+  <button id="auto">Auto-generate</button>
+
+</div>
 
 <script>
 
-document.getElementById('generate').onclick = () => {
+document.getElementById('manual').onclick = () => {
 
   const textbox = document.getElementById('count');
   const count = parseInt(textbox.value, 10);
-  // parent.postMessage({ pluginMessage: { type: 'generate-texts', count } }, '*')
 
   const getUnit = document.getElementById('text-unit');
   const word = getUnit.options[0].selected;
   const sentence = getUnit.options[1].selected;
-  const para = getUnit.options[2].selected;
+  const paragraph = getUnit.options[2].selected;
 
   if (word) {
-    parent.postMessage({ pluginMessage: { type: 'word-selected', word, count } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'word', word, count } }, '*')
   } else if (sentence) {
-    parent.postMessage({ pluginMessage: { type: 'sentence-selected', sentence, count } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'sentence', sentence, count } }, '*')
   } else {
-    parent.postMessage({ pluginMessage: { type: 'para-selected', para, count } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'paragraph', paragraph, count } }, '*')
   }
 }
 
-// テキストの吐き出す場所を、選択中の場所にする
-// テキストボックスのサイズを読み込む方法（height？）
-// プラグインメッセージのもっと自由度の高い活用方法はないか調べる
+document.getElementById('auto').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
+}
 
+// テキストボックスのサイズを読み込む方法（height？）
+// number（value）に前回の設定を覚えさせる
+
+// スタイルの嵌め方
 
 </script>

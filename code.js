@@ -11,31 +11,33 @@ figma.showUI(__html__);
 figma.ui.onmessage = msg => {
     // One way of distinguishing between different types of messages sent from
     // your HTML page is to use an object with a "type" property like this.
-    // 選択レイヤーが単一のテキストの時のみ発動する
-    if (figma.currentPage.selection[0] && figma.currentPage.selection[0].type === "TEXT") {
-        const nodes = [];
-        const text = figma.createText();
+    const nodes = [];
+    const selection = figma.currentPage.selection[0];
+    // 選択レイヤーがテキストかどうかを判定
+    if (selection && selection.type === "TEXT") {
         figma.loadFontAsync({
-            family: "Roboto",
-            style: "Regular"
+            family: selection.fontName.family,
+            style: selection.fontName.style
         }).then(() => {
+            let text = selection.characters;
             for (let i = 0; i < msg.count; i++) {
-                if (msg.type === 'word-selected') {
-                    text.characters = text.characters + `${i + 1}語目`;
-                    console.log(`Word is selected = ${msg.word}`);
+                if (msg.type === 'word') {
+                    text = `${text}${i + 1}word `;
+                    console.log(selection);
                 }
-                else if (msg.type === 'sentence-selected') {
-                    text.characters = text.characters + `これは${i + 1}つ目の文です。`;
-                    console.log(`Sentence is selected = ${msg.sentence}`);
+                else if (msg.type === 'sentence') {
+                    text = `${text}${i + 1}sentence `;
+                    console.log(selection);
                 }
-                else if (msg.type === 'para-selected') {
-                    text.characters = text.characters + `これはテストです。${i + 1}段落目です。 / `;
-                    console.log(`Paragraph is selected = ${msg.para}`);
+                else if (msg.type === 'paragraph') {
+                    text = `${text}${i + 1}paragraph `;
+                    console.log(selection);
                 }
             }
-            nodes.push(text);
-            figma.viewport.scrollAndZoomIntoView(nodes);
-            figma.currentPage.selection = nodes;
+            selection.characters = text;
         });
     }
+    // else if で Auto についての記述を繋げる（条件によってバグが出てしまうので）
+    // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？
+    // else で エラー文を表示する
 };
