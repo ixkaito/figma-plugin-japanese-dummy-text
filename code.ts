@@ -21,60 +21,54 @@ figma.ui.onmessage = msg => {
 
     if (msg.type === 'word-selected') {
       const nodes: SceneNode[] = [];
+      const text: TextNode = figma.createText();
 
-      for (let i = 0; i < msg.count; i++) {
-        const text: TextNode = figma.createText();
-
-        figma.loadFontAsync({
-          family: "Roboto",
-          style: "Regular"
-        }).then(() => {
-          text.x = i * 50;
-          text.characters = `１語 x ${i}`;
-        })
+      figma.loadFontAsync({
+        family: "Roboto",
+        style: "Regular"
+      }).then(() => {
+        for (let i = 0; i < msg.count; i++) {
+          text.characters = text.characters + `${i + 1}語目`;
+        }
         nodes.push(text);
-        figma.viewport.scrollAndZoomIntoView(nodes);
-        console.log(`${i}times`);
-      }
-      figma.currentPage.selection = nodes;
+        figma.currentPage.selection = nodes;
+      })
+
+      figma.viewport.scrollAndZoomIntoView(nodes);
       console.log(`Word is selected = ${msg.word}`);
     } else if (msg.type === 'sentence-selected') {
       const nodes: SceneNode[] = [];
+      const text: TextNode = figma.createText();
 
-      for (let i = 0; i < msg.count; i++) {
-        const text: TextNode = figma.createText();
+      figma.loadFontAsync({
+        family: "Roboto",
+        style: "Regular"
+      }).then(() => {
+        for (let i = 0; i < msg.count; i++) {
+          text.characters = text.characters + `これは${i + 1}つ目の文です。`;
+        }
+        nodes.push(text);
+        figma.currentPage.selection = nodes;
+      })
 
-        figma.loadFontAsync({
-          family: "Roboto",
-          style: "Regular"
-        }).then(() => {
-          text.x = i * 150;
-          text.characters = `これは１文です。 x ${i}`;
-          nodes.push(text);
-        })
-        figma.viewport.scrollAndZoomIntoView(nodes);
-        console.log(`${i}times`);
-      }
-      figma.currentPage.selection = nodes;
+      figma.viewport.scrollAndZoomIntoView(nodes);
       console.log(`Sentence is selected = ${msg.sentence}`);
     } else if (msg.type === 'para-selected') {
       const nodes: SceneNode[] = [];
+      const text: TextNode = figma.createText();
 
-      for (let i = 0; i < msg.count; i++) {
-        const text: TextNode = figma.createText();
+      figma.loadFontAsync({
+        family: "Roboto",
+        style: "Regular"
+      }).then(() => {
+        for (let i = 0; i < msg.count; i++) {
+          text.characters = text.characters + `これはテストです。${i + 1}段落目です。 / `;
+        }
+        nodes.push(text);
+        figma.currentPage.selection = nodes;
+      })
 
-        figma.loadFontAsync({
-          family: "Roboto",
-          style: "Regular"
-        }).then(() => {
-          text.x = i * 300;
-          text.characters = `これはテストです。段落のテストです。 x ${i}`;
-          nodes.push(text);
-        })
-        figma.viewport.scrollAndZoomIntoView(nodes);
-        console.log(`${i}times`);
-      }
-      figma.currentPage.selection = nodes;
+      figma.viewport.scrollAndZoomIntoView(nodes);
       console.log(`Paragraph is selected = ${msg.para}`);
     }
   }
