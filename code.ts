@@ -18,59 +18,62 @@ figma.ui.onmessage = msg => {
 
   const nodes: SceneNode[] = [];
 
-  if (msg.type === 'word-selected') {
+  // 選択レイヤーが単一のテキストの時のみ発動する
+  if (figma.currentPage.selection[0] && figma.currentPage.selection[0].type === "TEXT") {
+    if (msg.type === 'word-selected') {
 
-    for (let i = 0; i < msg.count; i++) {
-      const text: TextNode = figma.createText();
+      for (let i = 0; i < msg.count; i++) {
+        const text: TextNode = figma.createText();
 
-      figma.loadFontAsync({
-        family: "Roboto", style: "Regular"
-      }).then(() => {
-        text.x = i * 50;
-        return text.characters = `test x ${i}`;
-      })
-      figma.currentPage.selection = nodes;
-      figma.viewport.scrollAndZoomIntoView(nodes);
-      figma.currentPage.appendChild(text);
-      nodes.push(text);
-      console.log(`${i}times`);
+        figma.loadFontAsync({
+          family: "Roboto", style: "Regular"
+        }).then(() => {
+          text.x = i * 50;
+          text.characters = `test x ${i}`;
+        })
+        figma.currentPage.selection = nodes;
+        figma.viewport.scrollAndZoomIntoView(nodes);
+        figma.currentPage.appendChild(text);
+        nodes.push(text);
+        console.log(`${i}times`);
+      }
+      console.log(`Word is selected = ${msg.word}`);
+    } else if (msg.type === 'sentence-selected') {
+
+      for (let i = 0; i < msg.count; i++) {
+        const text: TextNode = figma.createText();
+
+        figma.loadFontAsync({
+          family: "Roboto", style: "Regular"
+        }).then(() => {
+          text.x = i * 50;
+          text.characters = `test x ${i}`;
+        })
+        figma.currentPage.selection = nodes;
+        figma.viewport.scrollAndZoomIntoView(nodes);
+        figma.currentPage.appendChild(text);
+        nodes.push(text);
+        console.log(`${i}times`);
+      }
+      console.log(`Sentence is selected = ${msg.sentence}`);
+    } else if (msg.type === 'para-selected') {
+
+      for (let i = 0; i < msg.count; i++) {
+        const text: TextNode = figma.createText();
+
+        figma.loadFontAsync({
+          family: "Roboto", style: "Regular"
+        }).then(() => {
+          text.x = i * 50;
+          text.characters = `test x ${i}`;
+        })
+        figma.currentPage.selection = nodes;
+        figma.viewport.scrollAndZoomIntoView(nodes);
+        figma.currentPage.appendChild(text);
+        nodes.push(text);
+        console.log(`${i}times`);
+      }
+      console.log(`Paragraph is selected = ${msg.para}`);
     }
-    console.log(`Word is selected = ${msg.word}`);
-  } else if (msg.type === 'sentence-selected') {
-
-    for (let i = 0; i < msg.count; i++) {
-      const text: TextNode = figma.createText();
-
-      figma.loadFontAsync({
-        family: "Roboto", style: "Regular"
-      }).then(() => {
-        text.x = i * 50;
-        return text.characters = `test x ${i}`;
-      })
-      figma.currentPage.selection = nodes;
-      figma.viewport.scrollAndZoomIntoView(nodes);
-      figma.currentPage.appendChild(text);
-      nodes.push(text);
-      console.log(`${i}times`);
-    }
-    console.log(`Sentence is selected = ${msg.sentence}`);
-  } else if (msg.type === 'para-selected') {
-
-    for (let i = 0; i < msg.count; i++) {
-      const text: TextNode = figma.createText();
-
-      figma.loadFontAsync({
-        family: "Roboto", style: "Regular"
-      }).then(() => {
-        text.x = i * 50;
-        return text.characters = `test x ${i}`;
-      })
-      figma.currentPage.selection = nodes;
-      figma.viewport.scrollAndZoomIntoView(nodes);
-      figma.currentPage.appendChild(text);
-      nodes.push(text);
-      console.log(`${i}times`);
-    }
-    console.log(`Paragraph is selected = ${msg.para}`);
   }
 };
