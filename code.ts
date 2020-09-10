@@ -16,25 +16,37 @@ figma.ui.onmessage = msg => {
   // your HTML page is to use an object with a "type" property like this.
 
 
+<<<<<<< HEAD
+=======
+  // const nodes: SceneNode[] = [];
+
+>>>>>>> db2c8d73b5d948010b3043befc59a4b655091e69
   // 選択レイヤーが単一のテキストの時のみ発動する
   if (figma.currentPage.selection[0] && figma.currentPage.selection[0].type === "TEXT") {
+
     if (msg.type === 'word-selected') {
 
       const nodes: SceneNode[] = [];
 
       for (let i = 0; i < msg.count; i++) {
+        const nodes: SceneNode[] = [];
         const text: TextNode = figma.createText();
 
         figma.loadFontAsync({
-          family: "Roboto", style: "Regular"
+          family: "Roboto",
+          style: "Regular"
         }).then(() => {
           text.x = i * 50;
+<<<<<<< HEAD
           text.characters = `１語 x ${i}`;
+=======
+          text.characters = `Test x ${i}`;
+          nodes.push(text);
+          figma.currentPage.appendChild(text);
+>>>>>>> db2c8d73b5d948010b3043befc59a4b655091e69
         })
         figma.currentPage.selection = nodes;
         figma.viewport.scrollAndZoomIntoView(nodes);
-        figma.currentPage.appendChild(text);
-        nodes.push(text);
         console.log(`${i}times`);
       }
       console.log(`Word is selected = ${msg.word}`);
@@ -43,18 +55,18 @@ figma.ui.onmessage = msg => {
       const nodes: SceneNode[] = [];
 
       for (let i = 0; i < msg.count; i++) {
+        const nodes: SceneNode[] = [];
         const text: TextNode = figma.createText();
 
         figma.loadFontAsync({
-          family: "Roboto", style: "Regular"
+          family: "Roboto",
+          style: "Regular"
         }).then(() => {
           text.x = i * 50;
           text.characters = `これは１文です。 x ${i}`;
         })
         figma.currentPage.selection = nodes;
         figma.viewport.scrollAndZoomIntoView(nodes);
-        figma.currentPage.appendChild(text);
-        nodes.push(text);
         console.log(`${i}times`);
       }
       console.log(`Sentence is selected = ${msg.sentence}`);
@@ -63,18 +75,18 @@ figma.ui.onmessage = msg => {
       const nodes: SceneNode[] = [];
 
       for (let i = 0; i < msg.count; i++) {
+        const nodes: SceneNode[] = [];
         const text: TextNode = figma.createText();
 
         figma.loadFontAsync({
-          family: "Roboto", style: "Regular"
+          family: "Roboto",
+          style: "Regular"
         }).then(() => {
           text.x = i * 50;
           text.characters = `これはテストです。段落のテストです。 x ${i}`;
         })
         figma.currentPage.selection = nodes;
         figma.viewport.scrollAndZoomIntoView(nodes);
-        figma.currentPage.appendChild(text);
-        nodes.push(text);
         console.log(`${i}times`);
       }
       console.log(`Paragraph is selected = ${msg.para}`);
