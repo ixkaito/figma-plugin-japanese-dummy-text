@@ -10,5 +10,6 @@
   "license": "",
   "devDependencies": {
     "@figma/plugin-typings": "^1.16.1"
-  }
+  },
+  "dependencies": {}
 }

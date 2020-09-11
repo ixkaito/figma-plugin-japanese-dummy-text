@@ -24,7 +24,6 @@ figma.ui.onmessage = msg => {
                 for (let i = 0; i < msg.count; i++) {
                     if (msg.word) {
                         text = `${text}${i + 1}word `;
-                        // console.log(selection);
                     }
                     else if (msg.sentence) {
                         text = `${text}${i + 1}sentence `;
@@ -33,15 +32,17 @@ figma.ui.onmessage = msg => {
                         text = `${text}${i + 1}paragraph `;
                     }
                 }
+                selection.characters = text;
             }
             else if (msg.type === 'auto') {
                 text = 'Auto generate';
+                selection.characters = text;
             }
-            selection.characters = text;
         });
     }
     else {
         console.log('error!');
     }
     // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？
+    // selection.widthとheightを計測してtextのサイズを変更？
 };

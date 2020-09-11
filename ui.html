@@ -1,40 +1,78 @@
 
 <div class="wrap">
-  <input type="number" id="count" value="1">
-  <select id="text-unit">
-    <option value="word">語</option>
-    <option value="sentence">文</option>
-    <option value="paragraph">段落</option>
-  </select>
-  <button id="manual">Generate</button>
+  <div class="manual-wrap">
+    <input type="number" id="count" value="1">
+    <select id="text-unit">
+      <option value="word">語</option>
+      <option value="sentence">文</option>
+      <option value="paragraph">段落</option>
+    </select>
+    <button id="manual">Generate</button>
+  </div>
 
-  <p>テキストボックスの大きさに合わせてダミーテキストを流し込む</p>
-  <button id="auto">Auto-generate</button>
-
+  <div class="auto-wrap">
+    <p class="desc">テキストボックスのサイズに合わせて、ダミーテキストを自動的に流し込む。</p>
+    <button id="auto">Auto-generate</button>
+  </div>
 </div>
 
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .wrap { padding: 0 16px; }
+  .manual-wrap {
+    margin: 32px 0;
+  }
+  .auto-wrap {
+    padding: 16px 8px;
+    background: #F0F0F0;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    /* align-items: middle; */
+  }
+  .desc {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: normal;
+    max-width: 150px;
+  }
+  button {
+    color: #ffffff;
+    text-align: center;
+    background: #18A0FB;
+    border: 0;
+    border-radius: 6px;
+    font-size: 11px;
+    padding: 0 10px;
+    height:fit-content;
+    line-height: 30px;
+    cursor: pointer;
+
+    /* ボタンの中身だけcenterにして、側を右寄せに */
+  }
+</style>
+
 <script>
+  document.getElementById('manual').onclick = () => {
 
-document.getElementById('manual').onclick = () => {
+    const textbox = document.getElementById('count');
+    const count = parseInt(textbox.value, 10);
 
-  const textbox = document.getElementById('count');
-  const count = parseInt(textbox.value, 10);
+    const getUnit = document.getElementById('text-unit');
+    const word = getUnit.options[0].selected;
+    const sentence = getUnit.options[1].selected;
+    const paragraph = getUnit.options[2].selected;
 
-  const getUnit = document.getElementById('text-unit');
-  const word = getUnit.options[0].selected;
-  const sentence = getUnit.options[1].selected;
-  const paragraph = getUnit.options[2].selected;
+    parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count } }, '*')
 
-  parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count } }, '*')
-}
+  // number（value）に前回の設定を覚えさせる?
+    textbox.value = count;
+  }
 
-document.getElementById('auto').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
-}
-
-// テキストボックスのサイズを読み込む方法（height？）
-// number（value）に前回の設定を覚えさせる
-
-// スタイルの嵌め方
-
+  document.getElementById('auto').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
+  }
 </script>
