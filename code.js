@@ -20,29 +20,28 @@ figma.ui.onmessage = msg => {
             style: selection.fontName.style
         }).then(() => {
             let text = selection.characters;
-            if (msg.type = 'manual') {
+            if (msg.type === 'manual') {
                 for (let i = 0; i < msg.count; i++) {
                     if (msg.word) {
                         text = `${text}${i + 1}word `;
-                        console.log(selection);
+                        // console.log(selection);
                     }
                     else if (msg.sentence) {
                         text = `${text}${i + 1}sentence `;
-                        console.log(selection);
                     }
                     else if (msg.paragraph) {
                         text = `${text}${i + 1}paragraph `;
-                        console.log(selection);
                     }
                 }
             }
-            else if (msg.type = 'auto') {
-                text = `${text} till this box ends `;
+            else if (msg.type === 'auto') {
+                text = 'Auto generate';
             }
             selection.characters = text;
         });
     }
-    // else if で Auto についての記述を繋げる（条件によってバグが出てしまうので）
+    else {
+        console.log('error!');
+    }
     // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？
-    // else で エラー文を表示する
 };
