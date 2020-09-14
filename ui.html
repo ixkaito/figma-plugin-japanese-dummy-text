@@ -1,5 +1,6 @@
 
-<div class="wrap">
+<div id="wrap">
+  <p id="error">テキストレイヤーを選択してください。</p>
   <div class="manual-wrap">
     <input type="number" id="count" value="1">
     <div class="selectbox">
@@ -23,11 +24,11 @@
     margin: 0;
     padding: 0;
   }
-  .wrap { padding: 0 16px; }
+  #wrap { padding: 0 16px; }
   .manual-wrap {
     display: flex;
     justify-content: space-between;
-    margin: 32px 0;
+    margin: 0 0 22px;
   }
   input,
   .selectbox {
@@ -67,7 +68,7 @@
     background: #18A0FB;
     border: 0;
     border-radius: 6px;
-    color: #ffffff;
+    color: #FFFFFF;
     cursor: pointer;
     font-size: 11px;
     height: fit-content;
@@ -75,6 +76,12 @@
     outline: none;
     padding: 0 1em;
     text-align: center;
+  }
+  #error {
+    color: #F24822;
+    font-size: 11px;
+    line-height: 40px;
+    visibility: hidden;
   }
 </style>
 
@@ -89,13 +96,18 @@
     const sentence = getUnit.options[1].selected;
     const paragraph = getUnit.options[2].selected;
 
-    parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count } }, '*')
+    let error = document.getElementById('error').style.visibility = "visible";
+
+    parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count, error } }, '*')
 
   // number（value）に前回の設定を覚えさせる?
     textbox.value = count;
   }
 
   document.getElementById('auto').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
+    let error = document.getElementById('error').style.visibility = "visible";
+
+    parent.postMessage({ pluginMessage: { type: 'auto', error } }, '*')
   }
+
 </script>
