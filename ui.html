@@ -4,7 +4,7 @@
     <input type="number" id="count" value="1">
     <div class="selectbox">
       <select id="text-unit">
-        <option value="word">語</option>
+        <option value="character">字</option>
         <option value="sentence">文</option>
         <option value="paragraph">段落</option>
       </select>
@@ -93,11 +93,11 @@
       const count = parseInt(textbox.value, 10);
 
       const getUnit = document.getElementById('text-unit');
-      const word = getUnit.options[0].selected;
+      const character = getUnit.options[0].selected;
       const sentence = getUnit.options[1].selected;
       const paragraph = getUnit.options[2].selected;
 
-      parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count } }, '*')
+      parent.postMessage({ pluginMessage: { type: 'manual', character, sentence, paragraph, count } }, '*')
 
     // number（value）に前回の設定を覚えさせる?
       textbox.value = count;

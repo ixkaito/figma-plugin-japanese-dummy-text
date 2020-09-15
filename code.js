@@ -21,8 +21,8 @@ figma.ui.onmessage = msg => {
             let text = selection.characters;
             if (msg.type === 'manual') {
                 for (let i = 0; i < msg.count; i++) {
-                    if (msg.word) {
-                        text = `${text}${i + 1}word `;
+                    if (msg.character) {
+                        text = `${text}${i + 1}character `;
                     }
                     else if (msg.sentence) {
                         text = `${text}${i + 1}sentence `;
