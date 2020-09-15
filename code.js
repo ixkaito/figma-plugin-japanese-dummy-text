@@ -1,5 +1,5 @@
 // This plugin will open a modal to prompt the user to enter a number, and
-// it will then create that many rectangles on the screen.
+// it will then generate that many texts on the screen.
 // This file holds the main code for the plugins. It has access to the *document*.
 // You can access browser APIs in the <script> tag inside "ui.html" which has a
 // full browser environment (see documentation).
@@ -11,16 +11,46 @@ figma.showUI(__html__);
 figma.ui.onmessage = msg => {
     // One way of distinguishing between different types of messages sent from
     // your HTML page is to use an object with a "type" property like this.
-    if (msg.type === 'create-rectangles') {
-        const nodes = [];
-        for (let i = 0; i < msg.count; i++) {
-            const rect = figma.createRectangle();
-            rect.x = i * 150;
-            rect.fills = [{ type: 'SOLID', color: { r: 1, g: 0.5, b: 0 } }];
-            figma.currentPage.appendChild(rect);
-            nodes.push(rect);
-        }
-        figma.currentPage.selection = nodes;
-        figma.viewport.scrollAndZoomIntoView(nodes);
+    const nodes = [];
+    const selection = figma.currentPage.selection[0];
+    // console.log(typeof msg.error);
+    console.log(msg.error);
+    if (selection && selection.type === "TEXT") {
+        figma.loadFontAsync({
+            family: selection.fontName.family,
+            style: selection.fontName.style
+        }).then(() => {
+            let text = selection.characters;
+            if (msg.type === 'manual') {
+                for (let i = 0; i < msg.count; i++) {
+                    if (msg.word) {
+                        text = `${text}${i + 1}word `;
+                    }
+                    else if (msg.sentence) {
+                        text = `${text}${i + 1}sentence `;
+                    }
+                    else if (msg.paragraph) {
+                        text = `${text}${i + 1}paragraph `;
+                    }
+                }
+                selection.characters = text;
+            }
+            else if (msg.type === 'auto') {
+                text = 'Auto generate';
+                selection.characters = text;
+            }
+        });
     }
+    else {
+        if (msg.type === 'manual') {
+            // msg.error = "visible";
+            // console.log('error! manual');
+        }
+        else if (msg.type === 'auto') {
+            // msg.error;
+            // console.log('error! auto');
+        }
+    }
+    // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？
+    // selection.widthとheightを計測してtextのサイズを変更？
 };
