@@ -18,9 +18,6 @@ figma.ui.onmessage = msg => {
   const nodes: SceneNode[] = [];
   const selection: SceneNode = figma.currentPage.selection[0];
 
-  // console.log(typeof msg.error);
-  console.log(msg.error);
-
   if (selection && selection.type === "TEXT") {
 
     figma.loadFontAsync({
@@ -47,14 +44,7 @@ figma.ui.onmessage = msg => {
       }
     })
   } else {
-
-    if (msg.type === 'manual') {
-      // msg.error = "visible";
-      // console.log('error! manual');
-    } else if (msg.type === 'auto') {
-      // msg.error;
-      // console.log('error! auto');
-    }
+    // Text is not selected.
   }
 
   // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？
