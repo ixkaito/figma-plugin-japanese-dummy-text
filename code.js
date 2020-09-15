@@ -13,6 +13,8 @@ figma.ui.onmessage = msg => {
     // your HTML page is to use an object with a "type" property like this.
     const nodes = [];
     const selection = figma.currentPage.selection[0];
+    // console.log(typeof msg.error);
+    console.log(msg.error);
     if (selection && selection.type === "TEXT") {
         figma.loadFontAsync({
             family: selection.fontName.family,
@@ -40,12 +42,13 @@ figma.ui.onmessage = msg => {
         });
     }
     else {
-        console.log('error!');
         if (msg.type === 'manual') {
-            msg.error;
+            // msg.error = "visible";
+            // console.log('error! manual');
         }
         else if (msg.type === 'auto') {
-            msg.error;
+            // msg.error;
+            // console.log('error! auto');
         }
     }
     // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？

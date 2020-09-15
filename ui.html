@@ -86,28 +86,33 @@
 </style>
 
 <script>
-  document.getElementById('manual').onclick = () => {
+  window.onpageshow = () => {
 
-    const textbox = document.getElementById('count');
-    const count = parseInt(textbox.value, 10);
+    document.getElementById('manual').onclick = () => {
 
-    const getUnit = document.getElementById('text-unit');
-    const word = getUnit.options[0].selected;
-    const sentence = getUnit.options[1].selected;
-    const paragraph = getUnit.options[2].selected;
+      const textbox = document.getElementById('count');
+      const count = parseInt(textbox.value, 10);
 
-    let error = document.getElementById('error').style.visibility = "visible";
+      const getUnit = document.getElementById('text-unit');
+      const word = getUnit.options[0].selected;
+      const sentence = getUnit.options[1].selected;
+      const paragraph = getUnit.options[2].selected;
 
-    parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count, error } }, '*')
+      // let error = document.getElementById('error').style.visibility = "visible";
 
-  // number（value）に前回の設定を覚えさせる?
-    textbox.value = count;
+      parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count } }, '*')
+
+    // number（value）に前回の設定を覚えさせる?
+      textbox.value = count;
+    }
+
+    document.getElementById('auto').onclick = () => {
+      // let error = document.getElementById('error').style.visibility = "visible";
+
+      parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
+    }
+
+    // const error = document.getElementById('error');
+    // parent.postMessage({ pluginMessage: { error } }, '*');
   }
-
-  document.getElementById('auto').onclick = () => {
-    let error = document.getElementById('error').style.visibility = "visible";
-
-    parent.postMessage({ pluginMessage: { type: 'auto', error } }, '*')
-  }
-
 </script>

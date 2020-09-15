@@ -18,6 +18,9 @@ figma.ui.onmessage = msg => {
   const nodes: SceneNode[] = [];
   const selection: SceneNode = figma.currentPage.selection[0];
 
+  // console.log(typeof msg.error);
+  console.log(msg.error);
+
   if (selection && selection.type === "TEXT") {
 
     figma.loadFontAsync({
@@ -44,12 +47,13 @@ figma.ui.onmessage = msg => {
       }
     })
   } else {
-    console.log('error!');
 
     if (msg.type === 'manual') {
-      msg.error;
+      // msg.error = "visible";
+      // console.log('error! manual');
     } else if (msg.type === 'auto') {
-      msg.error;
+      // msg.error;
+      // console.log('error! auto');
     }
   }
 
