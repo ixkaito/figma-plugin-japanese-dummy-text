@@ -1,4 +1,3 @@
-
 <div id="wrap">
   <p id="error">テキストレイヤーを選択してください。</p>
   <div class="manual-wrap">
@@ -98,8 +97,6 @@
       const sentence = getUnit.options[1].selected;
       const paragraph = getUnit.options[2].selected;
 
-      // let error = document.getElementById('error').style.visibility = "visible";
-
       parent.postMessage({ pluginMessage: { type: 'manual', word, sentence, paragraph, count } }, '*')
 
     // number（value）に前回の設定を覚えさせる?
@@ -107,8 +104,6 @@
     }
 
     document.getElementById('auto').onclick = () => {
-      // let error = document.getElementById('error').style.visibility = "visible";
-
       parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
     }
 
