@@ -1,11 +1,11 @@
-// import { Global, jsx } from '@emotion/core'
+// import { css } from '@emotion/core'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 const App = () => {
   return (
     <div>
-      <p>test test</p>
+      <div>test</div>
     </div>
   )
 }

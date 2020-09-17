@@ -1,6 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
+const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin')
 
 module.exports = (env, argv) => ({
   // This is necessary because Figma's 'eval' works differently than normal eval
@@ -36,6 +36,6 @@ module.exports = (env, argv) => ({
       inlineSource: '.(js)$',
       chunks: ['ui'],
     }),
-    new HtmlWebpackInlineSourcePlugin(),
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/\.(js|css)$/]),
   ],
 })
