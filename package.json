@@ -1,14 +1,14 @@
 {
-  "name": "",
-  "version": "1.0.0",
-  "description": "Your Figma Plugin",
-  "main": "code.js",
+  "name": "japanese-dummy-text",
+  "version": "0.1.0",
+  "description": "Japanese Dummy Text",
+  "main": "main.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsc -w"
   },
-  "author": "",
-  "license": "",
+  "author": "Kite",
+  "license": "MIT",
   "devDependencies": {
     "@figma/plugin-typings": "^1.16.1",
     "@types/react": "^16.9.49",
@@ -21,6 +21,5 @@
     "typescript": "^4.0.2",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
-  },
-  "dependencies": {}
+  }
 }
