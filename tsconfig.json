@@ -1,6 +1,13 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "target": "es6",
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ],
+    "jsx": "react",
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@figma"
