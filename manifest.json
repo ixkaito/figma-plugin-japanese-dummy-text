@@ -2,6 +2,6 @@
   "name": "Japanese Dummy Text",
   "id": "884977600755027488",
   "api": "1.0.0",
-  "main": "code.js",
+  "main": "main.js",
   "ui": "ui.html"
 }
