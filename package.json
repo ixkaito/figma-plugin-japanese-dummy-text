@@ -11,7 +11,11 @@
   "license": "",
   "devDependencies": {
     "@figma/plugin-typings": "^1.16.1",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
     "kuromoji": "^0.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
     "webpack": "^4.44.1",
