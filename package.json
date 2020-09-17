@@ -4,7 +4,8 @@
   "description": "Figma plugin Japanese dummy text",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "tsc -w"
+    "dev": "tsc -w",
+    "test": "webpack --mode=development"
   },
   "author": "Kite",
   "license": "MIT",
