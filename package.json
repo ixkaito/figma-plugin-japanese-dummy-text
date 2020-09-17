@@ -14,6 +14,7 @@
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "kuromoji": "^0.1.2",
+    "prettier": "^2.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "ts-loader": "^8.0.3",
