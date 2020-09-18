@@ -26,7 +26,7 @@ figma.ui.onmessage = msg => {
   //   });
 
   const nodes: SceneNode[] = []
-  const selection: SceneNode = figma.currentPage.selection[0]
+  const selection: any = figma.currentPage.selection[0]
 
   const dummy: any = {
     characters: ['文', 'は', '意', '見', '解', 'が', '引', '用'],
@@ -42,7 +42,7 @@ figma.ui.onmessage = msg => {
     ],
   }
 
-  if (selection && selection.type === "TEXT") {
+  if (selection && selection.type === 'TEXT') {
 
     figma.loadFontAsync({
       family: selection.fontName.family,
