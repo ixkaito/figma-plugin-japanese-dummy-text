@@ -8,7 +8,7 @@
 // full browser environment (see documentation).
 
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__, { height: 276 })
+figma.showUI(__html__, { height: 280 })
 
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
@@ -51,11 +51,11 @@ figma.ui.onmessage = msg => {
       let text: string = selection.characters;
 
       if (msg.type === 'manual') {
-
         for (let i = 0; i < msg.number; i++) {
           text = `${text}${dummy[msg.unit][i]}`
         }
         selection.characters = text;
+
       } else if (msg.type === 'auto') {
         text = 'Auto generate';
         selection.characters = text;
