@@ -52,7 +52,8 @@ figma.ui.onmessage = msg => {
 
       if (msg.type === 'manual') {
         for (let i = 0; i < msg.number; i++) {
-          text = `${text}${dummy[msg.unit][i]}`
+          const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
+          text = `${text}${dummy[msg.unit][num]}`
         }
         selection.characters = text;
 
