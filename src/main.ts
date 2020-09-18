@@ -1,17 +1,4 @@
-import kuromoji from 'kuromoji';
-
-const builder: any = kuromoji.builder({
-  dicPath: 'node_modules/kuromoji/dist/dict'
-})
-
-builder.build((err: any, tokenizer: any) => {
-  if(err) { throw err }
-
-  const tokens: any = tokenizer.tokenize(
-    'ペディアの公表認め投稿困難な形式を引用あり'
-  )
-})
-
+import markov from './markov'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
@@ -36,6 +23,7 @@ figma.ui.onmessage = msg => {
   //     const path = tokenizer.tokenize("すもももももももものうち");
   //     console.log(path);
   //   });
+  console.log(markov)
 
   const selection: any = figma.currentPage.selection[0]
 
