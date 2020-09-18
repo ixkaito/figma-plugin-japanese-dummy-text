@@ -11,6 +11,7 @@
   "devDependencies": {
     "@emotion/core": "^10.0.35",
     "@figma/plugin-typings": "^1.16.1",
+    "@types/kuromoji": "^0.1.0",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "css-loader": "^4.3.0",
