@@ -25,7 +25,6 @@ figma.ui.onmessage = msg => {
   //     console.log(path);
   //   });
 
-  const nodes: SceneNode[] = []
   const selection: any = figma.currentPage.selection[0]
 
   const dummy: any = {
