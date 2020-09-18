@@ -59,18 +59,18 @@
       display: flex;
       margin-bottom: 8px;
     ">
-      <input type="number" id="count" value="1" style="
+      <input type="number" id="number" value="1" style="
         width: 50%;
         flex-grow: 1;
         padding: 0 1em;
       ">
-      <select id="text-unit" style="
+      <select id="unit" style="
         margin-left: 8px;
         width: 50%;
       ">
-        <option value="character">Characters (文字)</option>
-        <option value="sentence">Sentences (文)</option>
-        <option value="paragraph">Paragraphs (段落)</option>
+        <option value="characters">Characters (文字)</option>
+        <option value="sentences">Sentences (文)</option>
+        <option value="paragraphs">Paragraphs (段落)</option>
       </select>
     </div>
       <button id="manual">Generate (生成)</button>
@@ -83,7 +83,7 @@
   ">
     <div class="sectionHeader">Auto (自動)</div>
     <p>Generate the perfect amount of text to fit the layer’s frame. (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)</p>
-    <button style="
+    <button id="auto" style="
       margin-top: 8px;
       white-space: nowrap;
     ">Auto-generate (自動生成)</button>
@@ -94,19 +94,13 @@
   window.onpageshow = () => {
 
     document.getElementById('manual').onclick = () => {
+      const textbox = document.getElementById('number')
+      const number = parseInt(textbox.value, 10)
 
-      const textbox = document.getElementById('count');
-      const count = parseInt(textbox.value, 10);
+      const units = document.getElementById('unit')
+      const unit = units.options[units.selectedIndex].value
 
-      const getUnit = document.getElementById('text-unit');
-      const character = getUnit.options[0].selected;
-      const sentence = getUnit.options[1].selected;
-      const paragraph = getUnit.options[2].selected;
-
-      parent.postMessage({ pluginMessage: { type: 'manual', character, sentence, paragraph, count } }, '*')
-
-      // number（value）に前回の設定を覚えさせる?
-      textbox.value = count;
+      parent.postMessage({ pluginMessage: { type: 'manual', number, unit } }, '*')
     }
 
     document.getElementById('auto').onclick = () => {

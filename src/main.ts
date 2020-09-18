@@ -25,8 +25,22 @@ figma.ui.onmessage = msg => {
   //     console.log(path);
   //   });
 
-  const nodes: SceneNode[] = [];
-  const selection: SceneNode = figma.currentPage.selection[0];
+  const nodes: SceneNode[] = []
+  const selection: SceneNode = figma.currentPage.selection[0]
+
+  const dummy: any = {
+    characters: ['文', 'は', '意', '見', '解', 'が', '引', '用'],
+    setences: [
+      'ペディアの公表認め投稿困難な形式を引用あり。',
+      '許諾できれ下を編集号有効の引用主題がありれがはするり。',
+      '投稿法引用なけれますとの著作にありことは。',
+      'プロジェクトのFreeは。',
+      '文は意見解が引用満たさ商業ですませ以下。',
+    ],
+    paragraphs: [
+      '',
+    ],
+  }
 
   if (selection && selection.type === "TEXT") {
 
@@ -38,14 +52,8 @@ figma.ui.onmessage = msg => {
 
       if (msg.type === 'manual') {
 
-        for (let i = 0; i < msg.count; i++) {
-          if (msg.character) {
-            text = `${text}${i + 1}character `;
-          } else if (msg.sentence) {
-            text = `${text}${i + 1}sentence `;
-          } else if (msg.paragraph) {
-            text = `${text}${i + 1}paragraph `;
-          }
+        for (let i = 0; i < msg.number; i++) {
+          text = `${text}${dummy[msg.unit][i]}`
         }
         selection.characters = text;
       } else if (msg.type === 'auto') {
