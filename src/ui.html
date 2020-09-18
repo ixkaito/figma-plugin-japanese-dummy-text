@@ -1,1 +1,119 @@
-<div id="app"></div>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-size: 11px;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  input,
+  select {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    height: 32px;
+  }
+
+  select {
+    background: transparent;
+    background-image: none;
+    box-shadow: none;
+  }
+
+  button {
+    background: #18a0fb;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    line-height: 16px;
+    outline: none;
+    padding: 8px 16px;
+    text-align: center;
+  }
+
+  section {
+    padding: 16px;
+  }
+
+  .sectionHeader {
+    color: #333;
+    font-weight: 600;
+    line-height: 16px;
+    margin-bottom: 8px;
+  }
+</style>
+
+<div id="app">
+  <section style="
+    display: flex;
+    flex-direction: column;
+  ">
+    <div class="sectionHeader">Manual (手動)</div>
+    <div style="
+      display: flex;
+      margin-bottom: 8px;
+    ">
+      <input type="number" id="count" value="1" style="
+        width: 50%;
+        flex-grow: 1;
+        padding: 0 1em;
+      ">
+      <select id="text-unit" style="
+        margin-left: 8px;
+        width: 50%;
+      ">
+        <option value="character">Characters (文字)</option>
+        <option value="sentence">Sentences (文)</option>
+        <option value="paragraph">Paragraphs (段落)</option>
+      </select>
+    </div>
+      <button id="manual">Generate (生成)</button>
+    </div>
+  </section>
+  <section style="
+    border-top: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+  ">
+    <div class="sectionHeader">Auto (自動)</div>
+    <p>Generate the perfect amount of text to fit the layer’s frame. (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)</p>
+    <button style="
+      margin-top: 8px;
+      white-space: nowrap;
+    ">Auto-generate (自動生成)</button>
+  </section>
+</div>
+
+<script>
+  window.onpageshow = () => {
+
+    document.getElementById('manual').onclick = () => {
+
+      const textbox = document.getElementById('count');
+      const count = parseInt(textbox.value, 10);
+
+      const getUnit = document.getElementById('text-unit');
+      const character = getUnit.options[0].selected;
+      const sentence = getUnit.options[1].selected;
+      const paragraph = getUnit.options[2].selected;
+
+      parent.postMessage({ pluginMessage: { type: 'manual', character, sentence, paragraph, count } }, '*')
+
+      // number（value）に前回の設定を覚えさせる?
+      textbox.value = count;
+    }
+
+    document.getElementById('auto').onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
+    }
+
+    // const error = document.getElementById('error');
+    // parent.postMessage({ pluginMessage: { error } }, '*');
+  }
+</script>
