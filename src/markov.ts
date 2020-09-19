@@ -1,10 +1,9 @@
 import kuromoji from 'kuromoji'
 
 class Markov {
-  private name: string = ''
 
-  public constructor(name: string) {
-    this.name = name
+  public constructor(private name: string) {
+    // this.name = name
   }
 }
 
