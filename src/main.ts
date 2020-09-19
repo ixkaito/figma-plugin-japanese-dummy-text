@@ -23,7 +23,8 @@ figma.ui.onmessage = msg => {
   //     const path = tokenizer.tokenize("すもももももももものうち");
   //     console.log(path);
   //   });
-  console.log(Markov.chain('test'))
+  const markov = new Markov
+  console.log(markov)
 
   const selection: any = figma.currentPage.selection[0]
 

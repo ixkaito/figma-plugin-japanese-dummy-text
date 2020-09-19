@@ -12,10 +12,14 @@ class Markov {
    */
   public chain(text: string, num: number = 1) {
     kuromoji.builder({ dicPath: this.dicPath }).build((err, tokenizer) => {
-      const path = tokenizer.tokenize(text)
-      return path
+      if (err) {
+        console.log(err)
+      } else {
+        const path = tokenizer.tokenize(text)
+        return path
+      }
     })
   }
 }
 
-export default new Markov
+export default Markov
