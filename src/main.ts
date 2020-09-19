@@ -1,4 +1,4 @@
-import markov from './markov'
+import Markov from './markov'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
@@ -23,7 +23,7 @@ figma.ui.onmessage = msg => {
   //     const path = tokenizer.tokenize("すもももももももものうち");
   //     console.log(path);
   //   });
-  console.log(markov)
+  console.log(Markov.chain('test'))
 
   const selection: any = figma.currentPage.selection[0]
 
