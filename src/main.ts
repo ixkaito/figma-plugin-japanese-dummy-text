@@ -1,4 +1,5 @@
 import Markov from './markov'
+import kuromoji from 'kuromoji'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
@@ -16,15 +17,15 @@ figma.ui.onmessage = msg => {
   // One way of distinguishing between different types of messages sent from
   // your HTML page is to use an object with a "type" property like this.
 
-  // kuromoji
-  //   .builder({ dicPath: './node_modules/kuromoji/dist/dict/' })
-  //   .build(function (err, tokenizer) {
-  //     // tokenizer is ready
-  //     const path = tokenizer.tokenize("すもももももももものうち");
-  //     console.log(path);
-  //   });
-  const markov = new Markov
-  console.log(markov)
+  kuromoji
+    .builder({ dicPath: '../node_modules/kuromoji/dict/' })
+    .build(function (err, tokenizer) {
+      // tokenizer is ready
+      const path = tokenizer.tokenize("すもももももももものうち");
+      console.log(path);
+    });
+  // const markov = new Markov
+  // console.log(markov)
 
   const selection: any = figma.currentPage.selection[0]
 
