@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Figma plugin Japanese dummy text",
   "scripts": {
-    "build": "webpack --mode=production",
-    "dev": "webpack --mode=development --watch"
+    "kuromoji": "node src/kuromoji",
+    "build": "npm run kuromoji && webpack --mode=production",
+    "dev": "npm run kuromoji && webpack --mode=development --watch"
   },
   "author": "Kite",
   "license": "MIT",
