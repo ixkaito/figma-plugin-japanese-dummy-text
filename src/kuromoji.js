@@ -17,7 +17,7 @@ kuromoji
     }
     words = JSON.stringify(words)
     words = `export default ${words}`
-    fs.writeFile(path.resolve(__dirname, 'words.js'), words, (err) => {
+    fs.writeFile(path.resolve(__dirname, 'words.ts'), words, (err) => {
       if (err) console.error(err)
     })
   })

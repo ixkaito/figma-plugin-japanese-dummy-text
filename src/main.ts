@@ -1,5 +1,5 @@
 import Markov from './markov'
-import words from './words.json'
+import words from './words'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
