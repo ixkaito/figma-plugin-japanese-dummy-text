@@ -12,7 +12,7 @@ kuromoji
     if (err) console.error(err)
     let words = []
     for (const word of tokenizer.tokenize(input)) {
-      if (word.surface_form.match(/\s+/g)) continue
+      if (word.surface_form.match(/(\s+|。)/g)) continue
       words.push(word.surface_form)
     }
     words = JSON.stringify(words)

@@ -3,8 +3,6 @@ import words from './words'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
-console.log(words)
-
 // This file holds the main code for the plugins. It has access to the *document*.
 // You can access browser APIs in the <script> tag inside "ui.html" which has a
 // full browser environment (see documentation).
@@ -44,15 +42,18 @@ figma.ui.onmessage = msg => {
       family: selection.fontName.family,
       style: selection.fontName.style
     }).then(() => {
-      // let text: string = selection.characters;
-      const output = markov.chain(text)
+      let text: string[]|string = [] // selection.characters;
 
       if (msg.type === 'manual') {
-        // for (let i = 0; i < msg.number; i++) {
-        //   const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
-        //   text = `${text}${dummy[msg.unit][num]}`
-        // }
-        selection.characters = output
+
+        for (let i = 0; i < msg.number; i++) {
+          text.push(words[Math.floor(Math.random() * words.length)])
+          // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
+          // text = `${text}${dummy[msg.unit][num]}`
+        }
+        text = text.join('')
+        console.log(text)
+        selection.characters = text
 
       } else if (msg.type === 'auto') {
         // text = 'Auto generate';
