@@ -20,7 +20,7 @@ figma.ui.onmessage = msg => {
   const markov = new Markov
   // console.log(markov.chain(text))
 
-  const selection: any = figma.currentPage.selection[0]
+  const selections: any = figma.currentPage.selection
 
   const dummy: any = {
     characters: ['文', 'は', '意', '見', '解', 'が', '引', '用'],
@@ -36,51 +36,53 @@ figma.ui.onmessage = msg => {
     ],
   }
 
-  if (selection && selection.type === 'TEXT') {
+  for (const selection of selections) {
+    if (selection && selection.type === 'TEXT') {
 
-    figma.loadFontAsync({
-      family: selection.fontName.family,
-      style: selection.fontName.style
-    }).then(() => {
-      let text: string = '' // selection.characters;
+      figma.loadFontAsync({
+        family: selection.fontName.family,
+        style: selection.fontName.style
+      }).then(() => {
+        let text: string = '' // selection.characters;
 
-      if (msg.type === 'manual') {
+        if (msg.type === 'manual') {
 
-        if (msg.unit === 'characters') {
-          for (let i = 0; i < msg.number; i++) {
-            let word = words[Math.floor(Math.random() * words.length)]
+          if (msg.unit === 'characters') {
+            for (let i = 0; i < msg.number; i++) {
+              let word = words[Math.floor(Math.random() * words.length)]
 
-            // Do not use "、", "」" or "）" for the first character
-            if (i === 0) {
-              while (word.match(/^(、|」|）)/g)) {
-                word = words[Math.floor(Math.random() * words.length)]
+              // Do not use "、", "」" or "）" for the first character
+              if (i === 0) {
+                while (word.match(/^(、|」|）)/g)) {
+                  word = words[Math.floor(Math.random() * words.length)]
+                }
               }
-            }
 
-            // Add spaces around English words
-            if (word.match(/[a-zA-Z]+/g)) {
-              word = ` ${word} `
-            }
+              // Add spaces around English words
+              if (word.match(/[a-zA-Z]+/g)) {
+                word = ` ${word} `
+              }
 
-            text = `${text}${word}`
-            text = text.replace(/\s+/g, ' ')
-            // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
-            // text = `${text}${dummy[msg.unit][num]}`
+              text = `${text}${word}`
+              text = text.replace(/\s+/g, ' ')
+              // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
+              // text = `${text}${dummy[msg.unit][num]}`
+            }
+            text = text.substr(0, msg.number)
+          } else if (msg.unit === 'sentences') {
+
           }
-          text = text.substr(0, msg.number)
-        } else if (msg.unit === 'sentences') {
 
+          selection.characters = text
+
+        } else if (msg.type === 'auto') {
+          // text = 'Auto generate';
+          // selection.characters = text
         }
-
-        selection.characters = text
-
-      } else if (msg.type === 'auto') {
-        // text = 'Auto generate';
-        // selection.characters = text
-      }
-    })
-  } else {
-    // Text is not selected.
+      })
+    } else {
+      // Text is not selected.
+    }
   }
 
   // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？
