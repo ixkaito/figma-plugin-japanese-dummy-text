@@ -22,20 +22,6 @@ figma.ui.onmessage = msg => {
 
   const selections: any = figma.currentPage.selection
 
-  const dummy: any = {
-    characters: ['文', 'は', '意', '見', '解', 'が', '引', '用'],
-    sentences: [
-      'ペディアの公表認め投稿困難な形式を引用あり。',
-      '許諾できれ下を編集号有効の引用主題がありれがはするり。',
-      '投稿法引用なけれますとの著作にありことは。',
-      'プロジェクトのFreeは。',
-      '文は意見解が引用満たさ商業ですませ以下。',
-    ],
-    paragraphs: [
-      '',
-    ],
-  }
-
   for (const selection of selections) {
     if (selection && selection.type === 'TEXT') {
 
