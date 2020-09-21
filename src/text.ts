@@ -1,4 +1,4 @@
-[
+const text: any = [
   {
     "word_id": 847160,
     "word_type": "KNOWN",
@@ -70675,3 +70675,5 @@
     "pronunciation": "。"
   }
 ]
+
+export default text

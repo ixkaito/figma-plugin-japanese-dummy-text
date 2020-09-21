@@ -1,5 +1,5 @@
 import Markov from './markov'
-import kuromoji from 'kuromoji'
+import text from './text'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
@@ -17,15 +17,8 @@ figma.ui.onmessage = msg => {
   // One way of distinguishing between different types of messages sent from
   // your HTML page is to use an object with a "type" property like this.
 
-  kuromoji
-    .builder({ dicPath: '../node_modules/kuromoji/dict/' })
-    .build(function (err, tokenizer) {
-      // tokenizer is ready
-      const path = tokenizer.tokenize("すもももももももものうち");
-      console.log(path);
-    });
-  // const markov = new Markov
-  // console.log(markov)
+  const markov = new Markov
+  // console.log(markov.chain(text))
 
   const selection: any = figma.currentPage.selection[0]
 
@@ -49,18 +42,19 @@ figma.ui.onmessage = msg => {
       family: selection.fontName.family,
       style: selection.fontName.style
     }).then(() => {
-      let text: string = selection.characters;
+      // let text: string = selection.characters;
+      const output = markov.chain(text)
 
       if (msg.type === 'manual') {
-        for (let i = 0; i < msg.number; i++) {
-          const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
-          text = `${text}${dummy[msg.unit][num]}`
-        }
-        selection.characters = text;
+        // for (let i = 0; i < msg.number; i++) {
+        //   const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
+        //   text = `${text}${dummy[msg.unit][num]}`
+        // }
+        selection.characters = output
 
       } else if (msg.type === 'auto') {
-        text = 'Auto generate';
-        selection.characters = text;
+        // text = 'Auto generate';
+        // selection.characters = text
       }
     })
   } else {
