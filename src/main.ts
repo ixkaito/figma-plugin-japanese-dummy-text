@@ -43,6 +43,8 @@ figma.ui.onmessage = msg => {
   const selections: any = figma.currentPage.selection
 
   for (const selection of selections) {
+    let text: string = ''
+
     if (selection && selection.type === 'TEXT') {
 
       figma.loadFontAsync({
@@ -56,11 +58,23 @@ figma.ui.onmessage = msg => {
             ? Math.floor(Math.random() * (max - min + 1)) + min
             : min
 
-          if (msg.unit === 'characters') {
-            selection.characters = makeSentences(srcWords, num, msg.eos)
-          } else if (msg.unit === 'sentences') {
-
+          let sentenceNum: number = 1
+          let characterNum: number = num > 999 ? 999 : num
+          if (msg.unit === 'sentence') {
+            sentenceNum = num > 20 ? 20 : num
+            characterNum = Math.floor(Math.random() * 21) + 60
           }
+
+          while (sentenceNum--) {
+            text = text + makeSentences(
+              srcWords,
+              characterNum,
+              msg.eos,
+            )
+          }
+
+          selection.characters = text
+
         } else if (msg.type === 'auto') {
           // text = 'Auto generate';
           // selection.characters = text
