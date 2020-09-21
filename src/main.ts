@@ -42,17 +42,36 @@ figma.ui.onmessage = msg => {
       family: selection.fontName.family,
       style: selection.fontName.style
     }).then(() => {
-      let text: string[]|string = [] // selection.characters;
+      let text: string = '' // selection.characters;
 
       if (msg.type === 'manual') {
 
-        for (let i = 0; i < msg.number; i++) {
-          text.push(words[Math.floor(Math.random() * words.length)])
-          // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
-          // text = `${text}${dummy[msg.unit][num]}`
+        if (msg.unit === 'characters') {
+          for (let i = 0; i < msg.number; i++) {
+            let word = words[Math.floor(Math.random() * words.length)]
+
+            // Do not use "、", "」" or "）" for the first character
+            if (i === 0) {
+              while (word.match(/^(、|」|）)/g)) {
+                word = words[Math.floor(Math.random() * words.length)]
+              }
+            }
+
+            // Add spaces around English words
+            if (word.match(/[a-zA-Z]+/g)) {
+              word = ` ${word} `
+            }
+
+            text = `${text}${word}`
+            text = text.replace(/\s+/g, ' ')
+            // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
+            // text = `${text}${dummy[msg.unit][num]}`
+          }
+          text = text.substr(0, msg.number)
+        } else if (msg.unit === 'sentences') {
+
         }
-        text = text.join('')
-        console.log(text)
+
         selection.characters = text
 
       } else if (msg.type === 'auto') {
