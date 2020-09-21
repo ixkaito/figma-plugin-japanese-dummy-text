@@ -1,4 +1,28 @@
-import words from './words'
+import srcWords from './words'
+
+const makeSentences = (words: string[], num: number = 10, eos: string = '。') => {
+  let text: string = ''
+
+  for (let i = 0; i < num; i++) {
+    let word = words[Math.floor(Math.random() * words.length)]
+
+    // Do not use "、", "」" or "）" for the first character
+    if (i === 0) {
+      while (word.match(/^(、|」|）)/g)) {
+        word = words[Math.floor(Math.random() * words.length)]
+      }
+    }
+
+    // Add spaces around English words
+    if (word.match(/[a-zA-Z]+/g)) {
+      word = ` ${word} `
+    }
+
+    text = `${text}${word}`.replace(/\s+/g, ' ')
+  }
+  return text.substr(0, num - (eos ? 1 : 0)) + eos
+}
+
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
@@ -25,8 +49,6 @@ figma.ui.onmessage = msg => {
         family: selection.fontName.family,
         style: selection.fontName.style
       }).then(() => {
-        let text: string = '' // selection.characters;
-
         if (msg.type === 'manual') {
           const min: number = parseInt(msg.number.min, 10)
           const max: number = parseInt(msg.number.max, 10)
@@ -35,32 +57,10 @@ figma.ui.onmessage = msg => {
             : min
 
           if (msg.unit === 'characters') {
-            for (let i = 0; i < num; i++) {
-              let word = words[Math.floor(Math.random() * words.length)]
-
-              // Do not use "、", "」" or "）" for the first character
-              if (i === 0) {
-                while (word.match(/^(、|」|）)/g)) {
-                  word = words[Math.floor(Math.random() * words.length)]
-                }
-              }
-
-              // Add spaces around English words
-              if (word.match(/[a-zA-Z]+/g)) {
-                word = ` ${word} `
-              }
-
-              text = `${text}${word}`.replace(/\s+/g, ' ')
-              // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
-              // text = `${text}${dummy[msg.unit][num]}`
-            }
-            text = text.substr(0, num - (msg.eos ? 1 : 0)) + msg.eos
+            selection.characters = makeSentences(srcWords, num, msg.eos)
           } else if (msg.unit === 'sentences') {
 
           }
-
-          selection.characters = text
-
         } else if (msg.type === 'auto') {
           // text = 'Auto generate';
           // selection.characters = text
