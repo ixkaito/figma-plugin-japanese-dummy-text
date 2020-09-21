@@ -28,9 +28,14 @@ figma.ui.onmessage = msg => {
         let text: string = '' // selection.characters;
 
         if (msg.type === 'manual') {
+          const min: number = parseInt(msg.number.min, 10)
+          const max: number = parseInt(msg.number.max, 10)
+          const num: number = max > min
+            ? Math.floor(Math.random() * (max - min + 1)) + min
+            : min
 
           if (msg.unit === 'characters') {
-            for (let i = 0; i < msg.number; i++) {
+            for (let i = 0; i < num; i++) {
               let word = words[Math.floor(Math.random() * words.length)]
 
               // Do not use "、", "」" or "）" for the first character
@@ -50,7 +55,7 @@ figma.ui.onmessage = msg => {
               // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
               // text = `${text}${dummy[msg.unit][num]}`
             }
-            text = text.substr(0, msg.number)
+            text = text.substr(0, num)
           } else if (msg.unit === 'sentences') {
 
           }
