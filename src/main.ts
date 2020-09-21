@@ -7,7 +7,7 @@ import words from './words'
 // full browser environment (see documentation).
 
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__, { height: 280 })
+figma.showUI(__html__, { height: 316 })
 
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
@@ -50,12 +50,11 @@ figma.ui.onmessage = msg => {
                 word = ` ${word} `
               }
 
-              text = `${text}${word}`
-              text = text.replace(/\s+/g, ' ')
+              text = `${text}${word}`.replace(/\s+/g, ' ')
               // const num: number = i >= dummy[msg.unit].length ? i % dummy[msg.unit].length : i
               // text = `${text}${dummy[msg.unit][num]}`
             }
-            text = text.substr(0, num)
+            text = text.substr(0, num - (msg.eos ? 1 : 0)) + msg.eos
           } else if (msg.unit === 'sentences') {
 
           }

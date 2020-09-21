@@ -8,7 +8,7 @@
       display: flex;
       margin-bottom: 8px;
     ">
-      <input type="number" id="min" value="1" min="1" max="10000" placeholder="Min" style="
+      <input type="number" id="min" value="10" min="1" max="999" placeholder="Min" style="
         width: 25%;
         flex-grow: 1;
         padding: 0 8px;
@@ -17,18 +17,40 @@
         line-height: 32px;
         margin: 0 4px;
       ">-</span>
-      <input type="number" id="max" value="" min="1" max="10000" placeholder="Max" style="
+      <input type="number" id="max" value="" min="1" max="999" placeholder="Max" style="
         width: 25%;
         flex-grow: 1;
         padding: 0 8px;
       ">
       <select id="unit" style="
+        flex-shrink: 0;
         margin-left: 8px;
-        width: 50%;
+        width: 112px;
       ">
         <option value="characters">Characters (文字)</option>
         <option value="sentences">Sentences (文)</option>
         <option value="paragraphs">Paragraphs (段落)</option>
+      </select>
+    </div>
+    <div style="
+      display: flex;
+      margin-bottom: 8px;
+    ">
+      <label for="eos" style="
+        flex-grow: 1;
+        line-height: 32px;
+        white-space: nowrap;
+      ">
+        End of sentences (文末):
+      </label>
+      <select id="eos" style="
+        flex-shrink: 0;
+        margin-left: 8px;
+        width: 112px;
+      ">
+        <option value="">None (なし)</option>
+        <option value="。" selected>。</option>
+        <option value="．">．</option>
       </select>
     </div>
       <button id="manual">Generate (生成)</button>
@@ -113,7 +135,10 @@
       const units = document.getElementById('unit')
       const unit = units.options[units.selectedIndex].value
 
-      parent.postMessage({ pluginMessage: { type: 'manual', number, unit } }, '*')
+      const eoss = document.getElementById('eos')
+      const eos = eoss.options[eoss.selectedIndex].value
+
+      parent.postMessage({ pluginMessage: { type: 'manual', number, unit, eos } }, '*')
     }
 
     document.getElementById('auto').onclick = () => {
