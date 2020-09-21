@@ -24,10 +24,6 @@ module.exports = (env, argv) => ({
         test: /\.css$/,
         loader: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
       },
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
     ],
   },
   resolve: {

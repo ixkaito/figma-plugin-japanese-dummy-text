@@ -1,4 +1,3 @@
-import Markov from './markov'
 import words from './words'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
@@ -16,9 +15,6 @@ figma.showUI(__html__, { height: 280 })
 figma.ui.onmessage = msg => {
   // One way of distinguishing between different types of messages sent from
   // your HTML page is to use an object with a "type" property like this.
-
-  const markov = new Markov
-  // console.log(markov.chain(text))
 
   const selections: any = figma.currentPage.selection
 
