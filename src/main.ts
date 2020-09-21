@@ -54,9 +54,14 @@ figma.ui.onmessage = msg => {
         if (msg.type === 'manual') {
           const min: number = parseInt(msg.number.min, 10)
           const max: number = parseInt(msg.number.max, 10)
-          const num: number = max > min
+          const num: number = min && max && max > min
             ? Math.floor(Math.random() * (max - min + 1)) + min
             : min
+              ? min
+              : max
+                ? max
+                : 0
+          if (!num) return
 
           let sentenceNum: number = 1
           let characterNum: number = num > 999 ? 999 : num
