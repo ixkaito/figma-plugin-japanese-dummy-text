@@ -9,10 +9,14 @@ const input = fs
 kuromoji
   .builder({ dicPath: path.resolve(__dirname, '../node_modules/kuromoji/dict/') })
   .build((err, tokenizer) => {
-    const output = JSON.stringify(tokenizer.tokenize(input))
-    fs.writeFile(path.resolve(__dirname, 'text.json'), output, (err) => {
-      if (err) {
-        console.error(err)
-      }
+    if (err) console.error(err)
+    let words = []
+    for (const word of tokenizer.tokenize(input)) {
+      if (word.surface_form.match(/\s+/g)) continue
+      words.push(word.surface_form)
+    }
+    words = JSON.stringify(words)
+    fs.writeFile(path.resolve(__dirname, 'words.json'), words, (err) => {
+      if (err) console.error(err)
     })
   })
