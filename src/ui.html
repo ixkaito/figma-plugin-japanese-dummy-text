@@ -1,3 +1,53 @@
+<div id="app">
+  <section style="
+    display: flex;
+    flex-direction: column;
+  ">
+    <div class="sectionHeader">Manual (手動)</div>
+    <div style="
+      display: flex;
+      margin-bottom: 8px;
+    ">
+      <input type="number" id="min" value="1" min="1" max="10000" placeholder="Min" style="
+        width: 25%;
+        flex-grow: 1;
+        padding: 0 8px;
+      ">
+      <span style="
+        line-height: 32px;
+        margin: 0 4px;
+      ">-</span>
+      <input type="number" id="max" value="" min="1" max="10000" placeholder="Max" style="
+        width: 25%;
+        flex-grow: 1;
+        padding: 0 8px;
+      ">
+      <select id="unit" style="
+        margin-left: 8px;
+        width: 50%;
+      ">
+        <option value="characters">Characters (文字)</option>
+        <option value="sentences">Sentences (文)</option>
+        <option value="paragraphs">Paragraphs (段落)</option>
+      </select>
+    </div>
+      <button id="manual">Generate (生成)</button>
+    </div>
+  </section>
+  <section style="
+    border-top: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+  ">
+    <div class="sectionHeader">Auto (自動)</div>
+    <p>Generate the perfect amount of text to fit the layer’s frame. (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)</p>
+    <button id="auto" style="
+      margin-top: 8px;
+      white-space: nowrap;
+    ">Auto-generate (自動生成)</button>
+  </section>
+</div>
+
 <style>
   * {
     box-sizing: border-box;
@@ -49,53 +99,16 @@
   }
 </style>
 
-<div id="app">
-  <section style="
-    display: flex;
-    flex-direction: column;
-  ">
-    <div class="sectionHeader">Manual (手動)</div>
-    <div style="
-      display: flex;
-      margin-bottom: 8px;
-    ">
-      <input type="number" id="number" value="1" min="1" max="65536" style="
-        width: 50%;
-        flex-grow: 1;
-        padding: 0 1em;
-      ">
-      <select id="unit" style="
-        margin-left: 8px;
-        width: 50%;
-      ">
-        <option value="characters">Characters (文字)</option>
-        <option value="sentences">Sentences (文)</option>
-        <option value="paragraphs">Paragraphs (段落)</option>
-      </select>
-    </div>
-      <button id="manual">Generate (生成)</button>
-    </div>
-  </section>
-  <section style="
-    border-top: 1px solid #e5e5e5;
-    display: flex;
-    flex-direction: column;
-  ">
-    <div class="sectionHeader">Auto (自動)</div>
-    <p>Generate the perfect amount of text to fit the layer’s frame. (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)</p>
-    <button id="auto" style="
-      margin-top: 8px;
-      white-space: nowrap;
-    ">Auto-generate (自動生成)</button>
-  </section>
-</div>
-
 <script>
   window.onpageshow = () => {
 
     document.getElementById('manual').onclick = () => {
-      const textbox = document.getElementById('number')
-      const number = parseInt(textbox.value, 10)
+      const min = document.getElementById('min')
+      const max = document.getElementById('max')
+      const number = {
+        min: parseInt(min.value, 10),
+        max: parseInt(max.value, 10),
+      }
 
       const units = document.getElementById('unit')
       const unit = units.options[units.selectedIndex].value
