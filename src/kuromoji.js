@@ -16,7 +16,8 @@ kuromoji
       words.push(word.surface_form)
     }
     words = JSON.stringify(words)
-    fs.writeFile(path.resolve(__dirname, 'words.json'), words, (err) => {
+    words = `export default ${words}`
+    fs.writeFile(path.resolve(__dirname, 'words.js'), words, (err) => {
       if (err) console.error(err)
     })
   })

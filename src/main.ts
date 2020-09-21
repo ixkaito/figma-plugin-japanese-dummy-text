@@ -1,7 +1,9 @@
 import Markov from './markov'
-import text from './text'
+import words from './words.json'
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
+
+console.log(words)
 
 // This file holds the main code for the plugins. It has access to the *document*.
 // You can access browser APIs in the <script> tag inside "ui.html" which has a

@@ -26,7 +26,7 @@ module.exports = (env, argv) => ({
       },
       {
         test: /\.json$/,
-        loader: 'json',
+        loader: 'json-loader',
       },
     ],
   },
