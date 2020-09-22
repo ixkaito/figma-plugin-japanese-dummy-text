@@ -1,6 +1,6 @@
 import srcWords from './words'
 
-const makeSentences = (words: string[], num: number = 10, eos: string = '。') => {
+const generateText = (words: string[], num: number = 10, eos: string = '。') => {
   let text: string = ''
 
   for (let i = 0; i < num; i++) {
@@ -71,7 +71,7 @@ figma.ui.onmessage = msg => {
           }
 
           while (sentenceNum--) {
-            text = text + makeSentences(
+            text = text + generateText(
               srcWords,
               characterNum,
               msg.eos,
