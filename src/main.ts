@@ -81,8 +81,15 @@ figma.ui.onmessage = msg => {
           selection.characters = text
 
         } else if (msg.type === 'auto') {
-          // text = 'Auto generate';
-          // selection.characters = text
+          // selection.fontSize
+          // selection.lineHeight.unit // AUTO, PIXELS, PERCENT
+          // selection.lineHeight.value
+          // selection.letterSpacing.unit
+          // selection.letterSpacing.value
+          // selection.textAutoResize // WIDTH_AND_HEIGHT, HEIGHT, NONE
+          // selection.textAutoResize = 'HEIGHT'
+          console.log(selection)
+          selection.resize(300, 200)
         }
       })
     } else {
