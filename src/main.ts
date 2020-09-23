@@ -88,8 +88,23 @@ figma.ui.onmessage = msg => {
           // selection.letterSpacing.value
           // selection.textAutoResize // WIDTH_AND_HEIGHT, HEIGHT, NONE
           // selection.textAutoResize = 'HEIGHT'
-          console.log(selection)
-          selection.resize(300, 200)
+          const _width: number = selection.width
+          const _height: number = selection.height
+
+          if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
+            const _count: number = selection.characters.length
+            let _characters: string = generateText(srcWords, _count, '')
+            selection.characters = _characters
+
+            do {
+              _characters = selection.characters
+              selection.characters = selection.characters.slice(0, -1)
+            } while (selection.width > _width || selection.height > _height)
+
+            selection.characters = _characters
+          }
+          // console.log(selection)
+          // selection.resize(300, 200)
         }
       })
     } else {
