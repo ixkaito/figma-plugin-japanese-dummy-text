@@ -4,54 +4,54 @@
     flex-direction: column;
   ">
     <div class="sectionHeader">Manual (手動)</div>
-    <div style="
-      display: flex;
-      margin-bottom: 8px;
-    ">
-      <input type="number" id="min" value="10" min="1" max="999" placeholder="Min" style="
-        width: 25%;
-        flex-grow: 1;
-        padding: 0 8px;
+      <div style="
+        display: flex;
+        margin-bottom: 8px;
       ">
-      <span style="
-        line-height: 32px;
-        margin: 0 4px;
-      ">–</span>
-      <input type="number" id="max" value="" min="1" max="999" placeholder="Max" style="
-        width: 25%;
-        flex-grow: 1;
-        padding: 0 8px;
+        <input type="number" id="min" value="10" min="1" max="999" placeholder="Min" style="
+          width: 25%;
+          flex-grow: 1;
+          padding: 0 8px;
+        ">
+        <span style="
+          line-height: 32px;
+          margin: 0 4px;
+        ">–</span>
+        <input type="number" id="max" value="" min="1" max="999" placeholder="Max" style="
+          width: 25%;
+          flex-grow: 1;
+          padding: 0 8px;
+        ">
+        <select id="unit" style="
+          flex-shrink: 0;
+          margin-left: 8px;
+          width: 112px;
+        ">
+          <option value="character">Characters (文字)</option>
+          <option value="sentence">Sentences (文)</option>
+        </select>
+      </div>
+      <div style="
+        display: flex;
+        margin-bottom: 8px;
       ">
-      <select id="unit" style="
-        flex-shrink: 0;
-        margin-left: 8px;
-        width: 112px;
-      ">
-        <option value="character">Characters (文字)</option>
-        <option value="sentence">Sentences (文)</option>
-      </select>
-    </div>
-    <div style="
-      display: flex;
-      margin-bottom: 8px;
-    ">
-      <label for="eos" style="
-        flex-grow: 1;
-        line-height: 32px;
-        white-space: nowrap;
-      ">
-        End of sentences (文末):
-      </label>
-      <select id="eos" style="
-        flex-shrink: 0;
-        margin-left: 8px;
-        width: 112px;
-      ">
-        <option value="">None (なし)</option>
-        <option value="。" selected>。</option>
-        <option value="．">．</option>
-      </select>
-    </div>
+        <label for="eos" style="
+          flex-grow: 1;
+          line-height: 32px;
+          white-space: nowrap;
+        ">
+          End of sentences (文末):
+        </label>
+        <select id="eos" style="
+          flex-shrink: 0;
+          margin-left: 8px;
+          width: 112px;
+        ">
+          <option value="">None (なし)</option>
+          <option value="。" selected>。</option>
+          <option value="．">．</option>
+        </select>
+      </div>
       <button id="manual">Generate (生成)</button>
     </div>
   </section>
