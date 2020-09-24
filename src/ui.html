@@ -6,7 +6,6 @@
     <div class="sectionHeader">Manual (手動)</div>
       <div style="
         display: flex;
-        margin-bottom: 8px;
       ">
         <input type="number" id="min" value="10" min="1" max="999" placeholder="Min" style="
           width: 25%;
@@ -25,7 +24,7 @@
         <select id="unit" style="
           flex-shrink: 0;
           margin-left: 8px;
-          width: 112px;
+          width: 120px;
         ">
           <option value="character">Characters (文字)</option>
           <option value="sentence">Sentences (文)</option>
@@ -33,7 +32,7 @@
       </div>
       <div style="
         display: flex;
-        margin-bottom: 8px;
+        margin-top: 8px;
       ">
         <label for="eos" style="
           flex-grow: 1;
@@ -42,17 +41,20 @@
         ">
           End of sentences (文末):
         </label>
-        <select id="eos" style="
+        <select id="manual-eos" style="
           flex-shrink: 0;
           margin-left: 8px;
-          width: 112px;
+          width: 120px;
         ">
           <option value="">None (なし)</option>
-          <option value="。" selected>。</option>
-          <option value="．">．</option>
+          <option value="random" selected>Random (ランダム)</option>
+          <option value="。">。</option>
         </select>
       </div>
-      <button id="manual">Generate (生成)</button>
+      <button id="manual" style="
+        margin-top: 8px;
+        white-space: nowrap;
+      ">Generate (生成)</button>
     </div>
   </section>
   <section style="
@@ -62,6 +64,27 @@
   ">
     <div class="sectionHeader">Auto (自動)</div>
     <p>Generate the perfect amount of text to fit the layer’s frame. (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)</p>
+    <div style="
+      display: flex;
+      margin-top: 8px;
+    ">
+      <label for="eos" style="
+        flex-grow: 1;
+        line-height: 32px;
+        white-space: nowrap;
+      ">
+        End of sentences (文末):
+      </label>
+      <select id="auto-eos" style="
+        flex-shrink: 0;
+        margin-left: 8px;
+        width: 120px;
+      ">
+        <option value="">None (なし)</option>
+        <option value="random" selected>Random (ランダム)</option>
+        <option value="。">。</option>
+      </select>
+    </div>
     <button id="auto" style="
       margin-top: 8px;
       white-space: nowrap;
@@ -135,17 +158,17 @@
       const units = document.getElementById('unit')
       const unit = units.options[units.selectedIndex].value
 
-      const eoss = document.getElementById('eos')
+      const eoss = document.getElementById('manual-eos')
       const eos = eoss.options[eoss.selectedIndex].value
 
       parent.postMessage({ pluginMessage: { type: 'manual', number, unit, eos } }, '*')
     }
 
     document.getElementById('auto').onclick = () => {
-      parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
-    }
+      const eoss = document.getElementById('auto-eos')
+      const eos = eoss.options[eoss.selectedIndex].value
 
-    // const error = document.getElementById('error');
-    // parent.postMessage({ pluginMessage: { error } }, '*');
+      parent.postMessage({ pluginMessage: { type: 'auto', eos } }, '*')
+    }
   }
 </script>

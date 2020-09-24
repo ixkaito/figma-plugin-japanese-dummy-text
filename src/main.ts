@@ -31,7 +31,7 @@ const generateText = (words: string[], num: number = 10, eos: string = '。') =>
 // full browser environment (see documentation).
 
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__, { height: 316 })
+figma.showUI(__html__, { height: 353 })
 
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
@@ -41,6 +41,7 @@ figma.ui.onmessage = msg => {
   // your HTML page is to use an object with a "type" property like this.
 
   const selections: any = figma.currentPage.selection
+  const eos: string = msg.eos
 
   for (const selection of selections) {
     let text: string = ''
@@ -51,6 +52,9 @@ figma.ui.onmessage = msg => {
         family: selection.fontName.family,
         style: selection.fontName.style
       }).then(() => {
+        /**
+         * Manual Generation
+         */
         if (msg.type === 'manual') {
           const min: number = parseInt(msg.number.min, 10)
           const max: number = parseInt(msg.number.max, 10)
@@ -80,21 +84,17 @@ figma.ui.onmessage = msg => {
 
           selection.characters = text
 
+        /**
+         * Auto Generation
+         */
         } else if (msg.type === 'auto') {
-          // selection.fontSize
-          // selection.lineHeight.unit // AUTO, PIXELS, PERCENT
-          // selection.lineHeight.value
-          // selection.letterSpacing.unit
-          // selection.letterSpacing.value
-          // selection.textAutoResize // WIDTH_AND_HEIGHT, HEIGHT, NONE
-          // selection.textAutoResize = 'HEIGHT'
           const _width: number = selection.width
           const _height: number = selection.height
+          let _characters: string = ''
 
           if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
             const _count: number = selection.characters.length
-            let _characters: string = generateText(srcWords, _count, '')
-            selection.characters = _characters
+            selection.characters = generateText(srcWords, _count, '')
 
             do {
               _characters = selection.characters
@@ -102,9 +102,37 @@ figma.ui.onmessage = msg => {
             } while (selection.width > _width || selection.height > _height)
 
             selection.characters = _characters
+
+          } else {
+            const _textAutoResize: string = selection.textAutoResize
+            selection.textAutoResize = 'HEIGHT'
+            selection.characters = ''
+
+            while (selection.width < _width || selection.height < _height) {
+              _characters = selection.characters
+              selection.characters = selection.characters + generateText(
+                srcWords,
+                Math.floor(Math.random() * 21) + 60,
+                msg.eos,
+              )
+            }
+
+            do {
+              _characters = selection.characters
+              selection.characters = selection.characters.slice(0, -1)
+            } while (selection.width > _width || selection.height > _height)
+
+            selection.characters = selection.characters.slice(
+              0,
+              Math.floor(
+                -0.1 * Math.random() * selection.characters.length
+              ) - (msg.eos ? 1 : 0)
+            ) + msg.eos
+
+            if (_textAutoResize === 'NONE') {
+              selection.resize(_width, _height)
+            }
           }
-          // console.log(selection)
-          // selection.resize(300, 200)
         }
       })
     } else {
