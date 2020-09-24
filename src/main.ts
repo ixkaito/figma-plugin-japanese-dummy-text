@@ -1,27 +1,7 @@
-import srcWords from './words'
+import words from './words'
+import dummyText from './dummyText'
 
-const generateText = (words: string[], num: number = 10, eos: string = '。') => {
-  let text: string = ''
-
-  for (let i = 0; i < num; i++) {
-    let word = words[Math.floor(Math.random() * words.length)]
-
-    // Do not use "、", "」" or "）" for the first character
-    if (i === 0) {
-      while (word.match(/^(、|」|）)/g)) {
-        word = words[Math.floor(Math.random() * words.length)]
-      }
-    }
-
-    // Add spaces around English words
-    if (word.match(/[a-zA-Z]+/g)) {
-      word = ` ${word} `
-    }
-
-    text = `${text}${word}`.replace(/\s+/g, ' ')
-  }
-  return text.substr(0, num - (eos ? 1 : 0)) + eos
-}
+const dummy = new dummyText(words)
 
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
@@ -75,8 +55,7 @@ figma.ui.onmessage = msg => {
           }
 
           while (sentenceNum--) {
-            text = text + generateText(
-              srcWords,
+            text = text + dummy.generate(
               characterNum,
               msg.eos,
             )
@@ -94,7 +73,7 @@ figma.ui.onmessage = msg => {
 
           if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
             const _count: number = selection.characters.length
-            selection.characters = generateText(srcWords, _count, '')
+            selection.characters = dummy.generate(_count, '')
 
             do {
               _characters = selection.characters
@@ -110,8 +89,7 @@ figma.ui.onmessage = msg => {
 
             while (selection.width < _width || selection.height < _height) {
               _characters = selection.characters
-              selection.characters = selection.characters + generateText(
-                srcWords,
+              selection.characters = selection.characters + dummy.generate(
                 Math.floor(Math.random() * 21) + 60,
                 msg.eos,
               )
