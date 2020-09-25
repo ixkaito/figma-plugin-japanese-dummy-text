@@ -57,7 +57,7 @@ figma.ui.onmessage = msg => {
           while (sentenceNum--) {
             text = text + dummy.generate(
               characterNum,
-              msg.eos,
+              eos,
             )
           }
 
@@ -91,7 +91,7 @@ figma.ui.onmessage = msg => {
               _characters = selection.characters
               selection.characters = selection.characters + dummy.generate(
                 Math.floor(Math.random() * 21) + 60,
-                msg.eos,
+                eos,
               )
             }
 
@@ -104,8 +104,8 @@ figma.ui.onmessage = msg => {
               0,
               Math.floor(
                 -0.1 * Math.random() * selection.characters.length
-              ) - (msg.eos ? 1 : 0)
-            ) + msg.eos
+              ) - (eos ? 1 : 0)
+            ) + eos
 
             if (_textAutoResize === 'NONE') {
               selection.resize(_width, _height)
