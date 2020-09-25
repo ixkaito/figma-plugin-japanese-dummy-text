@@ -36,6 +36,7 @@ figma.ui.onmessage = msg => {
          * Manual Generation
          */
         if (msg.type === 'manual') {
+          dummy.randomGenerate(0, 3)
           const min: number = parseInt(msg.number.min, 10)
           const max: number = parseInt(msg.number.max, 10)
           const num: number = min && max && max > min

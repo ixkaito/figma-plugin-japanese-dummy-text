@@ -5,7 +5,7 @@ class dummyText {
     this.words = words
   }
 
-  public generate(num: number = 0, eos: string): string {
+  public generate(num: number = 0, eos: string = ''): string {
     let text: string = ''
 
     for (let i = 0; i < num; i++) {
@@ -26,6 +26,11 @@ class dummyText {
       text = `${text}${word}`.replace(/\s+/g, ' ')
     }
     return text.substr(0, num - (eos ? 1 : 0)) + eos
+  }
+
+  public randomGenerate(min: number = 0, max: number = 999, eos: string = ''): string {
+    const num: number = Math.floor(Math.random() * (max + 1 - min)) + min
+    return this.generate(num, eos)
   }
 }
 
