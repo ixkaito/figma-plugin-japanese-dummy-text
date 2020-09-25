@@ -1,11 +1,22 @@
-class dummyText {
+interface Minmax {
+  min?: number;
+  max?: number;
+}
+
+interface Config {
+  character: number | Minmax;
+  sentence: number | Minmax;
+  eos: string;
+}
+
+class dummyTextGenerator {
   public words: string[] = []
 
   public constructor(words: string[]) {
     this.words = words
   }
 
-  public generate(num: number = 0, eos: string = ''): string {
+  public generateChar(num: number, eos: string = ''): string {
     let text: string = ''
 
     for (let i = 0; i < num; i++) {
@@ -28,10 +39,23 @@ class dummyText {
     return text.substr(0, num - (eos ? 1 : 0)) + eos
   }
 
-  public randomGenerate(min: number = 0, max: number = 999, eos: string = ''): string {
-    const num: number = Math.floor(Math.random() * (max + 1 - min)) + min
-    return this.generate(num, eos)
+  public generate(config: Config = {
+    character: {
+      min: 60,
+      max: 80,
+    },
+    sentence: 1,
+    eos: ''
+  }): string {
+    let num: number = 0
+    if (typeof config.character === 'object' && config.character !== null) {
+      if (config.character.max && config.character.min) {
+      }
+    }
+
+    this.generateChar(num, config.eos)
+    return ''
   }
 }
 
-export default dummyText
+export default dummyTextGenerator

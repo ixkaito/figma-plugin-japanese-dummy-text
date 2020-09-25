@@ -1,7 +1,7 @@
 import words from './words'
-import dummyText from './dummyText'
+import dummyTextGenerator from './dummyTextGenerator'
 
-const dummy = new dummyText(words)
+const dummyText = new dummyTextGenerator(words)
 
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
@@ -36,30 +36,30 @@ figma.ui.onmessage = msg => {
          * Manual Generation
          */
         if (msg.type === 'manual') {
-          dummy.randomGenerate(0, 3)
-          const min: number = parseInt(msg.number.min, 10)
-          const max: number = parseInt(msg.number.max, 10)
+          const limit: number = msg.unit === 'sentence' ? 20 : 999
+          let min: number = parseInt(msg.number.min, 10)
+          let max: number = parseInt(msg.number.max, 10)
+          min = min > limit ? limit : min
+          max = max > limit ? limit : max
+
           const num: number = min && max && max > min
-            ? Math.floor(Math.random() * (max - min + 1)) + min
+            ? Math.floor(Math.random() * (max + 1 - min)) + min
             : min
               ? min
               : max
                 ? max
                 : 0
-          if (!num) return
+          if (!num) return ''
 
           let sentenceNum: number = 1
-          let characterNum: number = num > 999 ? 999 : num
+          let characterNum: number = num
           if (msg.unit === 'sentence') {
-            sentenceNum = num > 20 ? 20 : num
+            sentenceNum = num
             characterNum = Math.floor(Math.random() * 21) + 60
           }
 
           while (sentenceNum--) {
-            text = text + dummy.generate(
-              characterNum,
-              eos,
-            )
+            text = text + dummyText.generateChar(characterNum, eos)
           }
 
           selection.characters = text
@@ -74,7 +74,7 @@ figma.ui.onmessage = msg => {
 
           if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
             const _count: number = selection.characters.length
-            selection.characters = dummy.generate(_count, '')
+            selection.characters = dummyText.generateChar(_count, '')
 
             do {
               _characters = selection.characters
@@ -90,7 +90,7 @@ figma.ui.onmessage = msg => {
 
             while (selection.width < _width || selection.height < _height) {
               _characters = selection.characters
-              selection.characters = selection.characters + dummy.generate(
+              selection.characters = selection.characters + dummyText.generateChar(
                 Math.floor(Math.random() * 21) + 60,
                 eos,
               )
