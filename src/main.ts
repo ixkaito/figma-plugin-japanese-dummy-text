@@ -36,6 +36,12 @@ figma.ui.onmessage = msg => {
          * Manual Generation
          */
         if (msg.type === 'manual') {
+          dummyText.generate({
+            character: {
+              min: 3,
+              max: 1,
+            }
+          })
           const limit: number = msg.unit === 'sentence' ? 20 : 999
           let min: number = parseInt(msg.number.min, 10)
           let max: number = parseInt(msg.number.max, 10)

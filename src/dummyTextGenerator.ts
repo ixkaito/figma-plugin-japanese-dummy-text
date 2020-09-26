@@ -4,9 +4,9 @@ interface Minmax {
 }
 
 interface Config {
-  character: number | Minmax;
-  sentence: number | Minmax;
-  eos: string;
+  character?: number | Minmax;
+  sentence?: number | Minmax;
+  eos?: string;
 }
 
 class dummyTextGenerator {
@@ -49,12 +49,26 @@ class dummyTextGenerator {
   }): string {
     let num: number = 0
     if (typeof config.character === 'object' && config.character !== null) {
-      if (config.character.max && config.character.min) {
-      }
+      num = config.character.min && config.character.max
+        ? this.random(config.character.min, config.character.max)
+        : config.character.min
+          ? config.character.min
+          : config.character.max
+            ? config.character.max
+            : num
+    } else if (config.character) {
+      num = config.character
     }
 
-    this.generateChar(num, config.eos)
+    console.log(this.generateChar(num, config.eos))
     return ''
+  }
+
+  private random(min: number, max: number): number {
+    if (min > max) {
+      [min, max] = [max, min]
+    }
+    return min + Math.floor(Math.random() * (max - min + 1))
   }
 }
 
