@@ -1,7 +1,7 @@
 import words from './words'
-import dummyTextGenerator from './dummyTextGenerator'
+import Generator from './generator'
 
-const dummyText = new dummyTextGenerator(words)
+const dummyText = new Generator(words)
 
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.

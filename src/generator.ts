@@ -3,19 +3,41 @@ interface Minmax {
   max?: number;
 }
 
-interface Config {
+interface Default {
+  character: number | Minmax;
+  sentence: number | Minmax;
+  eos: string;
+}
+
+interface Options {
   character?: number | Minmax;
   sentence?: number | Minmax;
   eos?: string;
 }
 
-class dummyTextGenerator {
+class Generator {
   public words: string[] = []
 
-  public constructor(words: string[]) {
-    this.words = words
+  public defaults: Default = {
+    character: {
+      min: 60,
+      max: 80,
+    },
+    sentence: 1,
+    eos: ''
   }
 
+  public constructor(words: string[], defaults?: Default) {
+    this.words = words
+    this.defaults = {...this.defaults, ...defaults}
+  }
+
+  /**
+   * Returns an exact number of characters
+   *
+   * @param {number} num Character number
+   * @param {string} eos The end of a sentence
+   */
   public generateChar(num: number, eos: string = ''): string {
     let text: string = ''
 
@@ -39,17 +61,18 @@ class dummyTextGenerator {
     return text.substr(0, num - (eos ? 1 : 0)) + eos
   }
 
-  public generate(config: Config = {
-    character: {
-      min: 60,
-      max: 80,
-    },
-    sentence: 1,
-    eos: ''
-  }): string {
-    let text: string = ''
-    let sentence: number = this.num(config.sentence)
+  /**
+   * Returns an exact or random number of sentences with an exact or random
+   * number of characters.
+   *
+   * @param {Object} options Character number, sentence number or the end of a
+   * sentence to overwrite the default settings.
+   */
+  public generate(options: Options = {}): string {
+    const config = {...this.defaults, ...options}
     const character: number = this.num(config.character)
+    let sentence: number = this.num(config.sentence)
+    let text: string = ''
 
     while (sentence--) {
       text = text + this.generateChar(character, config.eos)
@@ -58,6 +81,12 @@ class dummyTextGenerator {
     return text
   }
 
+  /**
+   * Returns a random integer between min (included) and max (included)
+   *
+   * @param {number} min Minimun number
+   * @param {number} max Maximum number
+   */
   private random(min: number, max: number): number {
     if (min > max) {
       [min, max] = [max, min]
@@ -65,6 +94,12 @@ class dummyTextGenerator {
     return min + Math.floor(Math.random() * (max - min + 1))
   }
 
+  /**
+   * Returns the input number or a random integer between min (included) and
+   * max (included) of an object
+   *
+   * @param {number|Object} num A number or an object with min and max
+   */
   private num(num: number | Minmax): number {
     if (typeof num === 'object' && num !== null) {
       return num.min && num.max
@@ -79,4 +114,4 @@ class dummyTextGenerator {
   }
 }
 
-export default dummyTextGenerator
+export default Generator
