@@ -47,21 +47,15 @@ class dummyTextGenerator {
     sentence: 1,
     eos: ''
   }): string {
-    let num: number = 0
-    if (typeof config.character === 'object' && config.character !== null) {
-      num = config.character.min && config.character.max
-        ? this.random(config.character.min, config.character.max)
-        : config.character.min
-          ? config.character.min
-          : config.character.max
-            ? config.character.max
-            : num
-    } else if (config.character) {
-      num = config.character
+    let text: string = ''
+    let sentence: number = this.num(config.sentence)
+    const character: number = this.num(config.character)
+
+    while (sentence--) {
+      text = text + this.generateChar(character, config.eos)
     }
 
-    console.log(this.generateChar(num, config.eos))
-    return ''
+    return text
   }
 
   private random(min: number, max: number): number {
@@ -69,6 +63,19 @@ class dummyTextGenerator {
       [min, max] = [max, min]
     }
     return min + Math.floor(Math.random() * (max - min + 1))
+  }
+
+  private num(num: number | Minmax): number {
+    if (typeof num === 'object' && num !== null) {
+      return num.min && num.max
+        ? this.random(num.min, num.max)
+        : num.min
+          ? num.min
+          : num.max
+            ? num.max
+            : 0
+    }
+    return num
   }
 }
 
