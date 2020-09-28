@@ -29,10 +29,7 @@ figma.ui.onmessage = msg => {
   const eos: string = msg.eos
 
   for (const selection of selections) {
-    let text: string = ''
-
     if (selection && selection.type === 'TEXT') {
-
       figma.loadFontAsync({
         family: selection.fontName.family,
         style: selection.fontName.style
@@ -59,7 +56,11 @@ figma.ui.onmessage = msg => {
             sentence = minmax
           }
 
-          selection.characters = dummyText.generate({ character, sentence, eos })
+          selection.characters = dummyText.generate({
+            character,
+            sentence,
+            eos,
+          })
 
         /**
          * Auto Generation
@@ -70,9 +71,15 @@ figma.ui.onmessage = msg => {
           let _characters: string = ''
 
           if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
-            const _count: number = selection.characters.length
-            selection.characters = dummyText.generateChar(_count, '')
+            selection.characters = dummyText.generateChar(
+              selection.characters.length,
+              eos
+            )
 
+            /**
+             * Cut the last character until the text box one character larger
+             * than the former.
+             */
             do {
               _characters = selection.characters
               selection.characters = selection.characters.slice(0, -1)
