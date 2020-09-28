@@ -3,6 +3,11 @@ import Generator from './generator'
 
 const dummyText = new Generator(words)
 
+interface Minmax {
+  min: number;
+  max: number;
+}
+
 // This plugin will open a modal to prompt the user to enter a number, and
 // it will then generate that many texts on the screen.
 
@@ -36,39 +41,25 @@ figma.ui.onmessage = msg => {
          * Manual Generation
          */
         if (msg.type === 'manual') {
-          dummyText.generate({
-            character: {
-              min: 3,
-              max: 1,
-            }
-          })
           const limit: number = msg.unit === 'sentence' ? 20 : 999
-          let min: number = parseInt(msg.number.min, 10)
-          let max: number = parseInt(msg.number.max, 10)
-          min = min > limit ? limit : min
-          max = max > limit ? limit : max
+          const minmax: Minmax = {
+            min: parseInt(msg.number.min, 10),
+            max: parseInt(msg.number.max, 10),
+          }
+          minmax.min = minmax.min > limit ? limit : minmax.min
+          minmax.max = minmax.max > limit ? limit : minmax.max
 
-          const num: number = min && max && max > min
-            ? Math.floor(Math.random() * (max + 1 - min)) + min
-            : min
-              ? min
-              : max
-                ? max
-                : 0
-          if (!num) return ''
-
-          let sentenceNum: number = 1
-          let characterNum: number = num
+          let character: Minmax = minmax
+          let sentence: number | Minmax = 1
           if (msg.unit === 'sentence') {
-            sentenceNum = num
-            characterNum = Math.floor(Math.random() * 21) + 60
+            character = {
+              min: 60,
+              max: 80,
+            }
+            sentence = minmax
           }
 
-          while (sentenceNum--) {
-            text = text + dummyText.generateChar(characterNum, eos)
-          }
-
-          selection.characters = text
+          selection.characters = dummyText.generate({ character, sentence, eos })
 
         /**
          * Auto Generation

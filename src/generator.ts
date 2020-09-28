@@ -70,6 +70,7 @@ class Generator {
    */
   public generate(options: Options = {}): string {
     const config = {...this.defaults, ...options}
+    console.log(config)
     const character: number = this.num(config.character)
     let sentence: number = this.num(config.sentence)
     let text: string = ''
