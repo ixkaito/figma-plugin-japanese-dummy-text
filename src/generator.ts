@@ -39,6 +39,7 @@ class Generator {
    * @param {string} eos The end of a sentence
    */
   public generateChar(num: number, eos: string = ''): string {
+    eos = this.eos(eos)
     let text: string = ''
 
     for (let i = 0; i < num; i++) {
@@ -70,7 +71,6 @@ class Generator {
    */
   public generate(options: Options = {}): string {
     const config = {...this.defaults, ...options}
-    console.log(config)
     const character: number = this.num(config.character)
     let sentence: number = this.num(config.sentence)
     let text: string = ''
@@ -112,6 +112,18 @@ class Generator {
             : 0
     }
     return num
+  }
+
+  /**
+   * Returns a period or an empty string.
+   *
+   * @param {string} eos Empty string, "。" or "random"
+   */
+  private eos(eos: string): string {
+    if (eos === 'random') {
+      eos = ['', '。'][this.random(0, 1)]
+    }
+    return eos
   }
 }
 
