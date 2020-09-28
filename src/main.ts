@@ -68,6 +68,7 @@ figma.ui.onmessage = msg => {
         } else if (msg.type === 'auto') {
           const _width: number = selection.width
           const _height: number = selection.height
+          const _textAutoResize: string = selection.textAutoResize
           let _characters: string = ''
 
           if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
@@ -75,20 +76,7 @@ figma.ui.onmessage = msg => {
               selection.characters.length,
               eos
             )
-
-            /**
-             * Cut the last character until the text box one character larger
-             * than the former.
-             */
-            do {
-              _characters = selection.characters
-              selection.characters = selection.characters.slice(0, -1)
-            } while (selection.width > _width || selection.height > _height)
-
-            selection.characters = _characters
-
           } else {
-            const _textAutoResize: string = selection.textAutoResize
             selection.textAutoResize = 'HEIGHT'
             selection.characters = ''
 
