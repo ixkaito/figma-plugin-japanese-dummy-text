@@ -20,7 +20,7 @@ class Generator {
 
   public defaults: Default = {
     character: {
-      min: 60,
+      min: 40,
       max: 80,
     },
     sentence: 1,

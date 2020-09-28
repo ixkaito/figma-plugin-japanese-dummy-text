@@ -69,38 +69,43 @@ figma.ui.onmessage = msg => {
           const _width: number = selection.width
           const _height: number = selection.height
           const _textAutoResize: string = selection.textAutoResize
-          let _characters: string = ''
 
           if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
             selection.characters = dummyText.generateChar(
               selection.characters.length,
-              eos
+              eos,
             )
           } else {
+            let _characters: string = ''
+            selection.characters = _characters
             selection.textAutoResize = 'HEIGHT'
-            selection.characters = ''
 
-            while (selection.width < _width || selection.height < _height) {
+            while (selection.width <= _width && selection.height <= _height) {
               _characters = selection.characters
-              selection.characters = selection.characters + dummyText.generateChar(
-                Math.floor(Math.random() * 21) + 60,
-                eos,
-              )
+              selection.characters =
+                selection.characters + dummyText.generate({ eos })
             }
 
-            do {
-              _characters = selection.characters
+            while (selection.width > _width || selection.height > _height) {
               selection.characters = selection.characters.slice(0, -1)
-            } while (selection.width > _width || selection.height > _height)
+            }
 
-            selection.characters = selection.characters.slice(
-              0,
-              Math.floor(
-                -0.1 * Math.random() * selection.characters.length
-              ) - (eos ? 1 : 0)
-            ) + eos
+            const min: number =
+              Math.floor(selection.characters.length * 0.9) - _characters.length
+            const max: number = selection.characters.length - _characters.length
+
+            selection.characters = _characters
+
+            if (! selection.characters || min >= 10 ) {
+              selection.characters = selection.characters + dummyText.generate({
+                character: { min, max },
+                sentence: 1,
+                eos,
+              })
+            }
 
             if (_textAutoResize === 'NONE') {
+              selection.textAutoResize = 'NONE'
               selection.resize(_width, _height)
             }
           }
