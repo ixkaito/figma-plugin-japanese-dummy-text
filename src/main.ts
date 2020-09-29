@@ -20,10 +20,8 @@ const filterNodes = (nodes: any) => {
   })
 }
 
-const pluginMessage: {
-  showUI ?: boolean
-} = {
-  showUI: false
+const pluginMessage: { [key: string]: any } = {
+  showUI: false,
 }
 
 figma.showUI(__html__, { height: 353 })
