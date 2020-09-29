@@ -145,7 +145,11 @@
 </style>
 
 <script>
-  window.onpageshow = () => {
+  onmessage = (event) => {
+    console.log("got this from the plugin code", event.data.pluginMessage)
+  }
+
+  onpageshow = () => {
 
     document.getElementById('manual').onclick = () => {
       const min = document.getElementById('min')

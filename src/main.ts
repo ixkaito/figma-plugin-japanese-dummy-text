@@ -8,115 +8,121 @@ interface Minmax {
   max: number;
 }
 
-// This plugin will open a modal to prompt the user to enter a number, and
-// it will then generate that many texts on the screen.
+const filterNodes = (nodes: any) => {
+  return nodes.filter((node: any) => {
+    if (typeof node !== 'object') {
+      return false
+    }
+    if (node.type === 'TEXT' || node.type === 'RECTANGLE') {
+      return true
+    }
+    return false
+  })
+}
 
-// This file holds the main code for the plugins. It has access to the *document*.
-// You can access browser APIs in the <script> tag inside "ui.html" which has a
-// full browser environment (see documentation).
+const pluginMessage: {
+  showUI ?: boolean
+} = {
+  showUI: false
+}
 
-// This shows the HTML page in "ui.html".
 figma.showUI(__html__, { height: 353 })
 
-// Calls to "parent.postMessage" from within the HTML page will trigger this
-// callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
-figma.ui.onmessage = msg => {
-  // One way of distinguishing between different types of messages sent from
-  // your HTML page is to use an object with a "type" property like this.
+let nodes: any = filterNodes(figma.currentPage.selection)
+pluginMessage.showUI = nodes.length > 0
+figma.ui.postMessage(pluginMessage)
 
-  const selections: any = figma.currentPage.selection
+figma.on('selectionchange', () => {
+  nodes = filterNodes(figma.currentPage.selection)
+  pluginMessage.showUI = nodes.length > 0
+  figma.ui.postMessage(pluginMessage)
+})
+
+figma.ui.onmessage = msg => {
+
   const eos: string = msg.eos
 
-  for (const selection of selections) {
-    if (selection && selection.type === 'TEXT') {
-      figma.loadFontAsync({
-        family: selection.fontName.family,
-        style: selection.fontName.style
-      }).then(() => {
-        /**
-         * Manual Generation
-         */
-        if (msg.type === 'manual') {
-          const limit: number = msg.unit === 'sentence' ? 20 : 999
-          const minmax: Minmax = {
-            min: parseInt(msg.number.min, 10),
-            max: parseInt(msg.number.max, 10),
-          }
-          minmax.min = minmax.min > limit ? limit : minmax.min
-          minmax.max = minmax.max > limit ? limit : minmax.max
+  nodes.forEach((node: any) => {
+    figma.loadFontAsync({
+      family: node.fontName.family,
+      style: node.fontName.style
+    }).then(() => {
+      /**
+       * Manual Generation
+       */
+      if (msg.type === 'manual') {
+        const limit: number = msg.unit === 'sentence' ? 20 : 999
+        const minmax: Minmax = {
+          min: parseInt(msg.number.min, 10),
+          max: parseInt(msg.number.max, 10),
+        }
+        minmax.min = minmax.min > limit ? limit : minmax.min
+        minmax.max = minmax.max > limit ? limit : minmax.max
 
-          let character: Minmax = minmax
-          let sentence: number | Minmax = 1
-          if (msg.unit === 'sentence') {
-            character = {
-              min: 60,
-              max: 80,
-            }
-            sentence = minmax
+        let character: Minmax = minmax
+        let sentence: number | Minmax = 1
+        if (msg.unit === 'sentence') {
+          character = {
+            min: 60,
+            max: 80,
           }
+          sentence = minmax
+        }
 
-          selection.characters = dummyText.generate({
-            character,
-            sentence,
+        node.characters = dummyText.generate({
+          character,
+          sentence,
+          eos,
+        })
+
+      /**
+       * Auto Generation
+       */
+      } else if (msg.type === 'auto') {
+        const _width: number = node.width
+        const _height: number = node.height
+        const _textAutoResize: string = node.textAutoResize
+
+        if (node.textAutoResize === 'WIDTH_AND_HEIGHT') {
+          node.characters = dummyText.generateChar(
+            node.characters.length,
             eos,
-          })
+          )
+        } else {
+          let _characters: string = ''
+          node.characters = _characters
+          node.textAutoResize = 'HEIGHT'
 
-        /**
-         * Auto Generation
-         */
-        } else if (msg.type === 'auto') {
-          const _width: number = selection.width
-          const _height: number = selection.height
-          const _textAutoResize: string = selection.textAutoResize
+          while (node.width <= _width && node.height <= _height) {
+            _characters = node.characters
+            node.characters =
+              node.characters + dummyText.generate({ eos })
+          }
 
-          if (selection.textAutoResize === 'WIDTH_AND_HEIGHT') {
-            selection.characters = dummyText.generateChar(
-              selection.characters.length,
+          while (node.width > _width || node.height > _height) {
+            node.characters = node.characters.slice(0, -1)
+          }
+
+          const min: number =
+            Math.floor(node.characters.length * 0.9) - _characters.length
+          const max: number = node.characters.length - _characters.length
+
+          node.characters = _characters
+
+          if (! node.characters || min >= 10 ) {
+            node.characters = node.characters + dummyText.generate({
+              character: { min, max },
+              sentence: 1,
               eos,
-            )
-          } else {
-            let _characters: string = ''
-            selection.characters = _characters
-            selection.textAutoResize = 'HEIGHT'
+            })
+          }
 
-            while (selection.width <= _width && selection.height <= _height) {
-              _characters = selection.characters
-              selection.characters =
-                selection.characters + dummyText.generate({ eos })
-            }
-
-            while (selection.width > _width || selection.height > _height) {
-              selection.characters = selection.characters.slice(0, -1)
-            }
-
-            const min: number =
-              Math.floor(selection.characters.length * 0.9) - _characters.length
-            const max: number = selection.characters.length - _characters.length
-
-            selection.characters = _characters
-
-            if (! selection.characters || min >= 10 ) {
-              selection.characters = selection.characters + dummyText.generate({
-                character: { min, max },
-                sentence: 1,
-                eos,
-              })
-            }
-
-            if (_textAutoResize === 'NONE') {
-              selection.textAutoResize = 'NONE'
-              selection.resize(_width, _height)
-            }
+          if (_textAutoResize === 'NONE') {
+            node.textAutoResize = 'NONE'
+            node.resize(_width, _height)
           }
         }
-      })
-    } else {
-      // Text is not selected.
-    }
-  }
-
-  // 文字を入れるたびに、box内か外かを判定、はみでたらストップする？大きさを図る？
-  // selection.widthとheightを計測してtextのサイズを変更？
-
+      }
+    })
+  })
 };
