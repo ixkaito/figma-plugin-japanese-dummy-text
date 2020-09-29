@@ -20,8 +20,37 @@ const filterNodes = (nodes: any) => {
   })
 }
 
+const settings: {
+  manual: {
+    character: Minmax;
+    sentence: Minmax;
+    unit: string;
+    eos: string;
+  }
+  auto: {
+    eos: string;
+  }
+} = {
+  manual: {
+    unit: figma.root.getPluginData('manualUnit'),
+    character: {
+      min: parseInt(figma.root.getPluginData('manualCharacterMin'), 10),
+      max: parseInt(figma.root.getPluginData('manualCharacterMax'), 10),
+    },
+    sentence: {
+      min: parseInt(figma.root.getPluginData('manualSentenceMin'), 10),
+      max: parseInt(figma.root.getPluginData('manualSentenceMax'), 10),
+    },
+    eos: figma.root.getPluginData('manualEos'),
+  },
+  auto: {
+    eos: figma.root.getPluginData('autoEos'),
+  },
+}
+
 const pluginMessage: { [key: string]: any } = {
   showUI: false,
+  settings,
 }
 
 figma.showUI(__html__, { height: 353 })
