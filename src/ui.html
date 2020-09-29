@@ -169,6 +169,19 @@
 </style>
 
 <script>
+  const settings = {
+    character: {
+      min: 10,
+    },
+    sentence: {
+      min: 2,
+    }
+  }
+
+  const unitSelect = document.getElementById('unit')
+  const min = document.getElementById('min')
+  const max = document.getElementById('max')
+
   onmessage = (event) => {
     if (event.data.pluginMessage.showUI) {
       document.getElementById('error').style.display = 'none'
@@ -177,20 +190,35 @@
       document.getElementById('error').style.display = 'block'
       document.getElementById('ui').style.display = 'none'
     }
+
+    const settings = event.data.pluginMessage.settings
+    if (settings) {
+      if (settings.manual.unit) {
+        unitSelect.value = settings.manual.unit
+      }
+      if (settings.manual.unit === 'sentence') {
+        if (settings.manual.sentence.min) {
+          document.getElementById('min').value = settings.manual.sentence.min
+        }
+      }
+    }
   }
 
   onpageshow = () => {
+    const unit = unitSelect.options[unitSelect.selectedIndex].value
+
+    unitSelect.addEventListener('change', () => {
+      const unit = unitSelect.options[unitSelect.selectedIndex].value
+      min.value = settings[unit].min
+      max.value = settings[unit].max
+    })
 
     document.getElementById('manual').onclick = () => {
-      const min = document.getElementById('min')
-      const max = document.getElementById('max')
+
       const number = {
         min: parseInt(min.value, 10),
         max: parseInt(max.value, 10),
       }
-
-      const units = document.getElementById('unit')
-      const unit = units.options[units.selectedIndex].value
 
       const eoss = document.getElementById('manual-eos')
       const eos = eoss.options[eoss.selectedIndex].value

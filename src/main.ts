@@ -61,8 +61,9 @@ figma.ui.postMessage(pluginMessage)
 
 figma.on('selectionchange', () => {
   nodes = filterNodes(figma.currentPage.selection)
-  pluginMessage.showUI = nodes.length > 0
-  figma.ui.postMessage(pluginMessage)
+  figma.ui.postMessage({
+    showUI: nodes.length > 0,
+  })
 })
 
 figma.ui.onmessage = msg => {
@@ -78,6 +79,8 @@ figma.ui.onmessage = msg => {
        * Manual Generation
        */
       if (msg.type === 'manual') {
+        figma.root.setPluginData('manualUnit', msg.unit)
+
         const limit: number = msg.unit === 'sentence' ? 20 : 999
         const minmax: Minmax = {
           min: parseInt(msg.number.min, 10),
