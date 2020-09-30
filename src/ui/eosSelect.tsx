@@ -9,7 +9,7 @@ type Props = {
 
 const EosSelect: React.FC<Props> = ({ eos }) => {
   const [id] = useState(_uniqueId('eos-'))
-  eos = eos || 'random'
+  eos = eos == null ? 'random' : eos
 
   const eosOptions = [
     { value: '', name: 'None (なし)' },

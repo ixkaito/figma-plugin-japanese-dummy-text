@@ -2,7 +2,9 @@
 import { css, jsx } from '@emotion/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import ErrorMessage from './errorMessage'
 import EosSelect from './eosSelect'
+import UnitSelect from './unitSelect'
 import './ui.css'
 
 const appCSS = css`
@@ -16,48 +18,28 @@ const appCSS = css`
 
 class App extends React.Component {
   // eos: HTMLInputElement
+  settings: any = {
+    // manual: {
+      // eos: ''
+    // },
+    auto: {
+      eos: '。'
+    }
+  }
 
   // select = (element: HTMLInputElement) => {
   //   this.eos = element
   // }
 
   autoGenerate = () => {
+    console.log(this.settings.auto.eos)
     // parent.postMessage({ pluginMessage: { type: 'auto', eos } }, '*')
   }
 
   render() {
-    const unitOptions = [
-      { value: 'character', name: 'Characters (文字)' },
-      { value: 'sentence', name: 'Sentences (文)' },
-    ].map((option) => <option value={option.value}>{option.name}</option>)
-
     return (
       <div css={appCSS}>
-        <div
-          id="error"
-          css={css`
-            color: #f24822;
-            padding: 14px;
-            text-align: center;
-          `}
-        >
-          <p
-            css={css`
-              font-size: 16px;
-            `}
-          >
-            Please select some text or rectangle layers.
-          </p>
-          <p
-            css={css`
-              margin-top: 8px;
-            `}
-          >
-            テキストもしくは矩形レイヤーを
-            <br />
-            1つ以上選択してください。
-          </p>
-        </div>
+        <ErrorMessage />
         <div
           id="ui"
           css={css`
@@ -110,18 +92,9 @@ class App extends React.Component {
                   padding: 0 8px;
                 `}
               />
-              <select
-                id="unit"
-                css={css`
-                  flex-shrink: 0;
-                  margin-left: 8px;
-                  width: 120px;
-                `}
-              >
-                {unitOptions}
-              </select>
+              <UnitSelect />
             </div>
-            <EosSelect />
+            <EosSelect eos={this.settings.manual?.eos} />
             <button
               id="manual"
               css={css`
@@ -144,7 +117,7 @@ class App extends React.Component {
               Generate the perfect amount of text to fit the layer’s frame.
               (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
             </p>
-            <EosSelect />
+            <EosSelect eos={this.settings.auto?.eos} />
             <button
               css={css`
                 margin-top: 8px;
