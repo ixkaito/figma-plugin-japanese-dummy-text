@@ -1,56 +1,66 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import React, { useState } from 'react'
+import React from 'react'
 import _uniqueId from 'lodash/uniqueId'
 
+const eosOptions = [
+  { value: '', name: 'None (なし)' },
+  { value: 'random', name: 'Random (ランダム)' },
+  { value: '。', name: '。' },
+].map((option, index) => (
+  <option key={index} value={option.value}>
+    {option.name}
+  </option>
+))
+
 type Props = {
-  eos?: string
+  type: string;
+  eos?: string;
+  onChange: (type: string, eos: string) => void;
 }
 
-const EosSelect: React.FC<Props> = ({ eos }) => {
-  const [id] = useState(_uniqueId('eos-'))
-  eos = eos == null ? 'random' : eos
+export default class EosSelect extends React.Component<Props> {
+  id: string = _uniqueId('eos-')
+  state = {
+    eos: this.props?.eos == null ? 'random' : this.props.eos,
+  }
 
-  const eosOptions = [
-    { value: '', name: 'None (なし)' },
-    { value: 'random', name: 'Random (ランダム)' },
-    { value: '。', name: '。' },
-  ].map((option, index) => (
-    <option key={index} value={option.value}>
-      {option.name}
-    </option>
-  ))
+  handleChange(event: React.ChangeEvent<HTMLSelectElement>): void {
+    this.setState({ eos: event.target.value })
+    this.props.onChange(this.props.type, event.target.value)
+  }
 
-  return (
-    <div
-      css={css`
-        display: flex;
-        margin-top: 8px;
-      `}
-    >
-      <label
-        htmlFor={id}
+  render() {
+    return (
+      <div
         css={css`
-          flex-grow: 1;
-          line-height: 32px;
-          white-space: nowrap;
+          display: flex;
+          margin-top: 8px;
         `}
       >
-        End of sentences (文末):
-      </label>
-      <select
-        id={id}
-        value={eos}
-        css={css`
-          flex-shrink: 0;
-          margin-left: 8px;
-          width: 120px;
-        `}
-      >
-        {eosOptions}
-      </select>
-    </div>
-  )
+        <label
+          htmlFor={this.id}
+          css={css`
+            flex-grow: 1;
+            line-height: 32px;
+            white-space: nowrap;
+          `}
+        >
+          End of sentences (文末):
+        </label>
+        <select
+          id={this.id}
+          value={this.state.eos}
+          onChange={(e) => this.handleChange(e)}
+          css={css`
+            flex-shrink: 0;
+            margin-left: 8px;
+            width: 120px;
+          `}
+        >
+          {eosOptions}
+        </select>
+      </div>
+    )
+  }
 }
-
-export default EosSelect

@@ -16,23 +16,31 @@ const appCSS = css`
   }
 `
 
-class App extends React.Component {
+type Props = {
+  [key: string]: any
+}
+
+class App extends React.Component<Props> {
   // eos: HTMLInputElement
-  settings: any = {
-    // manual: {
-      // eos: ''
-    // },
+  state: Props = {
+    manual: {
+      eos: 'random',
+    },
     auto: {
-      eos: '。'
-    }
+      eos: 'random',
+    },
   }
 
   // select = (element: HTMLInputElement) => {
   //   this.eos = element
   // }
 
-  autoGenerate = () => {
-    console.log(this.settings.auto.eos)
+  handleEosChange = (type: string, eos: string) => {
+    this.state[type].eos = eos
+  }
+
+  autoGenerate() {
+    console.log(this.state.auto?.eos)
     // parent.postMessage({ pluginMessage: { type: 'auto', eos } }, '*')
   }
 
@@ -94,7 +102,11 @@ class App extends React.Component {
               />
               <UnitSelect />
             </div>
-            <EosSelect eos={this.settings.manual?.eos} />
+            <EosSelect
+              onChange={this.handleEosChange}
+              type="manual"
+              eos={this.state.manual?.eos}
+            />
             <button
               id="manual"
               css={css`
@@ -117,7 +129,11 @@ class App extends React.Component {
               Generate the perfect amount of text to fit the layer’s frame.
               (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
             </p>
-            <EosSelect eos={this.settings.auto?.eos} />
+            <EosSelect
+              onChange={this.handleEosChange}
+              type="auto"
+              eos={this.state.auto?.eos}
+            />
             <button
               css={css`
                 margin-top: 8px;
