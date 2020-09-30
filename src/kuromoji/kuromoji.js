@@ -7,7 +7,7 @@ const input = fs
   .replace(/(\r\n|\n|\r)/gm, '')
 
 kuromoji
-  .builder({ dicPath: path.resolve(__dirname, '../node_modules/kuromoji/dict/') })
+  .builder({ dicPath: path.resolve(__dirname, '../../node_modules/kuromoji/dict/') })
   .build((err, tokenizer) => {
     if (err) console.error(err)
     let words = []
@@ -17,7 +17,7 @@ kuromoji
     }
     words = JSON.stringify(words)
     words = `export default ${words}`
-    fs.writeFile(path.resolve(__dirname, 'words.ts'), words, (err) => {
+    fs.writeFile(path.resolve(__dirname, '../main/words.ts'), words, (err) => {
       if (err) console.error(err)
     })
   })
