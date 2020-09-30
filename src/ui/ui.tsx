@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import EosSelect from './eos'
+import EosSelect from './eosSelect'
 import './ui.css'
 
 const appCSS = css`
@@ -29,12 +29,6 @@ class App extends React.Component {
     const unitOptions = [
       { value: 'character', name: 'Characters (文字)' },
       { value: 'sentence', name: 'Sentences (文)' },
-    ].map((option) => <option value={option.value}>{option.name}</option>)
-
-    const eosOptions = [
-      { value: '', name: 'None (なし)' },
-      { value: 'random', name: 'Random (ランダム)' },
-      { value: '。', name: '。' },
     ].map((option) => <option value={option.value}>{option.name}</option>)
 
     return (
