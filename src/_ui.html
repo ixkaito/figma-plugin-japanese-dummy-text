@@ -1,113 +1,219 @@
-<div id="wrap">
-  <p id="error">テキストレイヤーを選択してください。</p>
-  <div class="manual-wrap">
-    <input type="number" id="count" value="1">
-    <div class="selectbox">
-      <select id="text-unit">
-        <option value="character">字</option>
-        <option value="sentence">文</option>
-        <option value="paragraph">段落</option>
-      </select>
-    </div>
-    <button id="manual">Generate</button>
-  </div>
-
-  <div class="auto-wrap">
-    <p class="desc">テキストボックスのサイズに合わせて、ダミーテキストを自動的に流し込む。</p>
-    <button id="auto">Auto-generate</button>
+<div id="app" style="
+  display: grid;
+  place-items: center;
+  height: 100%;
+">
+  <div id="ui" style="
+    display: none;
+  ">
+    <section style="
+      display: flex;
+      flex-direction: column;
+    ">
+      <div class="sectionHeader">Manual (手動)</div>
+      <div style="
+        display: flex;
+      ">
+        <input type="number" id="min" value="10" min="1" max="999" placeholder="Min" style="
+          width: 25%;
+          flex-grow: 1;
+          padding: 0 8px;
+        ">
+        <span style="
+          line-height: 32px;
+          margin: 0 4px;
+        ">–</span>
+        <input type="number" id="max" value="" min="1" max="999" placeholder="Max" style="
+          width: 25%;
+          flex-grow: 1;
+          padding: 0 8px;
+        ">
+        <select id="unit" style="
+          flex-shrink: 0;
+          margin-left: 8px;
+          width: 120px;
+        ">
+          <option value="character">Characters (文字)</option>
+          <option value="sentence">Sentences (文)</option>
+        </select>
+      </div>
+      <div style="
+        display: flex;
+        margin-top: 8px;
+      ">
+        <label for="eos" style="
+          flex-grow: 1;
+          line-height: 32px;
+          white-space: nowrap;
+        ">
+          End of sentences (文末):
+        </label>
+        <select id="manual-eos" style="
+          flex-shrink: 0;
+          margin-left: 8px;
+          width: 120px;
+        ">
+          <option value="">None (なし)</option>
+          <option value="random" selected>Random (ランダム)</option>
+          <option value="。">。</option>
+        </select>
+      </div>
+      <button id="manual" style="
+        margin-top: 8px;
+        white-space: nowrap;
+      ">Generate (生成)</button>
+    </section>
+    <section style="
+      border-top: 1px solid #e5e5e5;
+      display: flex;
+      flex-direction: column;
+    ">
+      <div class="sectionHeader">Auto (自動)</div>
+      <p>Generate the perfect amount of text to fit the layer’s frame. (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)</p>
+      <div style="
+        display: flex;
+        margin-top: 8px;
+      ">
+        <label for="eos" style="
+          flex-grow: 1;
+          line-height: 32px;
+          white-space: nowrap;
+        ">
+          End of sentences (文末):
+        </label>
+        <select id="auto-eos" style="
+          flex-shrink: 0;
+          margin-left: 8px;
+          width: 120px;
+        ">
+          <option value="">None (なし)</option>
+          <option value="random" selected>Random (ランダム)</option>
+          <option value="。">。</option>
+        </select>
+      </div>
+      <button id="auto" style="
+        margin-top: 8px;
+        white-space: nowrap;
+      ">Auto-generate (自動生成)</button>
+    </section>
   </div>
 </div>
 
 <style>
   * {
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box;
   }
-  #wrap { padding: 0 16px; }
-  /* .manual-wrap {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 0 22px;
-  } */
-  /* input,
-  .selectbox {
+
+  body {
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  input,
+  select {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 2px;
-  } */
-  /* select {
+    height: 32px;
+  }
+
+  select {
     background: transparent;
     background-image: none;
-    border: 0;
     box-shadow: none;
-    height: 32px;
-    outline: none;
-    width: 64px;
-  } */
-  /* .selectbox select::-ms-expand {
-    display: none;
-  } */
-  #count {
-    padding: 0 1em;
-    width: 104px;
   }
-  .auto-wrap {
-    align-items: center;
-    background: #F0F0F0;
-    border-radius: 2px;
-    display: flex;
-    justify-content: space-around;
-    padding: 16px 8px;
-  }
-  .desc {
-    font-size: 11px;
-    line-height: 16px;
-    max-width: 150px;
-  }
+
   button {
-    background: #18A0FB;
+    background: #18a0fb;
     border: 0;
     border-radius: 6px;
-    color: #FFFFFF;
+    color: #fff;
     cursor: pointer;
-    font-size: 11px;
-    height: fit-content;
-    line-height: 32px;
+    line-height: 16px;
     outline: none;
-    padding: 0 1em;
+    padding: 8px 16px;
     text-align: center;
   }
-  #error {
-    color: #F24822;
-    font-size: 11px;
-    line-height: 40px;
-    visibility: hidden;
+
+  section {
+    padding: 16px;
+  }
+
+  .sectionHeader {
+    color: #333;
+    font-weight: 600;
+    line-height: 16px;
+    margin-bottom: 8px;
   }
 </style>
 
 <script>
-  window.onpageshow = () => {
+  const settings = {
+    character: {
+      min: 10,
+    },
+    sentence: {
+      min: 2,
+    }
+  }
+
+  const unitSelect = document.getElementById('unit')
+  const min = document.getElementById('min')
+  const max = document.getElementById('max')
+
+  onmessage = (event) => {
+    if (event.data.pluginMessage.showUI) {
+      document.getElementById('error').style.display = 'none'
+      document.getElementById('ui').style.display = 'block'
+    } else {
+      document.getElementById('error').style.display = 'block'
+      document.getElementById('ui').style.display = 'none'
+    }
+
+    const settings = event.data.pluginMessage.settings
+    if (settings) {
+      if (settings.manual.unit) {
+        unitSelect.value = settings.manual.unit
+      }
+      if (settings.manual.unit === 'sentence') {
+        if (settings.manual.sentence.min) {
+          document.getElementById('min').value = settings.manual.sentence.min
+        }
+      }
+    }
+  }
+
+  onpageshow = () => {
+    const unit = unitSelect.options[unitSelect.selectedIndex].value
+
+    unitSelect.addEventListener('change', () => {
+      const unit = unitSelect.options[unitSelect.selectedIndex].value
+      min.value = settings[unit].min
+      max.value = settings[unit].max
+    })
 
     document.getElementById('manual').onclick = () => {
 
-      const textbox = document.getElementById('count');
-      const count = parseInt(textbox.value, 10);
+      const number = {
+        min: parseInt(min.value, 10),
+        max: parseInt(max.value, 10),
+      }
 
-      const getUnit = document.getElementById('text-unit');
-      const character = getUnit.options[0].selected;
-      const sentence = getUnit.options[1].selected;
-      const paragraph = getUnit.options[2].selected;
+      const eoss = document.getElementById('manual-eos')
+      const eos = eoss.options[eoss.selectedIndex].value
 
-      parent.postMessage({ pluginMessage: { type: 'manual', character, sentence, paragraph, count } }, '*')
-
-    // number（value）に前回の設定を覚えさせる?
-      textbox.value = count;
+      parent.postMessage({ pluginMessage: { type: 'manual', number, unit, eos } }, '*')
     }
 
     document.getElementById('auto').onclick = () => {
-      parent.postMessage({ pluginMessage: { type: 'auto' } }, '*')
-    }
+      const eoss = document.getElementById('auto-eos')
+      const eos = eoss.options[eoss.selectedIndex].value
 
-    // const error = document.getElementById('error');
-    // parent.postMessage({ pluginMessage: { error } }, '*');
+      parent.postMessage({ pluginMessage: { type: 'auto', eos } }, '*')
+    }
   }
 </script>

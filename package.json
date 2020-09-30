@@ -5,7 +5,7 @@
   "scripts": {
     "kuromoji": "node src/kuromoji",
     "build": "npm run kuromoji && webpack --mode=production",
-    "dev": "npm run kuromoji && webpack --mode=development --watch"
+    "dev": "npm run kuromoji && webpack --mode=development && onchange \"src\" -- webpack --mode=development"
   },
   "author": "Kite",
   "license": "MIT",
@@ -18,6 +18,7 @@
     "css-loader": "^4.3.0",
     "html-webpack-plugin": "^4.4.1",
     "kuromoji": "^0.1.2",
+    "onchange": "^7.0.2",
     "prettier": "^2.1.2",
     "react": "^16.13.1",
     "react-dev-utils": "^10.2.1",
