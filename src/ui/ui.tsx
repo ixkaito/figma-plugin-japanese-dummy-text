@@ -23,6 +23,7 @@ type Props = {
 
 class App extends React.Component<Props> {
   state: Props = {
+    showUI: false,
     manual: {
       number: {
         min: '10',
@@ -34,6 +35,16 @@ class App extends React.Component<Props> {
     auto: {
       eos: 'random',
     },
+  }
+
+  handleMessage = (event: any) => {
+    this.setState({ showUI: event.data.pluginMessage.showUI })
+  }
+
+  componentDidMount() {
+    onmessage = (event) => {
+      this.handleMessage(event)
+    }
   }
 
   handleNumberChange = (method: string, minmax: string, num: string) => {
@@ -65,98 +76,101 @@ class App extends React.Component<Props> {
   render() {
     return (
       <div css={appCSS}>
-        <ErrorMessage />
-        <div
-          id="ui"
-          css={css`
-            /* display: none; */
-          `}
-        >
-          <section
+        {this.state.showUI ? (
+          <div
+            id="ui"
             css={css`
-              display: flex;
-              flex-direction: column;
+              /* display: none; */
             `}
           >
-            <div className="sectionHeader">Manual (手動)</div>
-            <div
+            <section
               css={css`
                 display: flex;
+                flex-direction: column;
               `}
             >
-              <InputNumber
-                num={this.state.manual.number.min}
-                min="1"
-                max="999"
-                placeholder="Min"
-                onChange={(num) =>
-                  this.handleNumberChange('manual', 'min', num)
-                }
-              />
-              <span
+              <div className="sectionHeader">Manual (手動)</div>
+              <div
                 css={css`
-                  line-height: 32px;
-                  margin: 0 4px;
+                  display: flex;
                 `}
               >
-                –
-              </span>
-              <InputNumber
-                num={this.state.manual.number.max}
-                min="1"
-                max="999"
-                placeholder="Max"
-                onChange={(num) =>
-                  this.handleNumberChange('manual', 'max', num)
-                }
+                <InputNumber
+                  num={this.state.manual.number.min}
+                  min="1"
+                  max="999"
+                  placeholder="Min"
+                  onChange={(num) =>
+                    this.handleNumberChange('manual', 'min', num)
+                  }
+                />
+                <span
+                  css={css`
+                    line-height: 32px;
+                    margin: 0 4px;
+                  `}
+                >
+                  –
+                </span>
+                <InputNumber
+                  num={this.state.manual.number.max}
+                  min="1"
+                  max="999"
+                  placeholder="Max"
+                  onChange={(num) =>
+                    this.handleNumberChange('manual', 'max', num)
+                  }
+                />
+                <SelectUnit
+                  onChange={(unit) => this.handleUnitChange('manual', unit)}
+                  unit={this.state.manual?.unit}
+                />
+              </div>
+              <SelectEos
+                onChange={(eos) => this.handleEosChange('manual', eos)}
+                eos={this.state.manual?.eos}
               />
-              <SelectUnit
-                onChange={(unit) => this.handleUnitChange('manual', unit)}
-                unit={this.state.manual?.unit}
+              <button
+                id="manual"
+                css={css`
+                  margin-top: 8px;
+                  white-space: nowrap;
+                `}
+                onClick={this.generate}
+              >
+                Generate (生成)
+              </button>
+            </section>
+            <section
+              css={css`
+                border-top: 1px solid #e5e5e5;
+                display: flex;
+                flex-direction: column;
+              `}
+            >
+              <div className="sectionHeader">Auto (自動)</div>
+              <p>
+                Generate the perfect amount of text to fit the layer’s frame.
+                (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
+              </p>
+              <SelectEos
+                onChange={(eos) => this.handleEosChange('auto', eos)}
+                eos={this.state.auto?.eos}
               />
-            </div>
-            <SelectEos
-              onChange={(eos) => this.handleEosChange('manual', eos)}
-              eos={this.state.manual?.eos}
-            />
-            <button
-              id="manual"
-              css={css`
-                margin-top: 8px;
-                white-space: nowrap;
-              `}
-              onClick={this.generate}
-            >
-              Generate (生成)
-            </button>
-          </section>
-          <section
-            css={css`
-              border-top: 1px solid #e5e5e5;
-              display: flex;
-              flex-direction: column;
-            `}
-          >
-            <div className="sectionHeader">Auto (自動)</div>
-            <p>
-              Generate the perfect amount of text to fit the layer’s frame.
-              (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
-            </p>
-            <SelectEos
-              onChange={(eos) => this.handleEosChange('auto', eos)}
-              eos={this.state.auto?.eos}
-            />
-            <button
-              css={css`
-                margin-top: 8px;
-                white-space: nowrap;
-              `}
-              onClick={this.autoGenerate}
-            >
-              Auto-generate (自動生成)
-            </button>
-          </section>
-        </div>
+              <button
+                css={css`
+                  margin-top: 8px;
+                  white-space: nowrap;
+                `}
+                onClick={this.autoGenerate}
+              >
+                Auto-generate (自動生成)
+              </button>
+            </section>
+          </div>
+        ) : (
+          <ErrorMessage />
+        )}
       </div>
     )
   }
