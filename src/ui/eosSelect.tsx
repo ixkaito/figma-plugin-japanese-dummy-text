@@ -22,7 +22,7 @@ type Props = {
 export default class EosSelect extends React.Component<Props> {
   id: string = _uniqueId('eos-')
   state = {
-    eos: this.props?.eos == null ? 'random' : this.props.eos,
+    eos: this.props.eos == null ? 'random' : this.props.eos,
   }
 
   handleChange(event: React.ChangeEvent<HTMLSelectElement>): void {

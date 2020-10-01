@@ -21,7 +21,6 @@ type Props = {
 }
 
 class App extends React.Component<Props> {
-  // eos: HTMLInputElement
   state: Props = {
     manual: {
       eos: 'random',
@@ -31,9 +30,9 @@ class App extends React.Component<Props> {
     },
   }
 
-  // select = (element: HTMLInputElement) => {
-  //   this.eos = element
-  // }
+  handleUnitChange = (type: string, unit: string) => {
+    this.state[type].unit = unit
+  }
 
   handleEosChange = (type: string, eos: string) => {
     this.state[type].eos = eos
@@ -102,7 +101,11 @@ class App extends React.Component<Props> {
                   padding: 0 8px;
                 `}
               />
-              <UnitSelect />
+              <UnitSelect
+                onChange={this.handleUnitChange}
+                type="manual"
+                unit={this.state.manual?.unit}
+              />
             </div>
             <EosSelect
               onChange={this.handleEosChange}
