@@ -111,14 +111,12 @@ class App extends React.Component<Props> {
                 }
               />
               <SelectUnit
-                onChange={this.handleUnitChange}
-                method="manual"
+                onChange={(unit) => this.handleUnitChange('manual', unit)}
                 unit={this.state.manual?.unit}
               />
             </div>
             <SelectEos
-              onChange={this.handleEosChange}
-              method="manual"
+              onChange={(eos) => this.handleEosChange('manual', eos)}
               eos={this.state.manual?.eos}
             />
             <button
@@ -145,8 +143,7 @@ class App extends React.Component<Props> {
               (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
             </p>
             <SelectEos
-              onChange={this.handleEosChange}
-              method="auto"
+              onChange={(eos) => this.handleEosChange('auto', eos)}
               eos={this.state.auto?.eos}
             />
             <button

@@ -12,19 +12,18 @@ const unitOptions = [
 ))
 
 type Props = {
-  method: string;
   unit?: string;
-  onChange: (method: string, unit: string) => void;
+  onChange: (unit: string) => void;
 }
 
-export default class UnitSelect extends React.Component<Props> {
+export default class SelectUnit extends React.Component<Props> {
   state = {
     unit: this.props.unit || 'character'
   }
 
   handleChange(event: React.ChangeEvent<HTMLSelectElement>): void {
     this.setState({ unit: event.target.value })
-    this.props.onChange(this.props.method, event.target.value)
+    this.props.onChange(event.target.value)
   }
 
   render() {

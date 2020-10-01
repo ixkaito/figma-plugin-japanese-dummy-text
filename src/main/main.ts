@@ -78,7 +78,6 @@ figma.ui.onmessage = msg => {
       /**
        * Manual Generation
        */
-      console.log(msg)
       if (msg.method === 'manual') {
         figma.root.setPluginData('manualUnit', msg.unit)
 
