@@ -37,26 +37,32 @@ class App extends React.Component<Props> {
     },
   }
 
-  handleMessage = (event: any) => {
-    this.setState({ showUI: event.data.pluginMessage.showUI })
-  }
-
   componentDidMount() {
     onmessage = (event) => {
       this.handleMessage(event)
     }
   }
 
+  handleMessage = (event: any) => {
+    this.setState({ showUI: event.data.pluginMessage.showUI })
+  }
+
   handleNumberChange = (method: string, minmax: string, num: string) => {
-    this.state[method].number[minmax] = num
+    const obj = { ...this.state[method] }
+    obj.number[minmax] = num
+    this.setState({ [method]: obj })
   }
 
   handleUnitChange = (method: string, unit: string) => {
-    this.state[method].unit = unit
+    const obj = { ...this.state[method] }
+    obj.unit = unit
+    this.setState({ [method]: obj })
   }
 
   handleEosChange = (method: string, eos: string) => {
-    this.state[method].eos = eos
+    const obj = { ...this.state[method] }
+    obj.eos = eos
+    this.setState({ [method]: obj })
   }
 
   generate = () => {
