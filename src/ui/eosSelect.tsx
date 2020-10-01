@@ -14,9 +14,9 @@ const eosOptions = [
 ))
 
 type Props = {
-  type: string;
+  method: string;
   eos?: string;
-  onChange: (type: string, eos: string) => void;
+  onChange: (method: string, eos: string) => void;
 }
 
 export default class EosSelect extends React.Component<Props> {
@@ -27,7 +27,7 @@ export default class EosSelect extends React.Component<Props> {
 
   handleChange(event: React.ChangeEvent<HTMLSelectElement>): void {
     this.setState({ eos: event.target.value })
-    this.props.onChange(this.props.type, event.target.value)
+    this.props.onChange(this.props.method, event.target.value)
   }
 
   render() {

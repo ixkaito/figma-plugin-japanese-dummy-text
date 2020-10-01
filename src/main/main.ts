@@ -78,7 +78,7 @@ figma.ui.onmessage = msg => {
       /**
        * Manual Generation
        */
-      if (msg.type === 'manual') {
+      if (msg.method === 'manual') {
         figma.root.setPluginData('manualUnit', msg.unit)
 
         const limit: number = msg.unit === 'sentence' ? 20 : 999
@@ -108,7 +108,7 @@ figma.ui.onmessage = msg => {
       /**
        * Auto Generation
        */
-      } else if (msg.type === 'auto') {
+      } else if (msg.method === 'auto') {
         const _width: number = node.width
         const _height: number = node.height
         const _textAutoResize: string = node.textAutoResize

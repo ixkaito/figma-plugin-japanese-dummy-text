@@ -30,17 +30,17 @@ class App extends React.Component<Props> {
     },
   }
 
-  handleUnitChange = (type: string, unit: string) => {
-    this.state[type].unit = unit
+  handleUnitChange = (method: string, unit: string) => {
+    this.state[method].unit = unit
   }
 
-  handleEosChange = (type: string, eos: string) => {
-    this.state[type].eos = eos
+  handleEosChange = (method: string, eos: string) => {
+    this.state[method].eos = eos
   }
 
   autoGenerate = () => {
     parent.postMessage(
-      { pluginMessage: { type: 'auto', eos: this.state.auto.eos } },
+      { pluginMessage: { method: 'auto', eos: this.state.auto.eos } },
       '*',
     )
   }
@@ -103,13 +103,13 @@ class App extends React.Component<Props> {
               />
               <UnitSelect
                 onChange={this.handleUnitChange}
-                type="manual"
+                method="manual"
                 unit={this.state.manual?.unit}
               />
             </div>
             <EosSelect
               onChange={this.handleEosChange}
-              type="manual"
+              method="manual"
               eos={this.state.manual?.eos}
             />
             <button
@@ -136,7 +136,7 @@ class App extends React.Component<Props> {
             </p>
             <EosSelect
               onChange={this.handleEosChange}
-              type="auto"
+              method="auto"
               eos={this.state.auto?.eos}
             />
             <button
