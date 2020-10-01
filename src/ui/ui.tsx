@@ -3,8 +3,8 @@ import { css, jsx } from '@emotion/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ErrorMessage from './errorMessage'
-import EosSelect from './eosSelect'
-import UnitSelect from './unitSelect'
+import SelectUnit from './selectUnit'
+import SelectEos from './selectEos'
 import './ui.css'
 
 const appCSS = css`
@@ -23,6 +23,10 @@ type Props = {
 class App extends React.Component<Props> {
   state: Props = {
     manual: {
+      number: {
+        min: '10',
+      },
+      unit: 'character',
       eos: 'random',
     },
     auto: {
@@ -38,9 +42,16 @@ class App extends React.Component<Props> {
     this.state[method].eos = eos
   }
 
+  generate = () => {
+    parent.postMessage(
+      { pluginMessage: { ...this.state.manual, method: 'manual' } },
+      '*',
+    )
+  }
+
   autoGenerate = () => {
     parent.postMessage(
-      { pluginMessage: { method: 'auto', eos: this.state.auto.eos } },
+      { pluginMessage: { ...this.state.auto , method: 'auto' } },
       '*',
     )
   }
@@ -101,13 +112,13 @@ class App extends React.Component<Props> {
                   padding: 0 8px;
                 `}
               />
-              <UnitSelect
+              <SelectUnit
                 onChange={this.handleUnitChange}
                 method="manual"
                 unit={this.state.manual?.unit}
               />
             </div>
-            <EosSelect
+            <SelectEos
               onChange={this.handleEosChange}
               method="manual"
               eos={this.state.manual?.eos}
@@ -118,6 +129,7 @@ class App extends React.Component<Props> {
                 margin-top: 8px;
                 white-space: nowrap;
               `}
+              onClick={this.generate}
             >
               Generate (生成)
             </button>
@@ -134,7 +146,7 @@ class App extends React.Component<Props> {
               Generate the perfect amount of text to fit the layer’s frame.
               (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
             </p>
-            <EosSelect
+            <SelectEos
               onChange={this.handleEosChange}
               method="auto"
               eos={this.state.auto?.eos}
