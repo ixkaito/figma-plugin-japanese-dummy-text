@@ -83,12 +83,7 @@ class App extends React.Component<Props> {
     return (
       <div css={appCSS}>
         {this.state.showUI ? (
-          <div
-            id="ui"
-            css={css`
-              /* display: none; */
-            `}
-          >
+          <div>
             <section
               css={css`
                 display: flex;
