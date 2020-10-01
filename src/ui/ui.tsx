@@ -39,9 +39,11 @@ class App extends React.Component<Props> {
     this.state[type].eos = eos
   }
 
-  autoGenerate() {
-    console.log(this.state.auto?.eos)
-    // parent.postMessage({ pluginMessage: { type: 'auto', eos } }, '*')
+  autoGenerate = () => {
+    parent.postMessage(
+      { pluginMessage: { type: 'auto', eos: this.state.auto.eos } },
+      '*',
+    )
   }
 
   render() {
