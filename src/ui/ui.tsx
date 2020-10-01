@@ -3,6 +3,7 @@ import { css, jsx } from '@emotion/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ErrorMessage from './errorMessage'
+import InputNumber from './inputNumber'
 import SelectUnit from './selectUnit'
 import SelectEos from './selectEos'
 import './ui.css'
@@ -25,6 +26,7 @@ class App extends React.Component<Props> {
     manual: {
       number: {
         min: '10',
+        max: '',
       },
       unit: 'character',
       eos: 'random',
@@ -32,6 +34,10 @@ class App extends React.Component<Props> {
     auto: {
       eos: 'random',
     },
+  }
+
+  handleNumberChange = (method: string, minmax: string, num: string) => {
+    this.state[method].number[minmax] = num
   }
 
   handleUnitChange = (method: string, unit: string) => {
@@ -51,7 +57,7 @@ class App extends React.Component<Props> {
 
   autoGenerate = () => {
     parent.postMessage(
-      { pluginMessage: { ...this.state.auto , method: 'auto' } },
+      { pluginMessage: { ...this.state.auto, method: 'auto' } },
       '*',
     )
   }
@@ -78,18 +84,14 @@ class App extends React.Component<Props> {
                 display: flex;
               `}
             >
-              <input
-                type="number"
-                id="min"
-                value="10"
+              <InputNumber
+                num={this.state.manual.number.min}
                 min="1"
                 max="999"
                 placeholder="Min"
-                css={css`
-                  width: 25%;
-                  flex-grow: 1;
-                  padding: 0 8px;
-                `}
+                onChange={(num) =>
+                  this.handleNumberChange('manual', 'min', num)
+                }
               />
               <span
                 css={css`
@@ -99,18 +101,14 @@ class App extends React.Component<Props> {
               >
                 –
               </span>
-              <input
-                type="number"
-                id="max"
-                value=""
+              <InputNumber
+                num={this.state.manual.number.max}
                 min="1"
                 max="999"
                 placeholder="Max"
-                css={css`
-                  width: 25%;
-                  flex-grow: 1;
-                  padding: 0 8px;
-                `}
+                onChange={(num) =>
+                  this.handleNumberChange('manual', 'max', num)
+                }
               />
               <SelectUnit
                 onChange={this.handleUnitChange}
