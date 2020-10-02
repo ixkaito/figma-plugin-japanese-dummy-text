@@ -21,7 +21,7 @@ export default class InputNumber extends React.Component<Props> {
       <input
         type="number"
         value={this.props.value}
-        onChange={(e) => this.handleChange(e)}
+        onChange={e => this.handleChange(e)}
         min={this.props.min}
         max={this.props.max}
         placeholder={this.props.placeholder}

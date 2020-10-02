@@ -74,20 +74,20 @@ class App extends React.Component<{}, State> {
     this.setState({ showUI: pluginMessage.showUI })
   }
 
-  handleNumberChange = (method: string, minmax: string, num: string) => {
-    this.state[method][minmax] = num
+  handleNumberChange = (value: string, method: string, minmax: string) => {
+    this.state[method][minmax] = value
     if (method === 'manual') {
       const { unit } = this.state.manual
-      this.state[unit][minmax] = num
+      this.state[unit][minmax] = value
     }
     this.setState({ ...this.state })
   }
 
-  handleUnitChange = (method: string, unit: string) => {
+  handleUnitChange = (unit: string, method: string) => {
     this.setState({ [method]: { ...this.state[unit], unit } })
   }
 
-  handleEosChange = (method: string, eos: string) => {
+  handleEosChange = (eos: string, method: string) => {
     this.state[method].eos = eos
     if (method === 'manual') {
       const { unit } = this.state.manual
@@ -132,8 +132,8 @@ class App extends React.Component<{}, State> {
                   min="1"
                   max={this.state.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Min"
-                  onChange={(value) =>
-                    this.handleNumberChange('manual', 'min', value)
+                  onChange={value =>
+                    this.handleNumberChange(value, 'manual', 'min')
                   }
                 />
                 <span
@@ -149,17 +149,17 @@ class App extends React.Component<{}, State> {
                   min="1"
                   max={this.state.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Max"
-                  onChange={(value) =>
-                    this.handleNumberChange('manual', 'max', value)
+                  onChange={value =>
+                    this.handleNumberChange(value, 'manual', 'max')
                   }
                 />
                 <SelectUnit
-                  onChange={(unit) => this.handleUnitChange('manual', unit)}
+                  onChange={value => this.handleUnitChange(value, 'manual')}
                   unit={this.state.manual?.unit}
                 />
               </div>
               <SelectEos
-                onChange={(eos) => this.handleEosChange('manual', eos)}
+                onChange={value => this.handleEosChange(value, 'manual')}
                 eos={this.state.manual?.eos}
               />
               <button

@@ -14,18 +14,14 @@ const eosOptions = [
 ))
 
 type Props = {
-  eos?: string;
+  eos: string;
   onChange: (eos: string) => void;
 }
 
 export default class SelectEos extends React.Component<Props> {
   id: string = _uniqueId('eos-')
-  state = {
-    eos: this.props.eos == null ? 'random' : this.props.eos,
-  }
 
   handleChange(event: React.ChangeEvent<HTMLSelectElement>): void {
-    this.setState({ eos: event.target.value })
     this.props.onChange(event.target.value)
   }
 
@@ -49,8 +45,8 @@ export default class SelectEos extends React.Component<Props> {
         </label>
         <select
           id={this.id}
-          value={this.state.eos}
-          onChange={(e) => this.handleChange(e)}
+          value={this.props.eos}
+          onChange={e => this.handleChange(e)}
           css={css`
             flex-shrink: 0;
             margin-left: 8px;
