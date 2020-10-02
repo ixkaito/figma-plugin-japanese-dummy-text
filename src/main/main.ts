@@ -3,11 +3,6 @@ import Generator from './generator'
 
 const dummyText = new Generator(words)
 
-interface Minmax {
-  min: number;
-  max: number;
-}
-
 const filterNodes = (nodes: any) => {
   return nodes.filter((node: any) => {
     if (typeof node !== 'object') {
@@ -20,37 +15,51 @@ const filterNodes = (nodes: any) => {
   })
 }
 
+type Minmax = {
+  min: number
+  max: number
+}
+
+type Unit = {
+  min: number
+  max: number
+  eos: string
+}
+
 const settings: {
   manual: {
-    character: Minmax;
-    sentence: Minmax;
-    unit: string;
-    eos: string;
+    unit: string
+    min?: number
+    max?: number
+    eos?: string
   }
   auto: {
-    eos: string;
+    eos: string
   }
+  character: Unit
+  sentence: Unit
 } = {
   manual: {
     unit: figma.root.getPluginData('manualUnit'),
-    character: {
-      min: parseInt(figma.root.getPluginData('manualCharacterMin'), 10),
-      max: parseInt(figma.root.getPluginData('manualCharacterMax'), 10),
-    },
-    sentence: {
-      min: parseInt(figma.root.getPluginData('manualSentenceMin'), 10),
-      max: parseInt(figma.root.getPluginData('manualSentenceMax'), 10),
-    },
-    eos: figma.root.getPluginData('manualEos'),
   },
   auto: {
     eos: figma.root.getPluginData('autoEos'),
+  },
+  character: {
+    min: parseInt(figma.root.getPluginData('characterMin'), 10),
+    max: parseInt(figma.root.getPluginData('characterMax'), 10),
+    eos: figma.root.getPluginData('characterEos'),
+  },
+  sentence: {
+    min: parseInt(figma.root.getPluginData('sentenceMin'), 10),
+    max: parseInt(figma.root.getPluginData('sentenceMax'), 10),
+    eos: figma.root.getPluginData('sentenceEos'),
   },
 }
 
 const pluginMessage: { [key: string]: any } = {
   showUI: false,
-  settings,
+  ...settings,
 }
 
 figma.showUI(__html__, { height: 353 })

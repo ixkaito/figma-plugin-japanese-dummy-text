@@ -18,25 +18,25 @@ const appCSS = css`
 `
 
 type Unit = {
-  min?: string;
-  max?: string;
-  eos?: string;
+  min?: string
+  max?: string
+  eos?: string
 }
 
 type State = {
-  [key: string]: any;
-  showUI: boolean;
+  [key: string]: any
+  showUI: boolean
   manual: {
-    unit: string;
-    min: string;
-    max: string;
-    eos: string;
-  };
+    unit: string
+    min: string
+    max: string
+    eos: string
+  }
   auto: {
-    eos: string;
-  };
-  character: Unit;
-  sentence: Unit;
+    eos: string
+  }
+  character: Unit
+  sentence: Unit
 }
 
 class App extends React.Component<{}, State> {
@@ -72,6 +72,7 @@ class App extends React.Component<{}, State> {
   handleMessage = (event: any) => {
     const { pluginMessage } = event.data
     this.setState({ showUI: pluginMessage.showUI })
+    console.log(pluginMessage)
   }
 
   handleNumberChange = (value: string, method: string, minmax: string) => {

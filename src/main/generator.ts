@@ -1,18 +1,18 @@
 interface Minmax {
-  min?: number;
-  max?: number;
+  min?: number
+  max?: number
 }
 
 interface Default {
-  character: number | Minmax;
-  sentence: number | Minmax;
-  eos: string;
+  character: number | Minmax
+  sentence: number | Minmax
+  eos: string
 }
 
 interface Options {
-  character?: number | Minmax;
-  sentence?: number | Minmax;
-  eos?: string;
+  character?: number | Minmax
+  sentence?: number | Minmax
+  eos?: string
 }
 
 class Generator {
