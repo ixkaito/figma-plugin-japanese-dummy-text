@@ -4,6 +4,7 @@
   "description": "Figma plugin Japanese dummy text",
   "scripts": {
     "kuromoji": "node src/kuromoji/kuromoji",
+    "format": "prettier -w src",
     "build": "npm run kuromoji && webpack --mode=production",
     "dev": "npm run kuromoji && webpack --mode=development && onchange \"src\" -- webpack --mode=development"
   },

@@ -1,42 +1,42 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Inter, sans-serif;
-    font-size: 11px;
-    margin: 0;
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  margin: 0;
 }
 
 p {
-	margin: 0;
+  margin: 0;
 }
 
 input,
 select {
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 2px;
-	height: 32px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  height: 32px;
 }
 
 select {
-	background: transparent;
-	background-image: none;
-	box-shadow: none;
+  background: transparent;
+  background-image: none;
+  box-shadow: none;
 }
 
 button {
-	background: #18a0fb;
-	border: 0;
-	border-radius: 6px;
-	color: #fff;
-	cursor: pointer;
-	line-height: 16px;
-	outline: none;
-	padding: 8px 16px;
-	text-align: center;
+  background: #18a0fb;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  line-height: 16px;
+  outline: none;
+  padding: 8px 16px;
+  text-align: center;
 }
 
 section {
-	padding: 16px;
+  padding: 16px;
 }

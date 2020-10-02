@@ -21,17 +21,14 @@ type Minmax = {
 }
 
 type Unit = {
-  min: number
-  max: number
+  min: string
+  max: string
   eos: string
 }
 
 const settings: {
   manual: {
     unit: string
-    min?: number
-    max?: number
-    eos?: string
   }
   auto: {
     eos: string
@@ -46,13 +43,13 @@ const settings: {
     eos: figma.root.getPluginData('autoEos'),
   },
   character: {
-    min: parseInt(figma.root.getPluginData('characterMin'), 10),
-    max: parseInt(figma.root.getPluginData('characterMax'), 10),
+    min: figma.root.getPluginData('characterMin'),
+    max: figma.root.getPluginData('characterMax'),
     eos: figma.root.getPluginData('characterEos'),
   },
   sentence: {
-    min: parseInt(figma.root.getPluginData('sentenceMin'), 10),
-    max: parseInt(figma.root.getPluginData('sentenceMax'), 10),
+    min: figma.root.getPluginData('sentenceMin'),
+    max: figma.root.getPluginData('sentenceMax'),
     eos: figma.root.getPluginData('sentenceEos'),
   },
 }
@@ -75,93 +72,95 @@ figma.on('selectionchange', () => {
   })
 })
 
-figma.ui.onmessage = msg => {
-
+figma.ui.onmessage = (msg) => {
   const eos: string = msg.eos
 
   nodes.forEach((node: any) => {
-    figma.loadFontAsync({
-      family: node.fontName.family,
-      style: node.fontName.style
-    }).then(() => {
-      /**
-       * Manual Generation
-       */
-      if (msg.method === 'manual') {
-        figma.root.setPluginData('manualUnit', msg.unit)
+    figma
+      .loadFontAsync({
+        family: node.fontName.family,
+        style: node.fontName.style,
+      })
+      .then(() => {
+        /**
+         * Manual Generation
+         */
+        if (msg.method === 'manual') {
+          figma.root.setPluginData('manualUnit', msg.unit)
 
-        const limit: number = msg.unit === 'sentence' ? 20 : 999
-        const minmax: Minmax = {
-          min: parseInt(msg.min, 10),
-          max: parseInt(msg.max, 10),
-        }
-        minmax.min = minmax.min > limit ? limit : minmax.min
-        minmax.max = minmax.max > limit ? limit : minmax.max
-
-        let character: Minmax = minmax
-        let sentence: number | Minmax = 1
-        if (msg.unit === 'sentence') {
-          character = {
-            min: 60,
-            max: 80,
+          const limit: number = msg.unit === 'sentence' ? 20 : 999
+          const minmax: Minmax = {
+            min: parseInt(msg.min, 10),
+            max: parseInt(msg.max, 10),
           }
-          sentence = minmax
-        }
+          minmax.min = minmax.min > limit ? limit : minmax.min
+          minmax.max = minmax.max > limit ? limit : minmax.max
 
-        node.characters = dummyText.generate({
-          character,
-          sentence,
-          eos,
-        })
+          let character: Minmax = minmax
+          let sentence: number | Minmax = 1
+          if (msg.unit === 'sentence') {
+            character = {
+              min: 60,
+              max: 80,
+            }
+            sentence = minmax
+          }
 
-      /**
-       * Auto Generation
-       */
-      } else if (msg.method === 'auto') {
-        const _width: number = node.width
-        const _height: number = node.height
-        const _textAutoResize: string = node.textAutoResize
-
-        if (node.textAutoResize === 'WIDTH_AND_HEIGHT') {
-          node.characters = dummyText.generateChar(
-            node.characters.length,
+          node.characters = dummyText.generate({
+            character,
+            sentence,
             eos,
-          )
-        } else {
-          let _characters: string = ''
-          node.characters = _characters
-          node.textAutoResize = 'HEIGHT'
+          })
 
-          while (node.width <= _width && node.height <= _height) {
-            _characters = node.characters
-            node.characters =
-              node.characters + dummyText.generate({ eos })
-          }
+          /**
+           * Auto Generation
+           */
+        } else if (msg.method === 'auto') {
+          const _width: number = node.width
+          const _height: number = node.height
+          const _textAutoResize: string = node.textAutoResize
 
-          while (node.width > _width || node.height > _height) {
-            node.characters = node.characters.slice(0, -1)
-          }
-
-          const min: number =
-            Math.floor(node.characters.length * 0.9) - _characters.length
-          const max: number = node.characters.length - _characters.length
-
-          node.characters = _characters
-
-          if (! node.characters || min >= 10 ) {
-            node.characters = node.characters + dummyText.generate({
-              character: { min, max },
-              sentence: 1,
+          if (node.textAutoResize === 'WIDTH_AND_HEIGHT') {
+            node.characters = dummyText.generateChar(
+              node.characters.length,
               eos,
-            })
-          }
+            )
+          } else {
+            let _characters: string = ''
+            node.characters = _characters
+            node.textAutoResize = 'HEIGHT'
 
-          if (_textAutoResize === 'NONE') {
-            node.textAutoResize = 'NONE'
-            node.resize(_width, _height)
+            while (node.width <= _width && node.height <= _height) {
+              _characters = node.characters
+              node.characters = node.characters + dummyText.generate({ eos })
+            }
+
+            while (node.width > _width || node.height > _height) {
+              node.characters = node.characters.slice(0, -1)
+            }
+
+            const min: number =
+              Math.floor(node.characters.length * 0.9) - _characters.length
+            const max: number = node.characters.length - _characters.length
+
+            node.characters = _characters
+
+            if (!node.characters || min >= 10) {
+              node.characters =
+                node.characters +
+                dummyText.generate({
+                  character: { min, max },
+                  sentence: 1,
+                  eos,
+                })
+            }
+
+            if (_textAutoResize === 'NONE') {
+              node.textAutoResize = 'NONE'
+              node.resize(_width, _height)
+            }
           }
         }
-      }
-    })
+      })
   })
-};
+}

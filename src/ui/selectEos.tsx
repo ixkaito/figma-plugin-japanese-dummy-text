@@ -14,8 +14,8 @@ const eosOptions = [
 ))
 
 type Props = {
-  eos: string;
-  onChange: (eos: string) => void;
+  eos: string
+  onChange: (eos: string) => void
 }
 
 export default class SelectEos extends React.Component<Props> {
@@ -46,7 +46,7 @@ export default class SelectEos extends React.Component<Props> {
         <select
           id={this.id}
           value={this.props.eos}
-          onChange={e => this.handleChange(e)}
+          onChange={(e) => this.handleChange(e)}
           css={css`
             flex-shrink: 0;
             margin-left: 8px;

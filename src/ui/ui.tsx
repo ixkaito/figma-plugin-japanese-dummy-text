@@ -133,7 +133,7 @@ class App extends React.Component<{}, State> {
                   min="1"
                   max={this.state.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Min"
-                  onChange={value =>
+                  onChange={(value) =>
                     this.handleNumberChange(value, 'manual', 'min')
                   }
                 />
@@ -150,17 +150,17 @@ class App extends React.Component<{}, State> {
                   min="1"
                   max={this.state.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Max"
-                  onChange={value =>
+                  onChange={(value) =>
                     this.handleNumberChange(value, 'manual', 'max')
                   }
                 />
                 <SelectUnit
-                  onChange={value => this.handleUnitChange(value, 'manual')}
+                  onChange={(value) => this.handleUnitChange(value, 'manual')}
                   unit={this.state.manual?.unit}
                 />
               </div>
               <SelectEos
-                onChange={value => this.handleEosChange(value, 'manual')}
+                onChange={(value) => this.handleEosChange(value, 'manual')}
                 eos={this.state.manual?.eos}
               />
               <button

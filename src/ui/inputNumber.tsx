@@ -3,15 +3,14 @@ import { css, jsx } from '@emotion/core'
 import React from 'react'
 
 type Props = {
-  value?: string;
-  min: string;
-  max: string;
-  placeholder?: string;
-  onChange: (value: string) => void;
+  value?: string
+  min: string
+  max: string
+  placeholder?: string
+  onChange: (value: string) => void
 }
 
 export default class InputNumber extends React.Component<Props> {
-
   handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     this.props.onChange(event.target.value)
   }
@@ -21,7 +20,7 @@ export default class InputNumber extends React.Component<Props> {
       <input
         type="number"
         value={this.props.value}
-        onChange={e => this.handleChange(e)}
+        onChange={(e) => this.handleChange(e)}
         min={this.props.min}
         max={this.props.max}
         placeholder={this.props.placeholder}

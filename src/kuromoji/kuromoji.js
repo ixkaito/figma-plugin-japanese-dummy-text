@@ -7,7 +7,9 @@ const input = fs
   .replace(/(\r\n|\n|\r)/gm, '')
 
 kuromoji
-  .builder({ dicPath: path.resolve(__dirname, '../../node_modules/kuromoji/dict/') })
+  .builder({
+    dicPath: path.resolve(__dirname, '../../node_modules/kuromoji/dict/'),
+  })
   .build((err, tokenizer) => {
     if (err) console.error(err)
     let words = []

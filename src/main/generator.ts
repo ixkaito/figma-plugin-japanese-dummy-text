@@ -24,12 +24,12 @@ class Generator {
       max: 80,
     },
     sentence: 1,
-    eos: ''
+    eos: '',
   }
 
   public constructor(words: string[], defaults?: Default) {
     this.words = words
-    this.defaults = {...this.defaults, ...defaults}
+    this.defaults = { ...this.defaults, ...defaults }
   }
 
   /**
@@ -70,7 +70,7 @@ class Generator {
    * sentence to overwrite the default settings.
    */
   public generate(options: Options = {}): string {
-    const config = {...this.defaults, ...options}
+    const config = { ...this.defaults, ...options }
     const character: number = this.num(config.character)
     let sentence: number = this.num(config.sentence)
     let text: string = ''
@@ -90,7 +90,7 @@ class Generator {
    */
   private random(min: number, max: number): number {
     if (min > max) {
-      [min, max] = [max, min]
+      ;[min, max] = [max, min]
     }
     return min + Math.floor(Math.random() * (max - min + 1))
   }
@@ -106,10 +106,10 @@ class Generator {
       return num.min && num.max
         ? this.random(num.min, num.max)
         : num.min
-          ? num.min
-          : num.max
-            ? num.max
-            : 0
+        ? num.min
+        : num.max
+        ? num.max
+        : 0
     }
     return num
   }

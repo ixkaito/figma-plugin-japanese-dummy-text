@@ -1,100 +1,86 @@
-<div id="app" style="
-  display: grid;
-  place-items: center;
-  height: 100%;
-">
-  <div id="ui" style="
-    display: none;
-  ">
-    <section style="
-      display: flex;
-      flex-direction: column;
-    ">
+<div id="app" style="display: grid; place-items: center; height: 100%">
+  <div id="ui" style="display: none">
+    <section style="display: flex; flex-direction: column">
       <div class="sectionHeader">Manual (手動)</div>
-      <div style="
-        display: flex;
-      ">
-        <input type="number" id="min" value="10" min="1" max="999" placeholder="Min" style="
-          width: 25%;
-          flex-grow: 1;
-          padding: 0 8px;
-        ">
-        <span style="
-          line-height: 32px;
-          margin: 0 4px;
-        ">–</span>
-        <input type="number" id="max" value="" min="1" max="999" placeholder="Max" style="
-          width: 25%;
-          flex-grow: 1;
-          padding: 0 8px;
-        ">
-        <select id="unit" style="
-          flex-shrink: 0;
-          margin-left: 8px;
-          width: 120px;
-        ">
+      <div style="display: flex">
+        <input
+          type="number"
+          id="min"
+          value="10"
+          min="1"
+          max="999"
+          placeholder="Min"
+          style="width: 25%; flex-grow: 1; padding: 0 8px"
+        />
+        <span style="line-height: 32px; margin: 0 4px">–</span>
+        <input
+          type="number"
+          id="max"
+          value=""
+          min="1"
+          max="999"
+          placeholder="Max"
+          style="width: 25%; flex-grow: 1; padding: 0 8px"
+        />
+        <select
+          id="unit"
+          style="flex-shrink: 0; margin-left: 8px; width: 120px"
+        >
           <option value="character">Characters (文字)</option>
           <option value="sentence">Sentences (文)</option>
         </select>
       </div>
-      <div style="
-        display: flex;
-        margin-top: 8px;
-      ">
-        <label for="eos" style="
-          flex-grow: 1;
-          line-height: 32px;
-          white-space: nowrap;
-        ">
+      <div style="display: flex; margin-top: 8px">
+        <label
+          for="eos"
+          style="flex-grow: 1; line-height: 32px; white-space: nowrap"
+        >
           End of sentences (文末):
         </label>
-        <select id="manual-eos" style="
-          flex-shrink: 0;
-          margin-left: 8px;
-          width: 120px;
-        ">
+        <select
+          id="manual-eos"
+          style="flex-shrink: 0; margin-left: 8px; width: 120px"
+        >
           <option value="">None (なし)</option>
           <option value="random" selected>Random (ランダム)</option>
           <option value="。">。</option>
         </select>
       </div>
-      <button id="manual" style="
-        margin-top: 8px;
-        white-space: nowrap;
-      ">Generate (生成)</button>
+      <button id="manual" style="margin-top: 8px; white-space: nowrap">
+        Generate (生成)
+      </button>
     </section>
-    <section style="
-      border-top: 1px solid #e5e5e5;
-      display: flex;
-      flex-direction: column;
-    ">
-      <div class="sectionHeader">Auto (自動)</div>
-      <p>Generate the perfect amount of text to fit the layer’s frame. (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)</p>
-      <div style="
+    <section
+      style="
+        border-top: 1px solid #e5e5e5;
         display: flex;
-        margin-top: 8px;
-      ">
-        <label for="eos" style="
-          flex-grow: 1;
-          line-height: 32px;
-          white-space: nowrap;
-        ">
+        flex-direction: column;
+      "
+    >
+      <div class="sectionHeader">Auto (自動)</div>
+      <p>
+        Generate the perfect amount of text to fit the layer’s frame.
+        (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
+      </p>
+      <div style="display: flex; margin-top: 8px">
+        <label
+          for="eos"
+          style="flex-grow: 1; line-height: 32px; white-space: nowrap"
+        >
           End of sentences (文末):
         </label>
-        <select id="auto-eos" style="
-          flex-shrink: 0;
-          margin-left: 8px;
-          width: 120px;
-        ">
+        <select
+          id="auto-eos"
+          style="flex-shrink: 0; margin-left: 8px; width: 120px"
+        >
           <option value="">None (なし)</option>
           <option value="random" selected>Random (ランダム)</option>
           <option value="。">。</option>
         </select>
       </div>
-      <button id="auto" style="
-        margin-top: 8px;
-        white-space: nowrap;
-      ">Auto-generate (自動生成)</button>
+      <button id="auto" style="margin-top: 8px; white-space: nowrap">
+        Auto-generate (自動生成)
+      </button>
     </section>
   </div>
 </div>
@@ -158,7 +144,7 @@
     },
     sentence: {
       min: 2,
-    }
+    },
   }
 
   const unitSelect = document.getElementById('unit')
@@ -197,7 +183,6 @@
     })
 
     document.getElementById('manual').onclick = () => {
-
       const number = {
         min: parseInt(min.value, 10),
         max: parseInt(max.value, 10),
@@ -206,7 +191,10 @@
       const eoss = document.getElementById('manual-eos')
       const eos = eoss.options[eoss.selectedIndex].value
 
-      parent.postMessage({ pluginMessage: { type: 'manual', number, unit, eos } }, '*')
+      parent.postMessage(
+        { pluginMessage: { type: 'manual', number, unit, eos } },
+        '*',
+      )
     }
 
     document.getElementById('auto').onclick = () => {
