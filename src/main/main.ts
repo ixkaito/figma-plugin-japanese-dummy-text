@@ -83,8 +83,8 @@ figma.ui.onmessage = msg => {
 
         const limit: number = msg.unit === 'sentence' ? 20 : 999
         const minmax: Minmax = {
-          min: parseInt(msg.number.min, 10),
-          max: parseInt(msg.number.max, 10),
+          min: parseInt(msg.min, 10),
+          max: parseInt(msg.max, 10),
         }
         minmax.min = minmax.min > limit ? limit : minmax.min
         minmax.max = minmax.max > limit ? limit : minmax.max

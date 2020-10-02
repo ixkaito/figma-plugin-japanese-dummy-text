@@ -17,22 +17,48 @@ const appCSS = css`
   }
 `
 
-type Props = {
-  [key: string]: any
+type Unit = {
+  min?: string;
+  max?: string;
+  eos?: string;
 }
 
-class App extends React.Component<Props> {
-  state: Props = {
+type State = {
+  [key: string]: any;
+  showUI: boolean;
+  manual: {
+    unit: string;
+    min: string;
+    max: string;
+    eos: string;
+  };
+  auto: {
+    eos: string;
+  };
+  character: Unit;
+  sentence: Unit;
+}
+
+class App extends React.Component<{}, State> {
+  state: State = {
     showUI: false,
     manual: {
-      number: {
-        min: '10',
-        max: '',
-      },
       unit: 'character',
+      min: '10',
+      max: '',
       eos: 'random',
     },
     auto: {
+      eos: 'random',
+    },
+    character: {
+      min: '10',
+      max: '',
+      eos: 'random',
+    },
+    sentence: {
+      min: '1',
+      max: '',
       eos: 'random',
     },
   }
@@ -44,25 +70,30 @@ class App extends React.Component<Props> {
   }
 
   handleMessage = (event: any) => {
-    this.setState({ showUI: event.data.pluginMessage.showUI })
+    const { pluginMessage } = event.data
+    this.setState({ showUI: pluginMessage.showUI })
   }
 
   handleNumberChange = (method: string, minmax: string, num: string) => {
-    const obj = { ...this.state[method] }
-    obj.number[minmax] = num
-    this.setState({ [method]: obj })
+    this.state[method][minmax] = num
+    if (method === 'manual') {
+      const { unit } = this.state.manual
+      this.state[unit][minmax] = num
+    }
+    this.setState({ ...this.state })
   }
 
   handleUnitChange = (method: string, unit: string) => {
-    const obj = { ...this.state[method] }
-    obj.unit = unit
-    this.setState({ [method]: obj })
+    this.setState({ [method]: { ...this.state[unit], unit } })
   }
 
   handleEosChange = (method: string, eos: string) => {
-    const obj = { ...this.state[method] }
-    obj.eos = eos
-    this.setState({ [method]: obj })
+    this.state[method].eos = eos
+    if (method === 'manual') {
+      const { unit } = this.state.manual
+      this.state[unit].eos = eos
+    }
+    this.setState({ ...this.state })
   }
 
   generate = () => {
@@ -97,12 +128,12 @@ class App extends React.Component<Props> {
                 `}
               >
                 <InputNumber
-                  num={this.state.manual.number.min}
+                  value={this.state.manual.min}
                   min="1"
-                  max="999"
+                  max={this.state.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Min"
-                  onChange={(num) =>
-                    this.handleNumberChange('manual', 'min', num)
+                  onChange={(value) =>
+                    this.handleNumberChange('manual', 'min', value)
                   }
                 />
                 <span
@@ -114,12 +145,12 @@ class App extends React.Component<Props> {
                   –
                 </span>
                 <InputNumber
-                  num={this.state.manual.number.max}
+                  value={this.state.manual.max}
                   min="1"
-                  max="999"
+                  max={this.state.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Max"
-                  onChange={(num) =>
-                    this.handleNumberChange('manual', 'max', num)
+                  onChange={(value) =>
+                    this.handleNumberChange('manual', 'max', value)
                   }
                 />
                 <SelectUnit
