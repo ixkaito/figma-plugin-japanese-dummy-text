@@ -17,16 +17,16 @@ const appCSS = css`
   }
 `
 
-type Unit = {
+type UnitConfig = {
   min?: string
   max?: string
   eos?: string
 }
 
-type State = {
+type Config = {
   [key: string]: any
-  showUI: boolean
   manual: {
+    [key: string]: string
     unit: string
     min: string
     max: string
@@ -35,31 +35,39 @@ type State = {
   auto: {
     eos: string
   }
-  character: Unit
-  sentence: Unit
+  character: UnitConfig
+  sentence: UnitConfig
+}
+
+type State = {
+  [key: string]: any
+  showUI: boolean
+  config: Config
 }
 
 class App extends React.Component<{}, State> {
   state: State = {
     showUI: false,
-    manual: {
-      unit: 'character',
-      min: '10',
-      max: '',
-      eos: 'random',
-    },
-    auto: {
-      eos: 'random',
-    },
-    character: {
-      min: '10',
-      max: '',
-      eos: 'random',
-    },
-    sentence: {
-      min: '1',
-      max: '',
-      eos: 'random',
+    config: {
+      manual: {
+        unit: 'character',
+        min: '10',
+        max: '',
+        eos: 'random',
+      },
+      auto: {
+        eos: 'random',
+      },
+      character: {
+        min: '10',
+        max: '',
+        eos: 'random',
+      },
+      sentence: {
+        min: '1',
+        max: '',
+        eos: 'random',
+      },
     },
   }
 
@@ -71,50 +79,54 @@ class App extends React.Component<{}, State> {
 
   handleMessage = (event: any) => {
     const { pluginMessage } = event.data
-    this.setState({ showUI: pluginMessage.showUI })
-    console.log(pluginMessage)
-  }
+    let { showUI, hasManualData, manual } = pluginMessage
+    this.setState({ showUI })
 
-  handleNumberChange = (value: string, method: string, minmax: string) => {
-    this.state[method][minmax] = value
-    if (method === 'manual') {
-      const { unit } = this.state.manual
-      this.state[unit][minmax] = value
+    if (hasManualData) {
+      manual = { ...manual, ...pluginMessage[manual.unit]}
+      this.setState({ manual })
     }
-    this.setState({ ...this.state })
+
+    console.log('test')
+
   }
 
-  handleUnitChange = (unit: string, method: string) => {
-    this.setState({ [method]: { ...this.state[unit], unit } })
+  handleNumberChange = (value: string, minmax: string) => {
+    const { config } = this.state
+    const { unit } = config.manual
+    config.manual[minmax] = value
+    config[unit][minmax] = value
+    this.setState({ config })
+  }
+
+  handleUnitChange = (unit: string) => {
+    const { config } = this.state
+    config.manual = { ...config[unit], unit }
+    this.setState({ config })
   }
 
   handleEosChange = (eos: string, method: string) => {
-    this.state[method].eos = eos
+    const { config } = this.state
+    config[method].eos = eos
     if (method === 'manual') {
-      const { unit } = this.state.manual
-      this.state[unit].eos = eos
+      const { unit } = config.manual
+      config[unit].eos = eos
     }
-    this.setState({ ...this.state })
+    this.setState({ config })
   }
 
-  generate = () => {
+  generate = (method: any) => {
     parent.postMessage(
-      { pluginMessage: { ...this.state.manual, method: 'manual' } },
-      '*',
-    )
-  }
-
-  autoGenerate = () => {
-    parent.postMessage(
-      { pluginMessage: { ...this.state.auto, method: 'auto' } },
+      { pluginMessage: { ...this.state.config, method } },
       '*',
     )
   }
 
   render() {
+    const { showUI, config } = this.state
     return (
       <div css={appCSS}>
-        {this.state.showUI ? (
+        {showUI ? (
           <div>
             <section
               css={css`
@@ -129,12 +141,12 @@ class App extends React.Component<{}, State> {
                 `}
               >
                 <InputNumber
-                  value={this.state.manual.min}
+                  value={config.manual.min}
                   min="1"
-                  max={this.state.manual.unit === 'character' ? '999' : '20'}
+                  max={config.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Min"
                   onChange={(value) =>
-                    this.handleNumberChange(value, 'manual', 'min')
+                    this.handleNumberChange(value, 'min')
                   }
                 />
                 <span
@@ -146,22 +158,22 @@ class App extends React.Component<{}, State> {
                   –
                 </span>
                 <InputNumber
-                  value={this.state.manual.max}
+                  value={config.manual.max}
                   min="1"
-                  max={this.state.manual.unit === 'character' ? '999' : '20'}
+                  max={config.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Max"
                   onChange={(value) =>
-                    this.handleNumberChange(value, 'manual', 'max')
+                    this.handleNumberChange(value, 'max')
                   }
                 />
                 <SelectUnit
-                  onChange={(value) => this.handleUnitChange(value, 'manual')}
-                  unit={this.state.manual?.unit}
+                  onChange={(value) => this.handleUnitChange(value)}
+                  unit={config.manual?.unit}
                 />
               </div>
               <SelectEos
                 onChange={(value) => this.handleEosChange(value, 'manual')}
-                eos={this.state.manual?.eos}
+                eos={config.manual?.eos}
               />
               <button
                 id="manual"
@@ -169,7 +181,7 @@ class App extends React.Component<{}, State> {
                   margin-top: 8px;
                   white-space: nowrap;
                 `}
-                onClick={this.generate}
+                onClick={() => this.generate('manual')}
               >
                 Generate (生成)
               </button>
@@ -188,14 +200,14 @@ class App extends React.Component<{}, State> {
               </p>
               <SelectEos
                 onChange={(eos) => this.handleEosChange('auto', eos)}
-                eos={this.state.auto?.eos}
+                eos={config.auto?.eos}
               />
               <button
                 css={css`
                   margin-top: 8px;
                   white-space: nowrap;
                 `}
-                onClick={this.autoGenerate}
+                onClick={() => this.generate('auto')}
               >
                 Auto-generate (自動生成)
               </button>

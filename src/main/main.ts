@@ -73,7 +73,8 @@ figma.on('selectionchange', () => {
 })
 
 figma.ui.onmessage = (msg) => {
-  const eos: string = msg.eos
+  const { method, config } = msg
+  const { manual, auto } = config
 
   nodes.forEach((node: any) => {
     figma
@@ -85,20 +86,20 @@ figma.ui.onmessage = (msg) => {
         /**
          * Manual Generation
          */
-        if (msg.method === 'manual') {
-          figma.root.setPluginData('manualUnit', msg.unit)
-
-          const limit: number = msg.unit === 'sentence' ? 20 : 999
+        if (method === 'manual') {
+          // figma.root.setPluginData('manualUnit', manual.unit)
+          const { eos } = config.manual
+          const limit: number = manual.unit === 'sentence' ? 20 : 999
           const minmax: Minmax = {
-            min: parseInt(msg.min, 10),
-            max: parseInt(msg.max, 10),
+            min: parseInt(manual.min, 10),
+            max: parseInt(manual.max, 10),
           }
           minmax.min = minmax.min > limit ? limit : minmax.min
           minmax.max = minmax.max > limit ? limit : minmax.max
 
           let character: Minmax = minmax
           let sentence: number | Minmax = 1
-          if (msg.unit === 'sentence') {
+          if (manual.unit === 'sentence') {
             character = {
               min: 60,
               max: 80,
@@ -115,10 +116,11 @@ figma.ui.onmessage = (msg) => {
           /**
            * Auto Generation
            */
-        } else if (msg.method === 'auto') {
+        } else if (method === 'auto') {
           const _width: number = node.width
           const _height: number = node.height
           const _textAutoResize: string = node.textAutoResize
+          const { eos } = config.auto
 
           if (node.textAutoResize === 'WIDTH_AND_HEIGHT') {
             node.characters = dummyText.generateChar(
