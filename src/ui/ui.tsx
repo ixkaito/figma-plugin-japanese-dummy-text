@@ -163,12 +163,12 @@ class App extends React.Component<{}, State> {
                 />
                 <SelectUnit
                   onChange={(value) => this.handleUnitChange(value)}
-                  unit={config.manual?.unit}
+                  unit={config.manual.unit}
                 />
               </div>
               <SelectEos
                 onChange={(value) => this.handleEosChange(value, 'manual')}
-                eos={config.manual?.eos}
+                eos={config.manual.eos}
               />
               <button
                 id="manual"
@@ -194,8 +194,8 @@ class App extends React.Component<{}, State> {
                 (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
               </p>
               <SelectEos
-                onChange={(eos) => this.handleEosChange('auto', eos)}
-                eos={config.auto?.eos}
+                onChange={(value) => this.handleEosChange(value, 'auto')}
+                eos={config.auto.eos}
               />
               <button
                 css={css`
