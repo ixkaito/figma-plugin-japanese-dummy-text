@@ -26,7 +26,7 @@ type Unit = {
   eos: string
 }
 
-const settings: {
+const config: {
   manual: {
     unit: string
   }
@@ -56,7 +56,7 @@ const settings: {
 
 const pluginMessage: { [key: string]: any } = {
   showUI: false,
-  ...settings,
+  config,
 }
 
 figma.showUI(__html__, { height: 353 })
@@ -74,7 +74,7 @@ figma.on('selectionchange', () => {
 
 figma.ui.onmessage = (msg) => {
   const { method, config } = msg
-  const { manual, auto } = config
+  const { manual, auto, character, sentence } = config
 
   nodes.forEach((node: any) => {
     figma
@@ -87,8 +87,7 @@ figma.ui.onmessage = (msg) => {
          * Manual Generation
          */
         if (method === 'manual') {
-          // figma.root.setPluginData('manualUnit', manual.unit)
-          const { eos } = config.manual
+          const { eos } = manual
           const limit: number = manual.unit === 'sentence' ? 20 : 999
           const minmax: Minmax = {
             min: parseInt(manual.min, 10),
@@ -120,7 +119,7 @@ figma.ui.onmessage = (msg) => {
           const _width: number = node.width
           const _height: number = node.height
           const _textAutoResize: string = node.textAutoResize
-          const { eos } = config.auto
+          const { eos } = auto
 
           if (node.textAutoResize === 'WIDTH_AND_HEIGHT') {
             node.characters = dummyText.generateChar(
@@ -165,4 +164,14 @@ figma.ui.onmessage = (msg) => {
         }
       })
   })
+
+  // figma.root.setPluginData('hasPluginData', '')
+  // figma.root.setPluginData('autoEos', auto.eos)
+  // figma.root.setPluginData('manualUnit', manual.unit)
+  // figma.root.setPluginData('characterMin', character.min)
+  // figma.root.setPluginData('characterMax', character.max)
+  // figma.root.setPluginData('characterEos', character.eos)
+  // figma.root.setPluginData('sentenceMin', sentence.min)
+  // figma.root.setPluginData('sentenceMax', sentence.max)
+  // figma.root.setPluginData('sentenceEos', sentence.eos)
 }

@@ -79,16 +79,11 @@ class App extends React.Component<{}, State> {
 
   handleMessage = (event: any) => {
     const { pluginMessage } = event.data
-    let { showUI, hasManualData, manual } = pluginMessage
+    let { showUI, hasManualData, config } = pluginMessage
     this.setState({ showUI })
-
     if (hasManualData) {
-      manual = { ...manual, ...pluginMessage[manual.unit]}
-      this.setState({ manual })
+      this.setState({ config })
     }
-
-    console.log('test')
-
   }
 
   handleNumberChange = (value: string, minmax: string) => {
