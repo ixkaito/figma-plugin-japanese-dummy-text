@@ -47,7 +47,7 @@ class Generator {
 
       // Do not use "、", "」" or "）" for the first character
       if (i === 0) {
-        while (word.match(/^(、|」|）)/g)) {
+        while (word.match(/^(、|」|）|？)/g)) {
           word = this.words[Math.floor(Math.random() * this.words.length)]
         }
       }
