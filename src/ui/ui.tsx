@@ -111,8 +111,9 @@ class App extends React.Component<{}, State> {
   }
 
   generate = (method: any) => {
+    const { config } = this.state
     parent.postMessage(
-      { pluginMessage: { ...this.state.config, method } },
+      { pluginMessage: { method, config } },
       '*',
     )
   }
