@@ -56,6 +56,7 @@ const config: {
 
 const pluginMessage: { [key: string]: any } = {
   showUI: false,
+  hasPluginData: figma.root.getPluginData('hasPluginData'),
   config,
 }
 
@@ -165,13 +166,13 @@ figma.ui.onmessage = (msg) => {
       })
   })
 
-  // figma.root.setPluginData('hasPluginData', '')
-  // figma.root.setPluginData('autoEos', auto.eos)
-  // figma.root.setPluginData('manualUnit', manual.unit)
-  // figma.root.setPluginData('characterMin', character.min)
-  // figma.root.setPluginData('characterMax', character.max)
-  // figma.root.setPluginData('characterEos', character.eos)
-  // figma.root.setPluginData('sentenceMin', sentence.min)
-  // figma.root.setPluginData('sentenceMax', sentence.max)
-  // figma.root.setPluginData('sentenceEos', sentence.eos)
+  figma.root.setPluginData('hasPluginData', Date.now().toString())
+  figma.root.setPluginData('autoEos', auto.eos)
+  figma.root.setPluginData('manualUnit', manual.unit)
+  figma.root.setPluginData('characterMin', character.min)
+  figma.root.setPluginData('characterMax', character.max)
+  figma.root.setPluginData('characterEos', character.eos)
+  figma.root.setPluginData('sentenceMin', sentence.min)
+  figma.root.setPluginData('sentenceMax', sentence.max)
+  figma.root.setPluginData('sentenceEos', sentence.eos)
 }
