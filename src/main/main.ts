@@ -54,6 +54,8 @@ const config: {
   },
 }
 
+console.log(config)
+
 const pluginMessage: { [key: string]: any } = {
   showUI: false,
   hasPluginData: figma.root.getPluginData('hasPluginData'),
@@ -165,6 +167,8 @@ figma.ui.onmessage = (msg) => {
         }
       })
   })
+
+  console.log(config)
 
   figma.root.setPluginData('hasPluginData', Date.now().toString())
   figma.root.setPluginData('autoEos', auto.eos)

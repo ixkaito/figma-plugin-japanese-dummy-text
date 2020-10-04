@@ -79,9 +79,9 @@ class App extends React.Component<{}, State> {
 
   handleMessage = (event: any) => {
     const { pluginMessage } = event.data
-    const { showUI, hasManualData, config } = pluginMessage
+    const { showUI, hasPluginData, config } = pluginMessage
     this.setState({ showUI })
-    if (hasManualData) {
+    if (hasPluginData) {
       this.setState({ config })
     }
   }
