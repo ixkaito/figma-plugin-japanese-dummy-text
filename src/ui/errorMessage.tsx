@@ -7,26 +7,18 @@ const UnitSelect: React.FC = () => {
     <div
       id="error"
       css={css`
-        color: #f24822;
-        padding: 14px;
-        text-align: center;
+        padding: 16px;
       `}
     >
-      <p
-        css={css`
-          font-size: 16px;
-        `}
-      >
-        Please select some text or rectangle layers.
+      <p>
+        テキストレイヤーを1つ以上選択してください。
       </p>
       <p
         css={css`
           margin-top: 8px;
         `}
       >
-        テキストもしくは矩形レイヤーを
-        <br />
-        1つ以上選択してください。
+        Please select some text layers.
       </p>
     </div>
   )

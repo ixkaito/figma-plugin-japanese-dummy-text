@@ -8,15 +8,6 @@ import SelectUnit from './selectUnit'
 import SelectEos from './selectEos'
 import './ui.css'
 
-const appCSS = css`
-  .sectionHeader {
-    color: #333;
-    font-weight: 600;
-    line-height: 16px;
-    margin-bottom: 8px;
-  }
-`
-
 type UnitConfig = {
   min?: string
   max?: string
@@ -122,7 +113,7 @@ class App extends React.Component<{}, State> {
   render() {
     const { showUI, config } = this.state
     return (
-      <div css={appCSS}>
+      <div>
         {showUI ? (
           <div>
             <section
@@ -187,7 +178,7 @@ class App extends React.Component<{}, State> {
               `}
             >
               <div className="sectionHeader">自動 (Auto)</div>
-              <p>
+              <p className="description">
                 テキストボックスのサイズに合わせてダミーテキストを自動生成します。
                 (Generate the perfect amount of text to fit the text box.)
               </p>

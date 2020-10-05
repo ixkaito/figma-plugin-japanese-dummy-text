@@ -14,7 +14,7 @@ p {
 
 input,
 select {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0 0 0 / 0.1);
   border-radius: 2px;
   height: 32px;
 }
@@ -25,18 +25,34 @@ select {
   box-shadow: none;
 }
 
+::-webkit-input-placeholder,
+::placeholder {
+  color: #b3b3b3;
+}
+
 button {
-  background: #18a0fb;
-  border: 0;
+  border: 1px solid;
+  box-sizing: border-box;
   border-radius: 6px;
-  color: #fff;
+  color: #333;
   cursor: pointer;
   line-height: 16px;
   outline: none;
-  padding: 8px 16px;
+  padding: 7px 16px;
   text-align: center;
 }
 
 section {
   padding: 16px;
+}
+
+.sectionHeader {
+  color: #333;
+  font-weight: 600;
+  line-height: 16px;
+  margin-bottom: 8px;
+}
+
+.description {
+  color: #b3b3b3;
 }
