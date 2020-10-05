@@ -82,6 +82,7 @@ class App extends React.Component<{}, State> {
     const { showUI, hasPluginData, config } = pluginMessage
     this.setState({ showUI })
     if (hasPluginData) {
+      config.manual = { ...config.manual, ...config[config.manual.unit] }
       this.setState({ config })
     }
   }
