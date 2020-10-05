@@ -131,7 +131,7 @@ class App extends React.Component<{}, State> {
                 flex-direction: column;
               `}
             >
-              <div className="sectionHeader">Manual (手動)</div>
+              <div className="sectionHeader">手動 (Manual)</div>
               <div
                 css={css`
                   display: flex;
@@ -142,9 +142,7 @@ class App extends React.Component<{}, State> {
                   min="1"
                   max={config.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Min"
-                  onChange={(value) =>
-                    this.handleNumberChange(value, 'min')
-                  }
+                  onChange={(value) => this.handleNumberChange(value, 'min')}
                 />
                 <span
                   css={css`
@@ -159,9 +157,7 @@ class App extends React.Component<{}, State> {
                   min="1"
                   max={config.manual.unit === 'character' ? '999' : '20'}
                   placeholder="Max"
-                  onChange={(value) =>
-                    this.handleNumberChange(value, 'max')
-                  }
+                  onChange={(value) => this.handleNumberChange(value, 'max')}
                 />
                 <SelectUnit
                   onChange={(value) => this.handleUnitChange(value)}
@@ -180,7 +176,7 @@ class App extends React.Component<{}, State> {
                 `}
                 onClick={() => this.generate('manual')}
               >
-                Generate (生成)
+                生成 (Generate)
               </button>
             </section>
             <section
@@ -190,10 +186,10 @@ class App extends React.Component<{}, State> {
                 flex-direction: column;
               `}
             >
-              <div className="sectionHeader">Auto (自動)</div>
+              <div className="sectionHeader">自動 (Auto)</div>
               <p>
-                Generate the perfect amount of text to fit the layer’s frame.
-                (テキストボックスのサイズに合わせてダミーテキストを自動生成します。)
+                テキストボックスのサイズに合わせてダミーテキストを自動生成します。
+                (Generate the perfect amount of text to fit the text box.)
               </p>
               <SelectEos
                 onChange={(value) => this.handleEosChange(value, 'auto')}
@@ -206,7 +202,7 @@ class App extends React.Component<{}, State> {
                 `}
                 onClick={() => this.generate('auto')}
               >
-                Auto-generate (自動生成)
+                自動生成 (Auto-generate)
               </button>
             </section>
           </div>

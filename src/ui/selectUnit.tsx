@@ -3,8 +3,8 @@ import { css, jsx } from '@emotion/core'
 import React from 'react'
 
 const unitOptions = [
-  { value: 'character', name: 'Characters (文字)' },
-  { value: 'sentence', name: 'Sentences (文)' },
+  { value: 'character', name: '文字 (Character)' },
+  { value: 'sentence', name: '文 (Sentence)' },
 ].map((option, index) => (
   <option key={index} value={option.value}>
     {option.name}

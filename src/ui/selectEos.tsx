@@ -4,8 +4,8 @@ import React from 'react'
 import _uniqueId from 'lodash/uniqueId'
 
 const eosOptions = [
-  { value: '', name: 'None (なし)' },
-  { value: 'random', name: 'Random (ランダム)' },
+  { value: '', name: 'なし (None)' },
+  { value: 'random', name: 'ランダム (Random)' },
   { value: '。', name: '。' },
 ].map((option, index) => (
   <option key={index} value={option.value}>
@@ -41,7 +41,7 @@ export default class SelectEos extends React.Component<Props> {
             white-space: nowrap;
           `}
         >
-          End of sentences (文末):
+          文末 (End of sentences):
         </label>
         <select
           id={this.id}
