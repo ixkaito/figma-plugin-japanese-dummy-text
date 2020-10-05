@@ -8,7 +8,7 @@ const filterNodes = (nodes: any) => {
     if (typeof node !== 'object') {
       return false
     }
-    if (node.type === 'TEXT' || node.type === 'RECTANGLE') {
+    if (node.type === 'TEXT') {
       return true
     }
     return false
