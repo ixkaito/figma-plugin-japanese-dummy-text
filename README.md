@@ -1,40 +1,42 @@
-Below are the steps to get your plugin running. You can also find instructions at:
+# Japanese Dummy Text
 
-  https://www.figma.com/plugin-docs/setup/
+Generate Japanese dummy text to fill your text layers.
 
-This plugin template uses Typescript and NPM, two standard tools in creating JavaScript applications.
+Select all the text layers you want to generate dummy text for then click "Generate" — it will generate for each layer uniquely.
 
-First, download Node.js which comes with NPM. This will allow you to install TypeScript and other
-libraries. You can find the download link here:
+"Auto-generate" will automatically fill the selected layers with the perfectly amount of dummy text to fit the text box.
 
-  https://nodejs.org/en/download/
+![Screenshot](https://user-images.githubusercontent.com/5457539/95062189-99cee180-0737-11eb-8004-03c932c39f2d.png)
 
-Next, install TypeScript using the command:
+## Local development
 
-  npm install -g typescript
+1.  Clone the repository
 
-Finally, in the directory of your plugin, get the latest type definitions for the plugin API by running:
+    ```bash
+    git clone https://github.com/ixkaito/figma-plugin-japanese-dummy-text
+    cd figma-plugin-japanese-dummy-text
+    ```
 
-  npm install --save-dev @figma/plugin-typings
+2.  Install the dependencies
 
-If you are familiar with JavaScript, TypeScript will look very familiar. In fact, valid JavaScript code
-is already valid Typescript code.
+    ```bash
+    npm install
+    ```
 
-TypeScript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
+3.  Build the plugin
 
-For more information, visit https://www.typescriptlang.org/
+    ```bash
+    npm run dev
+    ```
 
-Using TypeScript requires a compiler to convert TypeScript (code.ts) into JavaScript (code.js)
-for the browser to run.
+4.  Open the [Figma desktop app](https://www.figma.com/downloads/)
 
-We recommend writing TypeScript code using Visual Studio code:
+5.  Go to `Menu > Plugins > Development > New Plugin...`
 
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Open this directory in Visual Studio Code.
-3. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-    then select "tsc: watch - tsconfig.json". You will have to do this again every time
-    you reopen Visual Studio Code.
+6.  Choose figma-plugin-japanese-dummy-text/manifest.json
 
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
+7.  Run the plugin by going to `Menu > Plugins > Development > Japanese Dummy Text`
+
+## Copyright / License
+
+© 2020 Kite / MIT
