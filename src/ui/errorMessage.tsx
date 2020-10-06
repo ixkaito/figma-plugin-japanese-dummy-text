@@ -10,9 +10,7 @@ const UnitSelect: React.FC = () => {
         padding: 16px;
       `}
     >
-      <p>
-        テキストレイヤーを1つ以上選択してください。
-      </p>
+      <p>テキストレイヤーを1つ以上選択してください。</p>
       <p
         css={css`
           margin-top: 8px;
