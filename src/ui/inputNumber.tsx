@@ -25,7 +25,7 @@ export default class InputNumber extends React.Component<Props> {
         max={this.props.max}
         placeholder={this.props.placeholder}
         css={css`
-          width: 25%;
+          width: 20%;
           flex-grow: 1;
           padding: 0 8px;
         `}

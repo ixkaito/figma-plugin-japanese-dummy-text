@@ -2,7 +2,9 @@
   box-sizing: border-box;
 }
 
-body {
+body,
+input,
+select {
   font-family: Inter, sans-serif;
   font-size: 11px;
   margin: 0;
@@ -31,6 +33,7 @@ select {
 }
 
 button {
+  background: none;
   border: 1px solid;
   box-sizing: border-box;
   border-radius: 6px;
