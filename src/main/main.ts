@@ -60,7 +60,7 @@ const pluginMessage: { [key: string]: any } = {
   config,
 }
 
-figma.showUI(__html__, { height: 353 })
+figma.showUI(__html__, { height: 356 })
 
 let nodes: any = filterNodes(figma.currentPage.selection)
 pluginMessage.showUI = nodes.length > 0
