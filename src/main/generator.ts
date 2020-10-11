@@ -90,7 +90,7 @@ class Generator {
    */
   private random(min: number, max: number): number {
     if (min > max) {
-      ;[min, max] = [max, min]
+      [min, max] = [max, min]
     }
     return min + Math.floor(Math.random() * (max - min + 1))
   }
