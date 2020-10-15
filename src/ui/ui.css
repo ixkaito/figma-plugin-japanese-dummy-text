@@ -4,7 +4,9 @@
 
 body,
 input,
-select {
+select,
+button {
+  color: #333;
   font-family: Inter, sans-serif;
   font-size: 11px;
   margin: 0;
