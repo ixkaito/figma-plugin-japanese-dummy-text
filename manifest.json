@@ -1,7 +1,7 @@
 {
   "name": "Japanese Dummy Text",
   "id": "884977600755027488",
-  "api": "1.0.0",
+  "api": "1.1.0",
   "main": "dist/main.js",
   "ui": "dist/ui.html"
 }
