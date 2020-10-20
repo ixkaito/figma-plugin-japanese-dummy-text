@@ -1,6 +1,6 @@
 ![Screenshot](https://user-images.githubusercontent.com/5457539/95561209-5c2ec900-0a55-11eb-9063-decb7b603374.png)
 
-# Japanese Dummy Text
+# [Japanese Dummy Text](https://www.figma.com/community/plugin/884977600755027488/Japanese-Dummy-Text)
 
 日本語のダミーテキストを生成します。
 
